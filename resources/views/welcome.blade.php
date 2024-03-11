@@ -58,23 +58,23 @@
                     </ul>
 
                     <div class="my-2 ms-lg-2">
-                        <a href="{{ url('foodOrder') }}" class="btn btn-outline-success w-xs text-light">Place an order</a>
+                        <a href="{{ url('foodOrder') }}" class="btn btn-outline-success w-xs">Place an order</a>
                     </div>
 
                     <div class="my-2 ms-lg-2">
-                        <a href="{{ url('saloonBooking') }}" class="btn btn-outline-primary w-xs text-light">Place a booking</a>
+                        <a href="{{ url('saloonBooking') }}" class="btn btn-outline-primary w-xs">Place a booking</a>
                     </div>
                 </div>
             </div>
         </nav>
 
         <!-- hero section start -->
-        <section class="section hero-section bg-ico-hero" id="home">
-            <div class="bg-overlay bg-primary"></div>
+        <section class="section hero-section bg-ico-hero" id="home" style="background-image:url({{ asset('assets/images/bg_img_1.jpg') }});background-size:cover;background-position:top">
+            <div class="bg-overlay bg-darke"></div>
             <div class="container">
-                <div class="row align-items-center">
-                    <div class="col-lg-5">
-                        <div class="text-white-50">
+                <div class="row align-items-center mt-5 pt-5">
+                    <div class="col-lg-5 mt-5 pt-5">
+                        <div class="text-white-50 mt-5">
                             <h1 class="text-white fw-semibold mb-3 hero-title">{{ env('APP_NAME') }}</h1>
                             <p class="font-size-14">{{ env('APP_DESCRIPTION') }}</p>
                             
@@ -84,39 +84,7 @@
                         </div>
                     </div>
                     <div class="col-lg-5 col-md-8 col-sm-10 ms-lg-auto">
-                        {{-- <div class="card overflow-hidden mb-0 mt-5 mt-lg-0">
-                            <div class="card-header text-center">
-                                <h5 class="mb-0">ICO Countdown time</h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="text-center">
-                                    
-                                    <h5>Time left to Ico :</h5>
-                                    <div class="mt-4">
-                                        <div data-countdown="2026/12/31" class="counter-number ico-countdown"></div>
-                                    </div>
-
-                                    <div class="mt-4">
-                                        <button type="button" class="btn btn-success w-md">Get Token</button>
-                                    </div>
-
-                                    <div class="mt-5">
-                                        <h4 class="fw-semibold">1 ETH = 2235 SKT</h4>
-                                        <div class="clearfix mt-4">
-                                            <h5 class="float-end font-size-14">5234.43</h5>
-                                        </div>
-                                        <div class="progress p-1 progress-xl softcap-progress">
-                                            <div class="progress-bar bg-info" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">
-                                                <div class="progress-label">15 %</div>
-                                            </div>
-                                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">
-                                                <div class="progress-label">30 %</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> --}}
+                        
                     </div>
                 </div>
                 <!-- end row -->
@@ -580,7 +548,7 @@
                         </div>
     
                         <p class="mb-2"><script>document.write(new Date().getFullYear())</script> © {{ env('APP_NAME') }}. Design & Develop by KoderiaNG</p>
-                        <p{{ env('APP_DESCRIPTION') }}It will be as simple as occidental in fact, it will be to an english person, it will seem like simplified English, as a skeptical</p>
+                        <p{{ env('APP_DESCRIPTION') }}</p>
                     </div>
 
                 </div>

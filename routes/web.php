@@ -17,6 +17,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/foodOrder', [App\Http\Controllers\BusinessController::class, 'foodOrder'])->name('foodOrder');
+Route::get('/orderNow', [App\Http\Controllers\BusinessController::class, 'orderNow'])->name('orderNow');
+
+
+Route::get('/saloonBooking', [App\Http\Controllers\BusinessController::class, 'saloonBooking'])->name('saloonBooking');
+Route::get('/bookNow', [App\Http\Controllers\BusinessController::class,'bookNow'])->name('bookNow');
+
+
+
 Route::group(['prefix' => 'admin'], function () {
   Route::get('/', [App\Http\Controllers\Admin\Auth\LoginController::class, 'showLoginForm'])->name('admin.login');
   Route::get('/login', [App\Http\Controllers\Admin\Auth\LoginController::class, 'showLoginForm'])->name('login');
