@@ -17,7 +17,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::group(['domain' => 'admin.' . env('APP_DOMAIN'), 'prefix' => 'admin'], function () {
+Route::group(['prefix' => 'admin'], function () {
   Route::get('/', [App\Http\Controllers\Admin\Auth\LoginController::class, 'showLoginForm'])->name('admin.login');
   Route::get('/login', [App\Http\Controllers\Admin\Auth\LoginController::class, 'showLoginForm'])->name('login');
   Route::post('/login', [App\Http\Controllers\Admin\Auth\LoginController::class, 'login']);
@@ -32,7 +32,7 @@ Route::group(['domain' => 'admin.' . env('APP_DOMAIN'), 'prefix' => 'admin'], fu
   Route::get('/password/reset/{token}', [App\Http\Controllers\Admin\Auth\ResetPasswordController::class, 'showResetForm']);
 });
 
-Route::group(['domain' => 'customer.' . env('APP_DOMAIN'), 'prefix' => 'customer'], function () {
+Route::group(['prefix' => 'customer'], function () {
 
   Route::get('/', [App\Http\Controllers\Customer\Auth\LoginController::class, 'showLoginForm'])->name('customer.login');
   Route::get('/login', [App\Http\Controllers\Customer\Auth\LoginController::class, 'showLoginForm'])->name('login');

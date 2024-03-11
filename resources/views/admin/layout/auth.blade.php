@@ -5,12 +5,12 @@
 <head>
         
         <meta charset="utf-8" />
-        <title>{{ !empty($pageGlobalData->setting) ? $pageGlobalData->setting->site_name : "Newspaper" }} - Admin Authentication</title>
+        <title>{{ env('APP_NAME') }} - Admin Authentication</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta content="{{ !empty($pageGlobalData->setting) ? $pageGlobalData->setting->description : "Solution to All" }}" name="description" />
+        <meta content="{{ env('APP_DESCRIPTION') }}" name="description" />
         <meta content="KoderiaNg(+2348162957065)" name="author" />
         <!-- App favicon -->
-        <link rel="shortcut icon" href="{{ !empty($pageGlobalData->setting) ? $pageGlobalData->setting->favicon : null }}">
+        <link rel="shortcut icon" href="">
 
 
         <!-- Bootstrap Css -->
@@ -33,7 +33,7 @@
                         </div>
                         <div class="mt-5 text-center">
                             <div>
-                                <p>© <script>document.write(new Date().getFullYear())</script> Skote.</p>
+                                <p>© <script>document.write(new Date().getFullYear())</script> KoderiaNG.</p>
                             </div>
                         </div>
                     </div>

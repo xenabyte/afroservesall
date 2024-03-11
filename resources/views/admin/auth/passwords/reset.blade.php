@@ -5,7 +5,7 @@
     <div class="col-7">
         <div class="text-primary p-4">
             <h5 class="text-primary"> Reset Password</h5>
-            <p>Reset Password with  {{ !empty($pageGlobalData->setting)?$pageGlobalData->setting->site_name:null }} for Adminstrator.</p>
+            <p>Reset Password with  {{ env('APP_NAME') }} for Adminstrator.</p>
         </div>
     </div>
     <div class="col-5 align-self-end">
@@ -17,7 +17,7 @@
         <a href="{{ url('/') }}" class="auth-logo-light">
             <div class="avatar-md profile-user-wid mb-4">
                 <span class="avatar-title rounded-circle bg-light">
-                    <img src=" {{ !empty($pageGlobalData->setting)?$pageGlobalData->setting->logo_light:null }}" alt="" class="rounded avatar-sm" height="15">
+                    <img src=" " alt="" class="rounded avatar-sm" height="15">
                 </span>
             </div>
         </a>
@@ -25,7 +25,7 @@
         <a href="{{ url('/') }}" class="auth-logo-dark">
             <div class="avatar-md profile-user-wid mb-4">
                 <span class="avatar-title rounded-circle bg-light">
-                    <img src=" {{ !empty($pageGlobalData->setting)?$pageGlobalData->setting->logo_dark:null }}" alt="" class="rounded avatar-sm" height="15">
+                    <img src="" alt="" class="rounded avatar-sm" height="15">
                 </span>
             </div>
         </a>
