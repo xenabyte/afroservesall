@@ -17,7 +17,7 @@ class CreateBookingsTable extends Migration
             $table->id();
             $table->string('order_id')->nullable();
             $table->string('address_id')->nullable();
-            $table->timestamps('booking_date')->nullable();
+            $table->timestamp('booking_date')->nullable();
             $table->string('customer_id')->nullable();
             $table->string('transaction_id')->nullable();
             $table->string('status')->nullable();
