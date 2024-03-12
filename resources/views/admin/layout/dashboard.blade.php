@@ -29,6 +29,10 @@
         <link href="{{ asset('assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
         <!-- App Css-->
         <link href="{{ asset('assets/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
+        <!-- select2 css -->
+        <link href="{{asset('assets/libs/select2/css/select2.min.css')}}" rel="stylesheet" type="text/css" />
+        <!-- Plugins css -->
+        <link href="{{asset('assets/libs/dropzone/dropzone.css')}}" rel="stylesheet" type="text/css" />
 
         
     </head>
@@ -121,96 +125,52 @@
                                     <span key="t-dashboard">Home</span>
                                 </a>
                             </li>
-                            <li class="menu-title" key="t-menu">Website Configurations</li>
-                            <li>
-                                <a href="{{ url('/admin/siteSettings') }}" class="waves-effect">
-                                    <i class="bx bx-cog"></i>
-                                    <span key="t-settings">Site Settings</span>
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="{{ url('/admin/socials') }}" class="waves-effect">
-                                    <i class="bx bx-cog"></i>
-                                    <span key="t-settings">Socials</span>
-                                </a>
-                            </li>
-
+                            <li class="menu-title" key="t-menu">Product</li>
                             <li>
                                 <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                    <i class="bx bxs-news"></i>
-                                    <span key="t-dashboards">Site Pages</span>
+                                    <i class="fas fa-boxes"></i>
+                                    <span key="t-dashboards">Products</span>
                                 </a>
                                 <ul class="sub-menu" aria-expanded="false">
-                                    <li><a href="{{ url('/admin/term') }}" key="t-default">Terms and Condition</a></li>
-                                    <li><a href="{{ url('/admin/privacy') }}" key="t-saas">Privacy</a></li>
-                                    <li><a href="{{ url('/admin/about') }}" key="t-saas">About us</a></li>
+                                    <li><a href="{{ url('/admin/product') }}" key="t-default">Add Product</a></li>
+                                    <li><a href="{{ url('/admin/food') }}" key="t-saas">Food</a></li>
+                                    <li><a href="{{ url('/admin/hair') }}" key="t-saas">Hair</a></li>
 
                                 </ul>
                             </li>
-                            <li class="menu-title" key="t-menu">News, Advert and Polls</li>
-                            <li>
-                                <a href="{{ url('/admin/category') }}" class="waves-effect">
-                                    <i class="bx bx-hive"></i>
-                                    <span key="t-category">Category</span>
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="{{ url('/admin/getTopics') }}" class="waves-effect">
-                                    <i class="bx bx-layer"></i>
-                                    <span key="t-Category">Topics</span>
-                                </a>
-                            </li>
-
-
+                            <br>
+                            <li class="menu-title" key="t-menu">Order</li>
                             <li>
                                 <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                    <i class="bx bxs-news"></i>
-                                    <span key="t-dashboards">News</span>
+                                    <i class="mdi mdi-food"></i>
+                                    <span key="t-dashboards">Food</span>
                                 </a>
                                 <ul class="sub-menu" aria-expanded="false">
-                                    <li><a href="{{ url('/admin/news') }}" key="t-default">Post a News</a></li>
-                                    <li><a href="{{ url('/admin/publishedNews') }}" key="t-saas">Published News</a></li>
-                                    <li><a href="{{ url('/admin/draftNews') }}" key="t-crypto">Drafts</a></li>
+                                    <li><a href="{{ url('/admin/pendingFood') }}" key="t-default">Pending</a></li>
+                                    <li><a href="{{ url('/admin/completedFood') }}" key="t-saas">Completed</a></li>
                                 </ul>
                             </li>
 
                             <li>
-                                <a href="{{ url('/admin/polls') }}" class="waves-effect">
-                                    <i class="bx bx-hive"></i>
-                                    <span key="t-category">Polls</span>
+                                <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                    <i class="mdi mdi-hair-dryer"></i>
+                                    <span key="t-dashboards">Hair</span>
                                 </a>
+                                <ul class="sub-menu" aria-expanded="false">
+                                    <li><a href="{{ url('/admin/pendingHair') }}" key="t-default">Pending</a></li>
+                                    <li><a href="{{ url('/admin/completedGair') }}" key="t-saas">Completed</a></li>
+                                </ul>
                             </li>
-
-
-                            <li>
-                                <a href="{{ url('/admin/adverts') }}" class="waves-effect">
-                                    <i class="bx bx-hive"></i>
-                                    <span key="t-category">All Adverts</span>
-                                </a>
-                            </li>
-
-                            <li class="menu-title" key="t-staff">Staff</li>
+                            <br>
+                            <li class="menu-title" key="t-staff">Transaction</li>
                             <li>
                                 <a href="javascript: void(0);" class="has-arrow waves-effect">
                                     <i class="bx bx-user-pin"></i>
-                                    <span key="t-reporters">Reporters</span>
+                                    <span key="t-reporters">Transaction</span>
                                 </a>
                                 <ul class="sub-menu" aria-expanded="false">
-                                    <li><a href="{{ url('/admin/reporters') }}" key="t-default">New Reporter</a></li>
-                                    <li><a href="{{ url('/admin/allReporters') }}" key="t-saas">All Reporters</a></li>
-                                </ul>
-                            </li>
-
-                            <li>
-                                <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                    <i class="bx bx-user-circle"></i>
-                                    <span key="t-editors">Editors</span>
-                                </a>
-                                <ul class="sub-menu" aria-expanded="false">
-                                    <li><a href="{{ url('/admin/editors') }}" key="t-default">New Editor</a></li>
-                                    <li><a href="{{ url('/admin/allEditors') }}" key="t-saas">All Editors</a></li>
+                                    <li><a href="{{ url('/admin/reporters') }}" key="t-default">New Transactions</a></li>
+                                    <li><a href="{{ url('/admin/allTransactions') }}" key="t-saas">All Transactions</a></li>
                                 </ul>
                             </li>
 
@@ -300,6 +260,15 @@
         <!-- form wizard init -->
         <script src="{{ asset('assets/js/pages/form-wizard.init.js') }}"></script>
         <script src="{{ asset('assets/js/app.js') }}"></script>
+
+        <!-- select 2 plugin -->
+        <script src="{{asset('assets/libs/select2/js/select2.min.js')}}"></script>
+
+        <!-- Plugins js -->
+        <script src="{{asset('assets/libs/dropzone/dropzone-min.js')}}"></script>
+
+        <!-- init js -->
+        <script src="{{asset('assets/js/pages/ecommerce-select2.init.js')}}"></script>
         <script>
             $(document).ready(function() {
                 // Detect changes in the checkbox

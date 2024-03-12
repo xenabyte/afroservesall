@@ -32,6 +32,17 @@ Route::group(['prefix' => 'admin'], function () {
   Route::post('/login', [App\Http\Controllers\Admin\Auth\LoginController::class, 'login']);
   Route::post('/logout', [App\Http\Controllers\Admin\Auth\LoginController::class, 'logout'])->name('logout');
 
+
+  Route::get('/home', [App\Http\Controllers\Admin\AdminController::class, 'index'])->name('home')->middleware(['auth:admin']);
+
+
+  Route::get('/product', [App\Http\Controllers\Admin\AdminController::class, 'product'])->name('product')->middleware(['auth:admin']);
+  Route::post('/addProduct', [App\Http\Controllers\Admin\AdminController::class, 'addProduct'])->name('addProduct')->middleware(['auth:admin']);
+  Route::post('/editProduct', [App\Http\Controllers\Admin\AdminController::class, 'editProduct'])->name('editProduct')->middleware(['auth:admin']);
+  Route::post('/deleteProduct', [App\Http\Controllers\Admin\AdminController::class, 'deleteProduct'])->name('deleteProduct')->middleware(['auth:admin']);
+
+  
+
   // Route::get('/register', [App\Http\Controllers\Admin\Auth\RegisterController::class, 'showRegistrationForm'])->name('register');
   // Route::post('/register', [App\Http\Controllers\Admin\Auth\RegisterController::class, 'register']);
 

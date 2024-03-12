@@ -21,7 +21,6 @@ class CreateTransactionsTable extends Migration
             $table->decimal('promo_amount')->nullable();
             $table->string('status')->nullable();
             $table->string('payment_method')->nullable();
-            $table->softDeletes();
             $table->timestamps();
             $table->softDeletes();
         });
