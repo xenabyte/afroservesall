@@ -13,4 +13,15 @@ class ProductType extends Model
     protected $fillable = [
         'type',
     ];
+
+     /**
+     * Get all of the posts for the Category
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function products()
+    {
+        return $this->hasMany(Product::class, 'product_id', 'id');
+    }
+
 }
