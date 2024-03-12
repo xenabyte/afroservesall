@@ -14,5 +14,16 @@ class ProductFeature extends Model
         'feature',
         'price',
         'product_id',
+        'description'
     ];
+
+    /**
+     * Get the product that owns the ProductFeature
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id');
+    }
 }

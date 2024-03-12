@@ -36,21 +36,22 @@ class AdminController extends Controller
     }
 
     public function product(){
-        $product = Product::get();
-        return view('admin.product');
+
+        $productTypes = ProductType::all();
+
+        return view('admin.addProduct', [
+            'productTypes' => $productTypes
+        ]);
     }
-
-
-
 
 
     public function addProduct(Request $request){
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'product_type_id' => 'required',
-            'price' => 'required',
-            'color' => 'required',
-            'image' => 'required',
+            'price' => 'nullable',
+            'color' => 'nullable',
+            'image' => 'nullable',
             'description' => 'required',
         ]);
 
@@ -64,8 +65,19 @@ class AdminController extends Controller
         $price = $request->price;
         $description = $request->description;
 
-        $imageUrl = 'uploads/products/' . $slug . '.' . $request->file('image')->getClientOriginalExtension();
-        $image = $request->file('image')->move('uploads/products', $imageUrl);
+        $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $request->name)));
+
+        if(Product::where('slug', $slug)->first()){
+            alert()->error('Oops!', 'product with name already exist, try with a different name')->persistent('Close');
+            return redirect()->back();
+        }
+
+        $imageUrl=null;
+
+        if(!empty($request->image)){
+            $imageUrl = 'uploads/products/' . $slug . '.' . $request->file('image')->getClientOriginalExtension();
+            $image = $request->file('image')->move('uploads/products', $imageUrl);
+        }
 
         $newProduct = [
             'name' => $name,
@@ -73,10 +85,178 @@ class AdminController extends Controller
             'price' => $price,
             'image' => $imageUrl,
             'description' => $description,
+            'slug' => $slug
         ];
 
         if(Product::create($newProduct)){
             alert()->success('Changes Saved', 'Product added successfully')->persistent('Close');
+            return $this->viewProduct($slug);
+        }
+
+        alert()->error('Oops!', 'Something went wrong')->persistent('Close');
+        return redirect()->back();
+    }
+
+    public function viewProduct($slug){
+        $productTypes = ProductType::all();
+        $product = Product::with('features')->where('slug', $slug)->first();
+        if(!$product){
+            alert()->error('Oops!', 'product not found')->persistent('Close');
+
+            return view('admin.addProduct', [
+                'productTypes' => $productTypes
+            ]);
+        }
+
+        return view('admin.viewProduct', [
+            'product' => $product,
+            'productTypes' => $productTypes
+        ]);
+    }
+
+    public function editProduct(Request $request){
+        $validator = Validator::make($request->all(), [
+            'product_id' =>'required',
+        ]);
+
+        if(!$product = Product::find($request->product_id)){
+            alert()->error('Oops!', 'product not found')->persistent('Close');
+            return redirect()->back();
+        }
+
+        $slug = $product->slug;
+        
+        if(!empty($request->name) && $request->name != $product->name){
+            $product->name = $request->name;
+            $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $request->name)));
+            $product->slug = $slug;
+        }
+
+        if(!empty($request->description) && $request->description!= $product->description){
+            $product->description = $request->description;
+        }
+
+        if(!empty($request->price) && $request->price!= $product->price){
+            $product->price = $request->price;
+        }
+
+        if(!empty($request->image)){
+            $imageUrl = 'uploads/products/' . $slug . '.' . $request->file('image')->getClientOriginalExtension();
+            $image = $request->file('image')->move('uploads/products', $imageUrl);
+
+            $product->image = $imageUrl;
+        }
+
+        if(!empty($request->product_type_id) && $request->product_type_id != $product->product_type_id){
+            $product->product_type_id = $request->product_type_id;
+        }
+
+        if($product->save()){
+            alert()->success('Changes Saved', 'product changes saved successfully')->persistent('Close');
+            return redirect()->back();
+        }
+
+        alert()->error('Oops!', 'Something went wrong')->persistent('Close');
+        return redirect()->back();
+    }
+
+    public function deleteProduct(Request $request){
+        $validator = Validator::make($request->all(), [
+            'product_id' =>'required',
+        ]);
+
+        if(!$product = Product::find($request->product_id)){
+            alert()->error('Oops!', 'product not found')->persistent('Close');
+            return redirect()->back();
+        }
+
+        if($product->delete()){
+            alert()->success('Changes Saved', 'product deleted successfully')->persistent('Close');
+            return redirect()->back();
+        }
+
+        alert()->error('Oops!', 'Something went wrong')->persistent('Close');
+        return redirect()->back();
+    }
+
+    public function addProductFeature(Request $request){
+        $validator = Validator::make($request->all(), [
+            'feature' => 'required',
+            'product_id' => 'required',
+            'price' => 'required',
+            'description' => 'required',
+        ]);
+
+        if($validator->fails()) {
+            alert()->error('Error', $validator->messages()->all()[0])->persistent('Close');
+            return redirect()->back();
+        }
+
+        $feature = $request->feature;
+        $product_id = $request->product_id;
+        $price = $request->price;
+        $description = $request->description;
+
+        
+        $newProductFeature = [
+            'feature' => $feature,
+            'product_id' => $product_id,
+            'price' => $price,
+            'description' => $description,
+        ];
+
+        if(ProductFeature::create($newProductFeature)){
+            alert()->success('Changes Saved', 'Product option added successfully')->persistent('Close');
+            return redirect()->back();        
+        }
+
+        alert()->error('Oops!', 'Something went wrong')->persistent('Close');
+        return redirect()->back();
+    }
+    
+    public function deleteProductFeature(Request $request){
+        $validator = Validator::make($request->all(), [
+            'product_feature_id' =>'required',
+        ]);
+
+        if(!$productFeature = ProductFeature::find($request->product_feature_id)){
+            alert()->error('Oops!', 'product option not found')->persistent('Close');
+            return redirect()->back();
+        }
+
+        if($productFeature->delete()){
+            alert()->success('Changes Saved', 'product option deleted successfully')->persistent('Close');
+            return redirect()->back();
+        }
+
+        alert()->error('Oops!', 'Something went wrong')->persistent('Close');
+        return redirect()->back();
+    }
+
+    public function editProductFeature(Request $request){
+        $validator = Validator::make($request->all(), [
+            'product_feature_id' =>'required',
+        ]);
+
+        if(!$productFeature = ProductFeature::find($request->product_feature_id)){
+            alert()->error('Oops!', 'product option not found')->persistent('Close');
+            return redirect()->back();
+        }
+        
+        if(!empty($request->feature) && $request->feature != $productFeature->feature){
+            $productFeature->feature = $request->feature;
+        }
+
+        if(!empty($request->description) && $request->description!= $productFeature->description){
+            $productFeature->description = $request->description;
+        }
+
+        if(!empty($request->price) && $request->price!= $productFeature->price){
+            $productFeature->price = $request->price;
+        }
+
+        if($productFeature->save()){
+            alert()->success('Changes Saved', 'product option changes saved successfully')->persistent('Close');
             return redirect()->back();
         }
 

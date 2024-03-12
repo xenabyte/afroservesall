@@ -37,9 +37,16 @@ Route::group(['prefix' => 'admin'], function () {
 
 
   Route::get('/product', [App\Http\Controllers\Admin\AdminController::class, 'product'])->name('product')->middleware(['auth:admin']);
+  Route::get('/viewProduct/{slug}', [App\Http\Controllers\Admin\AdminController::class, 'viewProduct'])->name('viewProduct')->middleware(['auth:admin']);
+
   Route::post('/addProduct', [App\Http\Controllers\Admin\AdminController::class, 'addProduct'])->name('addProduct')->middleware(['auth:admin']);
   Route::post('/editProduct', [App\Http\Controllers\Admin\AdminController::class, 'editProduct'])->name('editProduct')->middleware(['auth:admin']);
   Route::post('/deleteProduct', [App\Http\Controllers\Admin\AdminController::class, 'deleteProduct'])->name('deleteProduct')->middleware(['auth:admin']);
+
+  Route::post('/addProductFeature', [App\Http\Controllers\Admin\AdminController::class, 'addProductFeature'])->name('addProductFeature')->middleware(['auth:admin']);
+  Route::post('/deleteProductFeature', [App\Http\Controllers\Admin\AdminController::class, 'deleteProductFeature'])->name('deleteProductFeature')->middleware(['auth:admin']);
+  Route::post('/editProductFeature', [App\Http\Controllers\Admin\AdminController::class, 'editProductFeature'])->name('editProductFeature')->middleware(['auth:admin']);
+
 
   
 

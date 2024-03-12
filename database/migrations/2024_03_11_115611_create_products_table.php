@@ -21,6 +21,7 @@ class CreateProductsTable extends Migration
             $table->string('color')->nullable();
             $table->text('description')->nullable();
             $table->string('image')->nullable();
+            $table->string('slug')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
