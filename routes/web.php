@@ -17,6 +17,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+
 Route::get('/foodOrder', [App\Http\Controllers\BusinessController::class, 'foodOrder'])->name('foodOrder');
 Route::get('/orderNow', [App\Http\Controllers\BusinessController::class, 'orderNow'])->name('orderNow');
 
@@ -36,7 +38,7 @@ Route::group(['prefix' => 'admin'], function () {
   Route::get('/home', [App\Http\Controllers\Admin\AdminController::class, 'index'])->name('home')->middleware(['auth:admin']);
 
 
-  Route::get('/product', [App\Http\Controllers\Admin\AdminController::class, 'product'])->name('product')->middleware(['auth:admin']);
+  Route::get('/addProduct', [App\Http\Controllers\Admin\AdminController::class, 'product'])->name('product')->middleware(['auth:admin']);
   Route::get('/viewProduct/{slug}', [App\Http\Controllers\Admin\AdminController::class, 'viewProduct'])->name('viewProduct')->middleware(['auth:admin']);
 
   Route::post('/addProduct', [App\Http\Controllers\Admin\AdminController::class, 'addProduct'])->name('addProduct')->middleware(['auth:admin']);
@@ -47,6 +49,11 @@ Route::group(['prefix' => 'admin'], function () {
   Route::post('/deleteProductFeature', [App\Http\Controllers\Admin\AdminController::class, 'deleteProductFeature'])->name('deleteProductFeature')->middleware(['auth:admin']);
   Route::post('/editProductFeature', [App\Http\Controllers\Admin\AdminController::class, 'editProductFeature'])->name('editProductFeature')->middleware(['auth:admin']);
 
+
+  Route::get('/foodProducts', [App\Http\Controllers\Admin\AdminController::class, 'foodProducts'])->name('foodProducts')->middleware(['auth:admin']);
+  Route::get('/hairProducts', [App\Http\Controllers\Admin\AdminController::class, 'hairProducts'])->name('hairProducts')->middleware(['auth:admin']);
+
+  
 
   
 
@@ -60,6 +67,12 @@ Route::group(['prefix' => 'admin'], function () {
 });
 
 Route::group(['prefix' => 'customer'], function () {
+
+  Route::post('/addToCart', [App\Http\Controllers\BusinessController::class, 'addToCart'])->name('addToCart');
+  Route::post('/updateQuantity', [App\Http\Controllers\BusinessController::class, 'updateQuantity'])->name('updateQuantity');
+  Route::get('/getCartItems', [App\Http\Controllers\BusinessController::class, 'getCartItems'])->name('getCartItems');
+
+
 
   Route::get('/', [App\Http\Controllers\Customer\Auth\LoginController::class, 'showLoginForm'])->name('customer.login');
   Route::get('/login', [App\Http\Controllers\Customer\Auth\LoginController::class, 'showLoginForm'])->name('login');

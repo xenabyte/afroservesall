@@ -99,7 +99,7 @@
                                             <div>
                                                 <h5 class="mb-0">Product Options</h5>
                                                 <div class="text-end">
-                                                    <button type="button" class="btn btn-primary waves-effect waves-light" data-bs-toggle="modal" data-bs-target=".addProductOption">Add Product</button>
+                                                    <button type="button" class="btn btn-primary waves-effect waves-light" data-bs-toggle="modal" data-bs-target=".addProductOption">Add Product Option</button>
                                                 </div>
                                             </div>
                                         </div>

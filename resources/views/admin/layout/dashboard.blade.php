@@ -132,9 +132,9 @@
                                     <span key="t-dashboards">Products</span>
                                 </a>
                                 <ul class="sub-menu" aria-expanded="false">
-                                    <li><a href="{{ url('/admin/product') }}" key="t-default">Add Product</a></li>
-                                    <li><a href="{{ url('/admin/food') }}" key="t-saas">Food</a></li>
-                                    <li><a href="{{ url('/admin/hair') }}" key="t-saas">Hair</a></li>
+                                    <li><a href="{{ url('/admin/addProduct') }}" key="t-default">Add Product</a></li>
+                                    <li><a href="{{ url('/admin/foodProducts') }}" key="t-saas">Food Menu</a></li>
+                                    <li><a href="{{ url('/admin/hairProducts') }}" key="t-saas">Hair Style</a></li>
 
                                 </ul>
                             </li>

@@ -576,6 +576,9 @@
         <script src="{{ asset('assets/js/pages/ico-landing.init.js') }}"></script>
 
         <script src="{{ asset('assets/js/app.js') }}"></script>
+        <script>
+            sessionStorage.removeItem('cart');
+        </script>
 
     </body>
 

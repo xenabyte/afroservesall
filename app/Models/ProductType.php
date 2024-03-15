@@ -10,6 +10,9 @@ class ProductType extends Model
 {
     use HasFactory, SoftDeletes;
 
+    const PRODUCT_TYPE_FOOD = 'Food';
+    const PRODUCT_TYPE_HAIR = 'Hair';
+
     protected $fillable = [
         'type',
     ];
@@ -24,4 +27,8 @@ class ProductType extends Model
         return $this->hasMany(Product::class, 'product_id', 'id');
     }
 
+    public static function getProductTypeId ( $type ) {
+        $type = self::where('type', $type)->first();
+        return $type['id'];
+    }
 }

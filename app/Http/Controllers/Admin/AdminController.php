@@ -45,6 +45,23 @@ class AdminController extends Controller
     }
 
 
+    public function foodProducts(){
+        $foodProducts = Product::where('product_type_id', ProductType::getProductTypeId(ProductType::PRODUCT_TYPE_FOOD))->get();
+
+        return view('admin.foodProducts', [
+            'foodProducts' => $foodProducts
+        ]);
+    }
+
+    public function hairProducts(){
+        $hairProducts = Product::where('product_type_id', ProductType::getProductTypeId(ProductType::PRODUCT_TYPE_HAIR))->get();
+
+        return view('admin.hairProducts', [
+            'hairProducts' => $hairProducts
+        ]);
+    }
+
+
     public function addProduct(Request $request){
         $validator = Validator::make($request->all(), [
             'name' => 'required',
