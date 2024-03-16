@@ -14,7 +14,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+  session()->forget('cart');
+  return view('welcome');
 });
 
 
@@ -80,7 +81,7 @@ Route::group(['prefix' => 'customer'], function () {
   Route::post('/logout', [App\Http\Controllers\Customer\Auth\LoginController::class, 'logout'])->name('logout');
 
   // Route::get('/register', [App\Http\Controllers\Customer\Auth\RegisterController::class, 'showRegistrationForm'])->name('register');
-  // Route::post('/register', [App\Http\Controllers\Customer\Auth\RegisterController::class, 'register']);
+  Route::post('/register', [App\Http\Controllers\Customer\Auth\RegisterController::class, 'register']);
 
   Route::post('/password/email', [App\Http\Controllers\Customer\Auth\ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.request');
   Route::post('/password/reset', [App\Http\Controllers\Customer\Auth\ResetPasswordController::class, 'reset'])->name('password.email');

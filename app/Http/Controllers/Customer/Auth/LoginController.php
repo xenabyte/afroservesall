@@ -6,6 +6,18 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use AlAminFirdows\LaravelMultiAuth\Traits\LogsoutGuard;
+use App\Http\Requests;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
+
+
+use SweetAlert;
+use Mail;
+use Alert;
+use Log;
+use Carbon\Carbon;
 
 class LoginController extends Controller
 {
@@ -29,7 +41,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    public $redirectTo = '/home';
+    public $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -59,5 +71,10 @@ class LoginController extends Controller
     protected function guard()
     {
         return Auth::guard('customer');
+    }
+
+    protected function authenticated(Request $request, $user)
+    {
+        return redirect()->intended('/orderNow');
     }
 }

@@ -7,6 +7,18 @@ use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
+
+
+use SweetAlert;
+use Mail;
+use Alert;
+use Log;
+use Carbon\Carbon;
 
 class RegisterController extends Controller
 {
@@ -28,7 +40,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -49,9 +61,11 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|max:255',
+            'lastname' => 'required|max:255',
+            'othernames' => 'required|max:255',
             'email' => 'required|email|max:255|unique:customers',
             'password' => 'required|min:6|confirmed',
+            'phone' =>'required|max:255',
         ]);
     }
 
@@ -64,9 +78,11 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return Customer::create([
-            'name' => $data['name'],
+            'lastname' => $data['lastname'],
+            'othernames' => $data['othernames'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'phone' => $data['phone'],
         ]);
     }
 
@@ -88,5 +104,37 @@ class RegisterController extends Controller
     protected function guard()
     {
         return Auth::guard('customer');
+    }
+
+    protected function registered(Request $request, $user)
+    {
+        return redirect()->intended('/');
+    }
+
+    public function register(Request $request)
+    {
+        // Validate incoming data
+        $validator = $this->validator($request->all());
+
+        if ($validator->fails()) {
+            alert()->error('Error', $validator->messages()->first())->persistent('Close');
+            return redirect()->back()->withInput();
+        }
+
+        // If validation passes, create the new customer record
+        $customer = $this->create($request->all());
+
+        // Check if the customer was created successfully
+        if ($customer) {
+            // Optionally, you can log in the user automatically after registration
+            auth()->login($customer);
+
+            // Redirect the user to the desired page
+            return redirect()->intended('/orderNow'); // Replace '/dashboard' with the desired URL
+        } else {
+            // If there was an error creating the customer, show an error message
+            alert()->error('Error', 'Failed to register. Please try again.')->persistent('Close');
+            return redirect()->back()->withInput();
+        }
     }
 }

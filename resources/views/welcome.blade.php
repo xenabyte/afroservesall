@@ -577,7 +577,7 @@
 
         <script src="{{ asset('assets/js/app.js') }}"></script>
         <script>
-            sessionStorage.removeItem('cart');
+            sessionStorage.clear();
         </script>
 
     </body>

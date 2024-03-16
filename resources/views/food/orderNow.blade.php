@@ -2,6 +2,7 @@
 // Get the cart items from the session
 $cartItems = session('cart');
 
+
 // Initialize subtotal variable
 $subtotal = 0;
 
@@ -10,6 +11,11 @@ if(!empty($cartItems))
     foreach ($cartItems as $item) {
         $subtotal += $item['price'];
     }
+
+$customer = Auth::guard('customer')->user();
+$isAuthenticated = !empty($customer)?true:false;
+$name = !empty($customer)?$customer->lastname .' ' . $customer->othernames : null;
+$addresses = !empty($customer)?$customer->addresses:null;
 @endphp
 <!doctype html>
 <html lang="en">
@@ -42,36 +48,72 @@ if(!empty($cartItems))
     </head>
 
     <body data-bs-spy="scroll" data-bs-target="#topnav-menu" data-bs-offset="60">
+        @include('sweetalert::alert')
 
         <nav class="navbar navbar-expand-lg navigation fixed-top sticky">
             <div class="container">
+                <button type="button"
+                    class="btn btn-sm px-3 font-size-16 d-lg-none header-item waves-effect waves-light"
+                    data-bs-toggle="collapse" data-bs-target="#topnav-menu-content">
+                    <i class="fa fa-fw fa-bars"></i>
+                </button>
+
                 <a class="navbar-logo" href="{{ url('/') }}">
                     <img src="{{ asset('assets/images/logo-dark.png') }}" alt="" height="19" class="logo logo-dark">
                     <img src="{{ asset('assets/images/logo-light.png') }}" alt="" height="19" class="logo logo-light">
                 </a>
-
-                <button type="button" class="btn btn-sm px-3 font-size-16 d-lg-none header-item waves-effect waves-light" data-bs-toggle="collapse" data-bs-target="#topnav-menu-content">
-                    <i class="fa fa-fw fa-bars"></i>
-                </button>
-              
+        
                 <div class="collapse navbar-collapse" id="topnav-menu-content">
-                    <ul class="navbar-nav ms-auto" id="topnav-menu" >
+                    <ul class="navbar-nav ms-auto" id="topnav-menu">
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url('/') }}">Afro serves all</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#home">Home</a>
+                            <a class="nav-link" href="{{ url('/foodOrder') }}">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" href="{{ url('/orderNow') }}">Order Here</a>
+                            <a class="nav-link" href="{{ url('/orderNow') }}">Order Here</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#faqs">Contact Us</a>
                         </li>
                     </ul>
                 </div>
+                @if(!empty($name))
+                <div class="dropdown d-inline-block">
+                    <button type="button" class="btn header-item noti-icon waves-effect" id="page-header-notifications-dropdown"
+                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="bx bx-cart bx-tada"></i>
+                        <span class="badge bg-danger rounded-pill" id="cart-items-badge">0</span>
+                    </button>
+                    <button type="button" class="btn header-item waves-effect bg-white" id="page-header-user-dropdown"
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-right: 5px;">
+                        <img class="rounded-circle header-profile-user" src="{{ asset('assets/images/users/avatar-1.jpg') }}"
+                            alt="Header Avatar">
+                        <span class="d-none d-xl-inline-block ms-1" key="t-henry" style="margin-right: 5px;">{{ $name }}</span>
+                        <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-end">
+                        <!-- item-->
+                        <span class="dropdown-item d-none d-xl-inline-block ms-2 nav-link" key="t-henry">Welcome</span>
+                        <hr>
+                        <a class="dropdown-item" href="#"><i class="bx bx-user font-size-16 align-middle me-1"></i> <span
+                                key="t-profile">Profile</span></a>
+                        <a class="dropdown-item" href="#"><i class="bx bx-wallet font-size-16 align-middle me-1"></i> <span
+                                key="t-my-wallet">Order History</span></a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item text-danger" href="{{ url('/customer/logout') }}"
+                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i
+                                class="bx bx-power-off font-size-16 align-middle me-1 text-danger"></i> <span
+                                key="t-logout">Logout</span></a>
+                        <form id="logout-form" action="{{ url('/customer/logout') }}" method="POST" style="display: none;">@csrf</form>
+                    </div>
+                </div>
+                @endif
+                
             </div>
         </nav>
+        
 
         <!-- hero section start -->
         <section class="section hero-section bg-ico-hero" id="home" style="background-image:url({{ asset('assets/images/bg_img_1.jpg') }});background-size:cover;background-position:top">
@@ -163,24 +205,22 @@ if(!empty($cartItems))
                                         <!-- Third Column: Cart  d-none d-md-block -->
                                         <div class="col-md-4">
                                             <h2 class="text-light">Cart Items</h2>
+                                            @if(!empty($name))
+                                            <div class="card p-3">
+                                                <p> {{ $name.'!,' }} Welcome back</p>
+                                            </div>
+                                            @endif
                                             <div class="card p-3" id="cart-items-container">
-                                                @if(session()->has('cart') && count(session('cart')) > 0)
-                                                    <!-- Cart items will be dynamically added here by JavaScript -->
-                                                    @endforeach
-                                                @else
-                                                    <p>Your cart is empty.</p>
-                                                @endif
+                                                <!-- Cart items will be dynamically added here by JavaScript -->
                                             </div>
                                         
                                             <!-- Subtotal -->
                                             <div class="card p-3">
-                                                <!-- Subtotal -->
                                                 <div class="text-end mt-1">
                                                     <strong>Subtotal:</strong> $<span id="subtotal">00.00</span>
                                                 </div>
                                                 <hr>
-                                                <textarea class="form-control mb-3" placeholder="Additional information"></textarea>
-                                        
+                                                <textarea class="form-control mb-3" id="additionalInfo" placeholder="Additional information"></textarea>
                                                 <div class="form-check mb-2">
                                                     <input class="form-check-input" type="radio" name="delivery" id="pickup" value="pickup" checked>
                                                     <label class="form-check-label" for="pickup">Pickup</label>
@@ -189,9 +229,8 @@ if(!empty($cartItems))
                                                     <input class="form-check-input" type="radio" name="delivery" id="delivery" value="delivery">
                                                     <label class="form-check-label" for="delivery">Delivery</label>
                                                 </div>
-                                        
                                                 <hr>
-                                                <button type="button" class="btn btn-primary">Proceed to Checkout</button>
+                                                <button type="button" class="btn btn-primary" id="proceedToCheckoutBtn">Proceed to Checkout</button>
                                             </div>
                                         </div>
                                     </div>
@@ -206,6 +245,43 @@ if(!empty($cartItems))
             <!-- end container -->
         </section>
         <!-- hero section end -->
+
+        <!-- Proceed to Checkout Button -->
+
+        @include('common.auth')
+
+        <!-- Payment Modal -->
+        <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="paymentModalLabel">Payment</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            <h5 class="text-primary">Order Details</h5>
+                            <p class="text-muted">Get your free {{ env('APP_NAME') }} account now.</p>
+                            <hr>
+                        </div>
+                        <div class="card p-3" id="order-items-container">
+                            @if(session()->has('cart') && count(session('cart')) > 0)
+                                <!-- Cart items will be dynamically added here by JavaScript -->
+                            @else
+                                <p>Your cart is empty.</p>
+                            @endif
+                        </div>
+                        <input type="hidden" id="cartItemsInput" name="cartItems">
+                        <div class="text-end mt-1">
+                            <strong>Subtotal:</strong> $<span id="orderSubtotal">00.00</span>
+                        </div>
+                        <hr>
+                        <button type="button" class="btn btn-primary" id="proceedToPayment">Proceed to Payment</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
        
 
         <!-- Footer start -->
@@ -251,182 +327,7 @@ if(!empty($cartItems))
         <script src="{{ asset('assets/js/pages/ico-landing.init.js') }}"></script>
 
         <script src="{{ asset('assets/js/app.js') }}"></script>
-        <script>
-           document.addEventListener('DOMContentLoaded', function () {
-            fetchCartItems();
-
-            // Event delegation for minus buttons
-            document.addEventListener('click', function(event) {
-                if (event.target.classList.contains('cart-minus-button')) {
-                    const quantityInput = event.target.parentNode.querySelector('.cart-quantity-input');
-                    if (parseInt(quantityInput.value) > 1) {
-                        quantityInput.value = parseInt(quantityInput.value) - 1;
-                        updateCartQuantity(event.target, 'decrease');
-                    }
-                }
-            });
-
-            // Event delegation for plus buttons
-            document.addEventListener('click', function(event) {
-                if (event.target.classList.contains('cart-plus-button')) {
-                    const quantityInput = event.target.parentNode.querySelector('.cart-quantity-input');
-                    quantityInput.value = parseInt(quantityInput.value) + 1;
-                    updateCartQuantity(event.target, 'increase');
-                }
-            });
-
-            const minusButtons = document.querySelectorAll('.minus-button');
-            minusButtons.forEach(function(minusButton) {
-                minusButton.addEventListener('click', function() {
-                    const quantityInput = this.parentNode.querySelector('.quantity-input');
-                    if (parseInt(quantityInput.value) > 1) {
-                        quantityInput.value = parseInt(quantityInput.value) - 1;
-                    }
-                });
-            });
-
-            const plusButtons = document.querySelectorAll('.plus-button');
-            plusButtons.forEach(function(plusButton) {
-                plusButton.addEventListener('click', function() {
-                    const quantityInput = this.parentNode.querySelector('.quantity-input');
-                    quantityInput.value = parseInt(quantityInput.value) + 1;
-                });
-            });
-
-            const addToCartButtons = document.querySelectorAll('.add-to-cart-button');
-                addToCartButtons.forEach(function(button) {
-                    button.addEventListener('click', function () {
-                        const featureId = this.parentElement.querySelector('.feature-id').value;
-                        const productId = this.parentElement.querySelector('.product-id').value;
-                        const quantity = this.parentElement.querySelector('.quantity-input').value;
-                        console.log(featureId, productId, quantity);
-                    
-                        // Send a POST request to the Laravel route
-                        axios.post('/customer/addToCart', { product_id: productId, feature_id: featureId, quantity: quantity })
-                            .then(function (response) {
-                                if (response.data.status === 'error') {
-                                    // Show a SweetAlert for record not found
-                                    Swal.fire({
-                                        icon: 'error',
-                                        title: 'Product could not be added to cart',
-                                        text: 'Product not found',
-                                    });
-                                } else {
-                                    updateCartSection(response.data.cart);
-                                }
-                            })
-                            .catch(function (error) {
-                                console.error(error);
-                            });
-                    });
-                });
-
-            });
-
-            function updateCartQuantity(button, action) {
-                const productId = button.parentElement.querySelector('.cart-product-id').value;
-                const featureId = button.parentElement.querySelector('.cart-feature-id').value;
-
-                axios.post('/customer/updateQuantity', { productId: productId, featureId: featureId, action: action })
-                    .then(function(response) {
-                        fetchCartItems();
-                    })
-                    .catch(function(error) {
-                        console.error(error);
-                    });
-            }
-
-            function fetchCartItems() {
-                axios.get('/customer/getCartItems')
-                    .then(function(response) {
-                        const cart = response.data.cart;
-                        updateCartSection(cart);
-                    })
-                    .catch(function(error) {
-                        console.error(error);
-                    });
-            }
-
-            function updateCartSection(cartItems) {
-                const cartContainer = document.getElementById('cart-items-container');
-                const subtotalElement = document.getElementById('subtotal');
-                let subtotal = 0;
-
-                // Clear existing cart items
-                cartContainer.innerHTML = '';
-
-                if (cartItems.length > 0) {
-                    cartItems.forEach(function(cartItem) {
-                        const itemElement = document.createElement('div');
-                        itemElement.classList.add('px-3', 'mb-3');
-                        itemElement.innerHTML = `
-                            <div class="row row-cols-lg-auto g-3 d-flex justify-content-between align-items-center flex-column flex-lg-row">
-                                <div class="col-12">
-                                    <span>${cartItem.name}</span>
-                                </div>
-                                <div class="col-auto">
-                                    <div class="input-group input-group-sm flex-nowrap">
-                                        <input type="hidden" class="cart-product-id" value="${cartItem.product_id}">
-                                        <input type="hidden" class="cart-feature-id" value="${cartItem.feature_id}">
-                                        <button type="button" class="btn btn-outline-secondary input-group-text cart-minus-button">
-                                            <i class="mdi mdi-minus"></i>
-                                        </button>
-                                        <input class="form-control cart-quantity-input" type="number" value="${cartItem.quantity}" min="1" style="max-width: 60px;">
-                                        <button type="button" class="btn btn-outline-secondary input-group-text cart-plus-button">
-                                            <i class="mdi mdi-plus"></i>
-                                        </button>
-                                        <button type="button" class="btn btn-outline-secondary input-group-text">
-                                            <strong><span class="text-danger">$${(cartItem.price).toFixed(2)}</span></strong>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <p><small>${cartItem.description}</small></p>
-                            <hr>
-                        `;
-                        cartContainer.appendChild(itemElement);
-
-                        subtotal += parseFloat(cartItem.price);
-                    });
-
-                    // Reattach event listeners for plus and minus buttons
-                    attachEventListeners();
-                } else {
-                    cartContainer.innerHTML = '<p>Your cart is empty.</p>';
-                }
-
-                subtotalElement.textContent = subtotal.toFixed(2);
-            }
-
-            function attachEventListeners() {
-                // Add event listeners for minus buttons
-                const minusButtons = document.querySelectorAll('.cart-minus-button');
-                minusButtons.forEach(function(minusButton) {
-                    minusButton.addEventListener('click', function() {
-                        const quantityInput = this.parentNode.querySelector('.cart-quantity-input');
-                        if (parseInt(quantityInput.value) > 1) {
-                            quantityInput.value = parseInt(quantityInput.value) - 1;
-                            updateCartQuantity(this, 'decrease');
-                        }
-
-                        if (parseInt(quantityInput.value) < 2) {
-                            quantityInput.value = parseInt(quantityInput.value) - 1;
-                            updateCartQuantity(this, 'delete');
-                        }
-                    });
-                });
-
-                // Add event listeners for plus buttons
-                const plusButtons = document.querySelectorAll('.cart-plus-button');
-                plusButtons.forEach(function(plusButton) {
-                    plusButton.addEventListener('click', function() {
-                        const quantityInput = this.parentNode.querySelector('.cart-quantity-input');
-                        quantityInput.value = parseInt(quantityInput.value) + 1;
-                        updateCartQuantity(this, 'increase');
-                    });
-                });
-            }
-        </script>
+        @include('common.food')
         <script>
             // Smooth scroll to accordion sections and open accordion on product click
             $(document).ready(function(){
@@ -439,6 +340,53 @@ if(!empty($cartItems))
                     $(target).collapse('show');
                 });
             });
+
+            document.getElementById('proceedToPayment').addEventListener('click', function() {
+                const deliveryType = document.querySelector('input[name="delivery"]:checked').value;
+                const addressId = document.getElementById('addressId').value;
+                const address1 = document.getElementById('address1').value;
+                const address2 =  document.getElementById('address2').value;
+                const phone = document.getElementById('phone').value;
+                const additionalInfo = document.getElementById('additionalInfo').value;
+                const cartItems = document.getElementById('cartItemsInput').value;
+                
+                // Make sure all required fields are filled
+                if (deliveryType === 'delivery' && (!addressId && !address1)) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Please provide a delivery address.',
+                    });
+                    return;
+                }
+                
+                // Prepare data to send to the server
+                const data = {
+                    delivery_type: deliveryType,
+                    address_id: addressId,
+                    address_1: address1,
+                    address_2: address2,
+                    phone: phone,
+                    additional_infomation: additionalInfo,
+                    cart_items: cartItems
+                };
+
+                console.log(data);
+                
+                // Send data to the server
+                axios.post('/create-order', data)
+                    .then(function(response) {
+                        // Handle success response
+                        console.log(response.data);
+                        // Optionally, you can redirect the user to a success page or display a success message
+                    })
+                    .catch(function(error) {
+                        // Handle error response
+                        console.error(error);
+                        // Optionally, you can display an error message to the user
+                    });
+            });
+
         </script>
 
     </body>

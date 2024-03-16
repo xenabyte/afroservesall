@@ -5,10 +5,12 @@ namespace App\Models;
 use App\Notifications\CustomerResetPassword;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 
 class Customer extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -16,7 +18,11 @@ class Customer extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'othernames',
+        'lastname',
+        'email', 
+        'password',
+        'phone',
     ];
 
     /**
@@ -38,4 +44,15 @@ class Customer extends Authenticatable
     {
         $this->notify(new CustomerResetPassword($token));
     }
+
+    /**
+     * Get all of the addresses for the Customer
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function addresses()
+    {
+        return $this->hasMany(Address::class, 'customer_id', 'id');
+    }
+    
 }
