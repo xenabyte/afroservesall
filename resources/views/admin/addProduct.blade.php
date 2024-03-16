@@ -29,13 +29,13 @@
                     <form action="{{ url('/admin/addProduct') }}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="productname">Product Name</label>
                                     <input id="name" name="name" type="text" class="form-control" placeholder="Product Name" required>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            {{-- <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="price">Price</label>
                                     <div class="input-group">
@@ -43,9 +43,9 @@
                                         <input id="price" name="price" type="number" step="0.01" class="form-control" placeholder="Price">
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                             
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="mb-3">
                                     <label class="control-label">Product Type</label>
                                     <select class="form-control" name="product_type_id" required>
@@ -80,22 +80,4 @@
         </div>
     </div>
     <!-- end row -->
-
-   
-
-
-<footer class="footer">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-sm-6">
-                <script>document.write(new Date().getFullYear())</script> © Skote.
-            </div>
-            <div class="col-sm-6">
-                <div class="text-sm-end d-none d-sm-block">
-                    Design & Develop by Themesbrand
-                </div>
-            </div>
-        </div>
-    </div>
-</footer>
 @endsection

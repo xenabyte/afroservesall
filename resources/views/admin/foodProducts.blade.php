@@ -45,7 +45,7 @@
                         <th>Image</th>
                         <th>Name</th>
                         <th>Description</th>
-                        <th>Price</th>
+                        {{-- <th>Price</th> --}}
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -59,7 +59,7 @@
                         </td>
                         <td>{{ $foodProduct->name }}</td>
                         <td>{{ $foodProduct->description }}</td>
-                        <td>${{ $foodProduct->price }}</td>
+                        {{-- <td>${{ $foodProduct->price }}</td> --}}
                         <td>
                             <div class="text-end">
 

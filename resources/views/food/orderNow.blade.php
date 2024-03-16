@@ -79,13 +79,13 @@ $addresses = !empty($customer)?$customer->addresses:null;
                         </li>
                     </ul>
                 </div>
+                <button type="button" class="btn header-item noti-icon waves-effect bg-white" id="page-header-notifications-dropdown"
+                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="bx bx-cart bx-tada"></i>
+                    <span class="badge bg-danger rounded-pill" id="cart-items-badge">0</span>
+                </button>
                 @if(!empty($name))
                 <div class="dropdown d-inline-block">
-                    <button type="button" class="btn header-item noti-icon waves-effect" id="page-header-notifications-dropdown"
-                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="bx bx-cart bx-tada"></i>
-                        <span class="badge bg-danger rounded-pill" id="cart-items-badge">0</span>
-                    </button>
                     <button type="button" class="btn header-item waves-effect bg-white" id="page-header-user-dropdown"
                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-right: 5px;">
                         <img class="rounded-circle header-profile-user" src="{{ asset('assets/images/users/avatar-1.jpg') }}"
@@ -328,6 +328,32 @@ $addresses = !empty($customer)?$customer->addresses:null;
 
         <script src="{{ asset('assets/js/app.js') }}"></script>
         @include('common.food')
+
+        <script type="text/javascript">
+            document.getElementById('proceedToCheckoutBtn').addEventListener('click', function() {
+                 const isAuthenticated = "<?php echo $isAuthenticated; ?>";
+                 const deliveryType = document.querySelector('input[name="delivery"]:checked').value;
+         
+                 if (isAuthenticated == '') {
+                     $('#loginModal').modal('show');
+                 } else {
+                     if (deliveryType === 'pickup') {
+                         // Show payment modal directly
+                         $('#paymentModal').modal('show');
+                     } else {
+                         $('#addressModal').modal('show');
+                     }
+                 }
+             });
+         
+         
+             document.getElementById('makePaymentBtn').addEventListener('click', function() {
+                 $('#addressModal').modal('hide');
+                 $('#paymentModal').modal('show');
+             });
+         </script>
+
+
         <script>
             // Smooth scroll to accordion sections and open accordion on product click
             $(document).ready(function(){

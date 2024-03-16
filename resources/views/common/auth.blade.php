@@ -176,11 +176,11 @@
             <div class="modal-body">
                 <div class="row">
                     @if(!empty($addresses)) 
-                    <h5 class="modal-title">Select Delivery Location?</h5>                   
+                    <h5 class="modal-title">Select Location?</h5>                   
                     <div class="col-md-12 mt-2">
                         <div class="form-floating mb-3">
                             <select name="address" class="form-select" id="addressId" aria-label="Select Delivery Address">
-                                <option value="" selected>Select Delivery Address</option>
+                                <option value="" selected>Select Address</option>
                                 @foreach($addresses as $address)
                                 <option value="{{ $address->id }}">{{ $address->address_1 .' '. $address->address_2 }}</option>
                                 @endforeach
@@ -190,14 +190,14 @@
                     </div>
                     @endif
                     <hr>
-                    <h5 class="modal-title mt-5">New Delivery Location?</h5>
+                    <h5 class="modal-title mt-5">New Location?</h5>
                     <div class="col-md-12 mt-2">
-                        <label for="address1">Delivery Address Line 1</label>
+                        <label for="address1">Address Line 1</label>
                         <textarea class="form-control mb-3" id="address1" name="address_1" placeholder="Address"></textarea>
                     </div>
 
                     <div class="col-md-12">
-                        <label for="address1">Delivery Address Line 2</label>
+                        <label for="address1">Address Line 2</label>
                         <textarea class="form-control mb-3" id="address2" name="address_2" placeholder="Major Landmark"></textarea>
                     </div>
                 </div>
@@ -213,26 +213,3 @@
     </div>
 </div>
 
-<script type="text/javascript">
-   document.getElementById('proceedToCheckoutBtn').addEventListener('click', function() {
-        const isAuthenticated = "<?php echo $isAuthenticated; ?>";
-        const deliveryType = document.querySelector('input[name="delivery"]:checked').value;
-
-        if (isAuthenticated == '') {
-            $('#loginModal').modal('show');
-        } else {
-            if (deliveryType === 'pickup') {
-                // Show payment modal directly
-                $('#paymentModal').modal('show');
-            } else {
-                $('#addressModal').modal('show');
-            }
-        }
-    });
-
-
-    document.getElementById('makePaymentBtn').addEventListener('click', function() {
-        $('#addressModal').modal('hide');
-        $('#paymentModal').modal('show');
-    });
-</script>

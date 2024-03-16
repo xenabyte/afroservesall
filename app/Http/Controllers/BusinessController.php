@@ -159,25 +159,26 @@ class BusinessController extends Controller
 
             $cart = Cart::where('customer_id', $customerId)->whereNull('status')->get();
         }else{
-            $cartItemKey = $this->findCartItemKey($cart, $productId, $featureId);
-            $quantity = $cart[$cartItemKey]['quantity'];
+
+            $cartItemKey = $this->findCartItemKey($sessionCart, $productId, $featureId);
+            $quantity = $sessionCart[$cartItemKey]['quantity'];
 
             // Update the quantity based on the action
             if ($action === 'increase') {
                 // Increase the quantity
-                $cart[$cartItemKey]['quantity'] = $quantity + 1;
-                $cart[$cartItemKey]['price'] += $itemPrice;
+                $sessionCart[$cartItemKey]['quantity'] = $quantity + 1;
+                $sessionCart[$cartItemKey]['price'] += $itemPrice;
             } elseif ($action === 'decrease') {
-                    if ($cart[$cartItemKey]['quantity'] > 1) {
-                    $cart[$cartItemKey]['quantity'] = $quantity-1;
-                    $cart[$cartItemKey]['price'] -= $itemPrice;
+                    if ($sessionCart[$cartItemKey]['quantity'] > 1) {
+                    $sessionCart[$cartItemKey]['quantity'] = $quantity-1;
+                    $sessionCart[$cartItemKey]['price'] -= $itemPrice;
                 }
             } elseif ($action === 'delete') {
-                unset($cart[$cartItemKey]);
+                unset($sessionCart[$cartItemKey]);
             }
 
             // Update the cart in the session
-            session(['cart' => $cart]);
+            session(['cart' => $sessionCart]);
             $cart =  session('cart');
         }
 
