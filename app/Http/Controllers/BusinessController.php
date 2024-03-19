@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 use App\Models\Admin;
 use App\Models\Booking;
@@ -20,6 +21,7 @@ use App\Models\Product;
 use App\Models\ProductFeature;
 use App\Models\ProductType;
 use App\Models\Transaction;
+use App\Models\Address;
 
 
 use SweetAlert;
@@ -238,9 +240,6 @@ class BusinessController extends Controller
             'cart' => $cart,
         ];
 
-
-        // Return updated cart items
-    
         // Return updated cart items
         return response()->json($cartData);
     }
@@ -258,9 +257,85 @@ class BusinessController extends Controller
             ],
             'address_2' => 'nullable',
             'additional_infomation' => 'nullable',
-            'phone' => 'required',
-            'cart_ids' => 'required|array',
+            'phone' => 'nullable',
+            'cart_items' => 'required',
         ]);
+        
+        if($validator->fails()) {
+
+            $cartData = [
+                'status' => 'error',
+                'message' => $validator->messages()->all()[0],
+            ];
+
+            return response()->json($cartData);
+        }
+
+        $customer = Auth::guard('customer')->user();
+        $customerId = $customer ? $customer->id : null;
+
+        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+        
+
+        $deliveryType = $request->delivery_type;
+        $addressId = $request->address_id;
+        $addressLine1 = $request->address_1;
+        $addressLine2 = $request->address_2;
+        $additionalInfomation = $request->additional_infomation;
+        $phone = $request->phone;
+        $bookingDate = $request->booking_date;
+        $cart = $request->cart_items;
+        $cartItems = json_decode($cart);
+
+        if(!empty($addressLine1)){
+            $newAddress = ([
+                'address_1' => $addressLine1,
+                'address_2' => $addressLine2,
+                'customer_id' => $customerId
+            ]);
+
+            $addressId = Address::create($newAddress)->id;
+        }
+
+        $productname = '';
+        $subTotal  = 0;
+        foreach ($cartItems as $cartItem) {
+            $productname .= $cartItem->name . ', ';
+            $subTotal += $cartItem->price;
+        }
+
+        $productname = rtrim($productname, ', ');
+
+
+        $session = $session = \Stripe\Checkout\Session::create([
+            'line_items'  => [
+                [
+                    'price_data' => [
+                        'currency'     => 'USD',
+                        'product_data' => [
+                            "name" => $productname,
+                        ],
+                        'unit_amount'  => round($subTotal),
+                    ],
+                    'quantity'   => 1,
+                ],
+                
+            ],
+            ['metadata' => ['cartItems' => $cartItems]],
+            'mode'        => 'payment',
+            'success_url' => route('paymentSuccess'),
+            'cancel_url'  => route('paymentFailed'),
+        ]);
+
+
+
+       $cartData = [
+            'status' => 'success',
+            'message' => 'Cart is available',
+            'redirectUrl' => $session->url,
+        ];
+
+        return response()->json($cartData);
         
     }
     

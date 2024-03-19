@@ -73,6 +73,10 @@ Route::group(['prefix' => 'customer'], function () {
   Route::post('/updateQuantity', [App\Http\Controllers\BusinessController::class, 'updateQuantity'])->name('updateQuantity');
   Route::get('/getCartItems', [App\Http\Controllers\BusinessController::class, 'getCartItems'])->name('getCartItems');
 
+  Route::get('/paymentSuccess', [App\Http\Controllers\BusinessController::class, 'paymentSuccess'])->name('paymentSuccess');
+  Route::get('/paymentFailed', [App\Http\Controllers\BusinessController::class, 'paymentFailed'])->name('paymentFailed');
+  Route::post('/placeOrder', [App\Http\Controllers\BusinessController::class,'placeOrder'])->name('placeOrder')->middleware(['auth:customer']);
+
 
 
   Route::get('/', [App\Http\Controllers\Customer\Auth\LoginController::class, 'showLoginForm'])->name('customer.login');

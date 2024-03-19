@@ -399,17 +399,17 @@ $addresses = !empty($customer)?$customer->addresses:null;
 
                 console.log(data);
                 
-                // Send data to the server
-                axios.post('/create-order', data)
+                axios.post('/customer/placeOrder', data)
                     .then(function(response) {
-                        // Handle success response
-                        console.log(response.data);
-                        // Optionally, you can redirect the user to a success page or display a success message
+                        const redirectUrl = response.data.redirectUrl;
+                        if (redirectUrl) {
+                            window.location.href = redirectUrl;
+                        } else {
+                            console.error('Redirect URL not found in the response');
+                        }
                     })
                     .catch(function(error) {
-                        // Handle error response
                         console.error(error);
-                        // Optionally, you can display an error message to the user
                     });
             });
 
