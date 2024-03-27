@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Notifications\PaymentCheckout;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -30,7 +29,6 @@ use Mail;
 use Alert;
 use Log;
 use Carbon\Carbon;
-use Date;
 
 
 class BusinessController extends Controller
@@ -75,11 +73,10 @@ class BusinessController extends Controller
         $description = $feature->feature;
 
         $customer = Auth::guard('customer')->user();
-        $customerId = $customer->id;
 
         if($customer){
+            $customerId = $customer->id;
             $cartItem = ([
-                'customerId' => $customerId,
                 'name' => $name,
                 'description' => $description,
                 'product_id' => $productId,
@@ -90,18 +87,17 @@ class BusinessController extends Controller
 
             Cart::create($cartItem);
             $cart = Cart::where('customer_id', $customerId)->where('status', null)->get();
-
+            
         }else{
             $cart = session()->get('cart', []);
-
+    
             $cartItemKey = $this->findCartItemKey($cart, $productId, $featureId);
-
+        
             if ($cartItemKey !== null) {
                 $cart[$cartItemKey]['quantity'] += $quantity;
                 $cart[$cartItemKey]['price'] += $itemPrice;
             } else {
                 $cartItem = [
-                'customerId' => $customerId,
                     'name' => $name,
                     'description' => $description,
                     'product_id' => $productId,
@@ -111,21 +107,22 @@ class BusinessController extends Controller
                 ];
                 $cart[] = $cartItem;
             }
-
+        
             session()->put('cart', $cart);
         }
-
-
+    
+    
         $cartData = [
             'status' => 'success',
             'message' => 'Product added to cart successfully',
             'cart' => $cart,
         ];
+
         return response()->json($cartData);
     }
 
     public function updateQuantity(Request $request){
-
+        
         $productId = $request->productId;
         $featureId = $request->featureId;
         $action = $request->action;
@@ -140,9 +137,9 @@ class BusinessController extends Controller
         // Retrieve the cart from the session
         $customer = Auth::guard('customer')->user();
         $customerId = $customer ? $customer->id : null;
-
+    
         $sessionCart = session('cart');
-
+    
         if ($customer) {
             $cartItem = Cart::where('customer_id', $customerId)->where('product_id', $productId)->where('feature_id', $featureId)->whereNull('status')->first();
             $quantity = $cartItem->quantity;
@@ -187,8 +184,8 @@ class BusinessController extends Controller
             $cart =  session('cart');
         }
 
-
-
+        
+    
         $cartData = [
             'status' => 'success',
             'message' => 'Cart successfully updated',
@@ -198,15 +195,16 @@ class BusinessController extends Controller
         return response()->json($cartData);
     }
 
+
     public function getCartItems() {
         $customer = Auth::guard('customer')->user();
         $customerId = $customer ? $customer->id : null;
-
+    
         $sessionCart = session('cart');
-
+    
         if ($customer) {
             $dbCart = Cart::where('customer_id', $customerId)->whereNull('status')->get();
-
+            
             if(!empty($sessionCart)){
                 foreach ($sessionCart as $item) {
                     $existingItem = $dbCart->where('product_id', $item['product_id'])
@@ -230,12 +228,12 @@ class BusinessController extends Controller
                     }
                 }
             }
-
+    
             $cart = Cart::where('customer_id', $customerId)->whereNull('status')->get();
         } else {
             $cart = $sessionCart;
         }
-
+    
         $cartData = [
             'status' => 'success',
             'message' => 'Cart is available',
@@ -245,6 +243,7 @@ class BusinessController extends Controller
         // Return updated cart items
         return response()->json($cartData);
     }
+    
 
     public function placeOrder(Request $request){
         $validator = Validator::make($request->all(), [
@@ -261,7 +260,7 @@ class BusinessController extends Controller
             'phone' => 'nullable',
             'cart_items' => 'required',
         ]);
-
+        
         if($validator->fails()) {
 
             $cartData = [
@@ -269,17 +268,14 @@ class BusinessController extends Controller
                 'message' => $validator->messages()->all()[0],
             ];
 
-
             return response()->json($cartData);
         }
 
         $customer = Auth::guard('customer')->user();
         $customerId = $customer ? $customer->id : null;
 
-
-        //checkout with stripe
-        \Stripe\Stripe::setApiKey(config('Stripe.sk'));
-
+        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+        
 
         $deliveryType = $request->delivery_type;
         $addressId = $request->address_id;
@@ -310,160 +306,38 @@ class BusinessController extends Controller
 
         $productname = rtrim($productname, ', ');
 
-        // foreach(session('cart') as $id => $details){
 
-
-        $productItems = [
+        $session = $session = \Stripe\Checkout\Session::create([
+            'line_items'  => [
+                [
                     'price_data' => [
-                        'currency'     => 'NGN',
+                        'currency'     => 'USD',
                         'product_data' => [
                             "name" => $productname,
                         ],
                         'unit_amount'  => round($subTotal),
                     ],
                     'quantity'   => 1,
-                ];
-            // }
-
-        $stripeCheckoutSession = \Stripe\Checkout\Session::create([
-            'line_items'  => [
-                $productItems
-
+                ],
+                
             ],
             ['metadata' => ['cartItems' => $cartItems]],
             'mode'        => 'payment',
-                        // 'allow_promotion_codes' => true,
-            'customer_email'=> $customer->email,
-
             'success_url' => route('paymentSuccess'),
             'cancel_url'  => route('paymentFailed'),
         ]);
 
-        $transactionData = [
-'customer_id' => $customerId,
-        'order_id' => $stripeCheckoutSession->client_reference_id,
-        'amount_paid' => $subTotal,
-        'promo_amount' => "promocode",
-        'status' => $stripeCheckoutSession->status == 'complete' ? 'completed' : ($stripeCheckoutSession->status == 'expired' ? "failed" : $stripeCheckoutSession->status == "open" && 'pending'),
-        'payment_method' => $stripeCheckoutSession->payment_method_types,
-        ];
-        Transaction::create($transactionData);
+
 
        $cartData = [
             'status' => 'success',
             'message' => 'Cart is available',
-            'redirectUrl' => $stripeCheckoutSession->url,
+            'redirectUrl' => $session->url,
         ];
 
-        // return response()->json($cartData);
-        return redirect()->away($stripeCheckoutSession->url);
-
+        return response()->json($cartData);
+        
     }
-
-
-    public function checkout(Request $request){
-
-         $customer = Auth::guard('customer')->user();
-
-        \Stripe\Stripe::setApiKey(config('Stripe.sk'));
-         $productItems = [
-                    'price_data' => [
-                        'currency'     => 'NGN',
-                        'product_data' => [
-                            "name" => "marko",
-                        ],
-                        'unit_amount'  => 300000,
-                    ],
-                    'quantity'   => 1,
-                ];
-            // }
-
-        $stripeCheckoutSession = \Stripe\Checkout\Session::create([
-            'line_items'  => [
-                $productItems
-
-            ],
-            ['metadata' => ['cartItems' => 'tems']],
-            'mode'        => 'payment',
-                        // 'allow_promotion_codes' => true,
-            'customer_email'=> "mako@gmail.com",
-
-            'success_url' => route('paymentSuccess'),
-            'cancel_url'  => route('paymentFailed'),
-        ]);
-
-        $transactionData = [];
-
-        if($stripeCheckoutSession->status == 'complete'){
-            $transactionData = [
-'customer_id' => $stripeCheckoutSession->id,
-        'order_id' => $stripeCheckoutSession->client_reference_id,
-        'amount_paid' => $stripeCheckoutSession->amount_total,
-        'promo_amount' => $stripeCheckoutSession->amount_subtotal,
-        'status' => $stripeCheckoutSession->status == 'complete' ? 'completed' : ($stripeCheckoutSession->status == 'expired' ? "failed" : $stripeCheckoutSession->status == "open" && 'pending'),
-        'payment_method' => $stripeCheckoutSession->payment_method_types,
-        ];
-
-        Transaction::create($transactionData);
-        }
-
-
-        Mail::send('templates.stripePaymentNotification', $transactionData, function ($message) {
-            $message->from('afroserveall@johndoe.com', 'Afroserveall');
-            $message->sender('afroserver@johndoe.com', 'John Doe');
-            $message->to('john@johndoe.com', 'John Doe');
-            $message->subject('Payment for order was successfully processed');
-            $message->priority(3);
-            $message->attach('pathToFile');
-        });
-
-
-
-        $message["greetings"] = "Hey";
-        $message["text"] = "You just made a payment";
-        $message["details"] = "Please enter your details";
-        $message["finalText"] = "Final Details";
-
-
-        $customer->notify(new PaymentCheckout($message));
-
-
-        return redirect()->away($stripeCheckoutSession->url)->with($transactionData);
-    }
-
-    public function handleWebhook(Request $request)
-{
-    $payload = $request->all();
-
-    echo $payload;
-    if ($payload['type'] == 'checkout.session.completed') {
-        $session = $payload['data']['object'];
-
-        $transactionData = [
-            'customer_id' => $session['id'],
-            'order_id' => $session['client_reference_id'],
-            'amount_paid' => $session['amount_total'],
-            'promo_amount' => $session['amount_subtotal'],
-            'status' => 'completed',
-            'payment_method' => $session['payment_method_types'][0],
-        ];
-
-        Transaction::create($transactionData);
-    }
-}
-
-    public function paymentSuccess(){
-
-        $customerId = Auth::guard('customer')->user()->id;
-        $transactionData = Transaction::where('customer_id', $customerId)->orderBy('created_at', 'desc')->first();
-        return view('common.paymentSuccess', ['transactionData' => $transactionData]);
-
-
-    }
-
-    public function paymentFailed(){
-
-        return view('common.paymentFailed');
-    }
-
+    
+    
 }

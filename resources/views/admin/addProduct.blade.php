@@ -32,8 +32,7 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="productname">Product Name</label>
-                                    <input id="name" name="name" type="text" class="form-control"
-                                        placeholder="Product Name" required>
+                                    <input id="name" name="name" type="text" class="form-control" placeholder="Product Name" required>
                                 </div>
                             </div>
                             {{-- <div class="col-md-6">
@@ -45,17 +44,15 @@
                                     </div>
                                 </div>
                             </div> --}}
-
+                            
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label class="control-label">Product Type</label>
                                     <select class="form-control" name="product_type_id" required>
-                                        <option value="" selected>Select Product Type</option>
-                                        @foreach ($productTypes as $productType)
-                                            <option value="{{ $productType->id }}">{{ $productType->type }}</option>
-                                        @endforeach
+                                        <option value="" selected>Select Produt Type</option>
+                                        @foreach($productTypes as $productType)<option value="{{ $productType->id }}">{{ $productType->type }}</option>@endforeach
                                     </select>
-                                </div>
+                                </div>                                
                             </div>
 
                             <div class="mb-12">

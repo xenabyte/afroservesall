@@ -46,13 +46,11 @@ const addToCartButtons = document.querySelectorAll('.add-to-cart-button');
             const productId = this.parentElement.querySelector('.product-id').value;
             const quantity = this.parentElement.querySelector('.quantity-input').value;
             console.log(featureId, productId, quantity);
-
+        
             // Send a POST request to the Laravel route
             axios.post('/customer/addToCart', { product_id: productId, feature_id: featureId, quantity: quantity })
                 .then(function (response) {
                     if (response.data.status === 'error') {
-                        // Display an error message using toastr
-                    toastr.error('Error adding item to cart');
                         // Show a SweetAlert for record not found
                         Swal.fire({
                             icon: 'error',
@@ -60,10 +58,6 @@ const addToCartButtons = document.querySelectorAll('.add-to-cart-button');
                             text: 'Product not found',
                         });
                     } else {
-                    // Display a success message using toastr
-
-                    toastr.success('Item added to cart successfully.');
-
                         updateCartSection(response.data.cart);
                     }
                 })
@@ -103,7 +97,7 @@ function updateCartSection(cartItems) {
     const cartContainer = document.getElementById('cart-items-container');
     const subtotalElement = document.getElementById('subtotal');
     let subtotal = 0;
-console.log(cartContainer, cartItems)
+
     // Clear existing cart items
     cartContainer.innerHTML = '';
 
