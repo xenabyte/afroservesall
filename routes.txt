@@ -6,6 +6,7 @@
 | admin/addProduct                |
 | admin/addProduct                |
 | admin/addProductFeature         |
+| admin/allTransactions           |
 | admin/deleteProduct             |
 | admin/deleteProductFeature      |
 | admin/editProduct               |
@@ -20,11 +21,13 @@
 | admin/password/reset            |
 | admin/password/reset            |
 | admin/password/reset/{token}    |
+| admin/reporters                 |
 | admin/viewProduct/{slug}        |
 | api/user                        |
 | bookNow                         |
 | customer                        |
 | customer/addToCart              |
+| customer/checkout               |
 | customer/getCartItems           |
 | customer/login                  |
 | customer/login                  |
@@ -37,32 +40,11 @@
 | customer/paymentSuccess         |
 | customer/placeOrder             |
 | customer/register               |
+| customer/register               |
 | customer/updateQuantity         |
 | foodOrder                       |
 | orderNow                        |
 | saloonBooking                   |
 | sanctum/csrf-cookie             |
+| webhook                         |
 +---------------------------------+
-
-   ParseError 
-
-  syntax error, unexpected variable "$message"
-
-  at app/Http/Controllers/BusinessController.php:421
-    417▕ 
-    418▕ 
-    419▕ TODO::currently
-    420▕ 
-  ➜ 421▕         $message["greetings"] = "Hey, mr {$customer->name}";
-    422▕         $message["text"] = "You just make a payment for {$customer->name}";
-    423▕         $message["details"] = "Please enter your details";
-    424▕         $message["finalText"] = "Final Details";
-    425▕
-
-      [2m+1 vendor frames [22m
-  2   [internal]:0
-      Composer\Autoload\ClassLoader::loadClass("App\Http\Controllers\BusinessController")
-
-      [2m+12 vendor frames [22m
-  15  [internal]:0
-      Illuminate\Foundation\Console\RouteListCommand::Illuminate\Foundation\Console\{closure}(Object(Illuminate\Routing\Route))
