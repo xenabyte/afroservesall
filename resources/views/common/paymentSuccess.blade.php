@@ -32,7 +32,7 @@
                         <p class="text-center">Amount Paid: $transactionData->amount_paid </p>
 
                         <div class="d-flex justify-content-center">
-                            <a href="{{ route('bookNow') }}" class="btn btn-primary">Return to BookNow</a>
+                            <a href="{{ route('bookNow') }}" class="btn btn-primary">Return to Booking</a>
                         </div>
                     </div>
                 </div>
