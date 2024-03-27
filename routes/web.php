@@ -50,13 +50,16 @@ Route::group(['prefix' => 'admin'], function () {
   Route::post('/deleteProductFeature', [App\Http\Controllers\Admin\AdminController::class, 'deleteProductFeature'])->name('deleteProductFeature')->middleware(['auth:admin']);
   Route::post('/editProductFeature', [App\Http\Controllers\Admin\AdminController::class, 'editProductFeature'])->name('editProductFeature')->middleware(['auth:admin']);
 
+  Route::get('/reporters', [App\Http\Controllers\Admin\AdminController::class, "getNewTransactions"])->name('getNewTransactions')->middleware(['auth:admin']);
+
+  Route::get('/allTransactions', [App\Http\Controllers\Admin\AdminController::class, 'getAllTransactions'])->name('getAllTransactions')->middleware(['auth:admin']);
 
   Route::get('/foodProducts', [App\Http\Controllers\Admin\AdminController::class, 'foodProducts'])->name('foodProducts')->middleware(['auth:admin']);
   Route::get('/hairProducts', [App\Http\Controllers\Admin\AdminController::class, 'hairProducts'])->name('hairProducts')->middleware(['auth:admin']);
 
-  
 
-  
+
+
 
   // Route::get('/register', [App\Http\Controllers\Admin\Auth\RegisterController::class, 'showRegistrationForm'])->name('register');
   // Route::post('/register', [App\Http\Controllers\Admin\Auth\RegisterController::class, 'register']);
@@ -74,17 +77,18 @@ Route::group(['prefix' => 'customer'], function () {
   Route::get('/getCartItems', [App\Http\Controllers\BusinessController::class, 'getCartItems'])->name('getCartItems');
 
   Route::get('/paymentSuccess', [App\Http\Controllers\BusinessController::class, 'paymentSuccess'])->name('paymentSuccess');
+
   Route::get('/paymentFailed', [App\Http\Controllers\BusinessController::class, 'paymentFailed'])->name('paymentFailed');
   Route::post('/placeOrder', [App\Http\Controllers\BusinessController::class,'placeOrder'])->name('placeOrder')->middleware(['auth:customer']);
 
-
+    Route::post('/checkout', [App\Http\Controllers\BusinessController::class,'checkout'])->name('checkout')->middleware(['auth:customer']);
 
   Route::get('/', [App\Http\Controllers\Customer\Auth\LoginController::class, 'showLoginForm'])->name('customer.login');
   Route::get('/login', [App\Http\Controllers\Customer\Auth\LoginController::class, 'showLoginForm'])->name('login');
   Route::post('/login', [App\Http\Controllers\Customer\Auth\LoginController::class, 'login']);
   Route::post('/logout', [App\Http\Controllers\Customer\Auth\LoginController::class, 'logout'])->name('logout');
 
-  // Route::get('/register', [App\Http\Controllers\Customer\Auth\RegisterController::class, 'showRegistrationForm'])->name('register');
+  Route::get('/register', [App\Http\Controllers\Customer\Auth\RegisterController::class, 'showRegistrationForm'])->name('register');
   Route::post('/register', [App\Http\Controllers\Customer\Auth\RegisterController::class, 'register']);
 
   Route::post('/password/email', [App\Http\Controllers\Customer\Auth\ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.request');
@@ -92,3 +96,7 @@ Route::group(['prefix' => 'customer'], function () {
   Route::get('/password/reset', [App\Http\Controllers\Customer\Auth\ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.reset');
   Route::get('/password/reset/{token}', [App\Http\Controllers\Customer\Auth\ResetPasswordController::class, 'showResetForm']);
 });
+
+// handle event webhook
+
+Route::post('/webhook', [App\Http\Controllers\BusinessController::class,'handleWebhook'])->name('handleWebhook');
