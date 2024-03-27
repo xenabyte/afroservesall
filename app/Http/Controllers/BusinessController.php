@@ -75,9 +75,11 @@ class BusinessController extends Controller
         $description = $feature->feature;
 
         $customer = Auth::guard('customer')->user();
-        $customerId = $customer->id;
+        $customerId = $customer ? $customer->id : null;
 
         if($customer){
+            $customerId = $customer->id;
+
             $cartItem = ([
                 'customerId' => $customerId,
                 'name' => $name,
@@ -101,7 +103,7 @@ class BusinessController extends Controller
                 $cart[$cartItemKey]['price'] += $itemPrice;
             } else {
                 $cartItem = [
-                'customerId' => $customerId,
+                    'customerId' => $customerId,
                     'name' => $name,
                     'description' => $description,
                     'product_id' => $productId,
@@ -168,9 +170,7 @@ class BusinessController extends Controller
             $cartItemKey = $this->findCartItemKey($sessionCart, $productId, $featureId);
             $quantity = $sessionCart[$cartItemKey]['quantity'];
 
-            // Update the quantity based on the action
             if ($action === 'increase') {
-                // Increase the quantity
                 $sessionCart[$cartItemKey]['quantity'] = $quantity + 1;
                 $sessionCart[$cartItemKey]['price'] += $itemPrice;
             } elseif ($action === 'decrease') {
@@ -182,7 +182,6 @@ class BusinessController extends Controller
                 unset($sessionCart[$cartItemKey]);
             }
 
-            // Update the cart in the session
             session(['cart' => $sessionCart]);
             $cart =  session('cart');
         }
@@ -242,7 +241,6 @@ class BusinessController extends Controller
             'cart' => $cart,
         ];
 
-        // Return updated cart items
         return response()->json($cartData);
     }
 
@@ -277,7 +275,6 @@ class BusinessController extends Controller
         $customerId = $customer ? $customer->id : null;
 
 
-        //checkout with stripe
         \Stripe\Stripe::setApiKey(config('Stripe.sk'));
 
 
@@ -310,20 +307,18 @@ class BusinessController extends Controller
 
         $productname = rtrim($productname, ', ');
 
-        // foreach(session('cart') as $id => $details){
 
 
         $productItems = [
-                    'price_data' => [
-                        'currency'     => 'NGN',
-                        'product_data' => [
-                            "name" => $productname,
-                        ],
-                        'unit_amount'  => round($subTotal),
-                    ],
-                    'quantity'   => 1,
-                ];
-            // }
+            'price_data' => [
+                'currency'     => 'NGN',
+                'product_data' => [
+                    "name" => $productname,
+                ],
+                'unit_amount'  => round($subTotal),
+            ],
+            'quantity'   => 1,
+        ];
 
         $stripeCheckoutSession = \Stripe\Checkout\Session::create([
             'line_items'  => [
@@ -332,7 +327,6 @@ class BusinessController extends Controller
             ],
             ['metadata' => ['cartItems' => $cartItems]],
             'mode'        => 'payment',
-                        // 'allow_promotion_codes' => true,
             'customer_email'=> $customer->email,
 
             'success_url' => route('paymentSuccess'),
@@ -340,12 +334,12 @@ class BusinessController extends Controller
         ]);
 
         $transactionData = [
-'customer_id' => $customerId,
-        'order_id' => $stripeCheckoutSession->client_reference_id,
-        'amount_paid' => $subTotal,
-        'promo_amount' => "promocode",
-        'status' => $stripeCheckoutSession->status == 'complete' ? 'completed' : ($stripeCheckoutSession->status == 'expired' ? "failed" : $stripeCheckoutSession->status == "open" && 'pending'),
-        'payment_method' => $stripeCheckoutSession->payment_method_types,
+            'customer_id' => $customerId,
+            'order_id' => $stripeCheckoutSession->client_reference_id,
+            'amount_paid' => $subTotal,
+            'promo_amount' => "promocode",
+            'status' => $stripeCheckoutSession->status == 'complete' ? 'completed' : ($stripeCheckoutSession->status == 'expired' ? "failed" : $stripeCheckoutSession->status == "open" && 'pending'),
+            'payment_method' => $stripeCheckoutSession->payment_method_types,
         ];
         Transaction::create($transactionData);
 
@@ -465,5 +459,5 @@ class BusinessController extends Controller
 
         return view('common.paymentFailed');
     }
-
+    
 }
