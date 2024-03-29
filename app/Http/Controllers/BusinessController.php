@@ -90,16 +90,30 @@ class BusinessController extends Controller
         if($customer){
             $customerId = $customer->id;
 
-            $cartItem = ([
-                'name' => $name,
-                'description' => $description,
-                'product_id' => $productId,
-                'feature_id' => $featureId,
-                'quantity' => $quantity,
-                'price' => $itemPrice
-            ]);
+            $cartItem = Cart::where('customer_id', $customerId)->where('product_id', $productId)->where('feature_id', $featureId)->whereNull('status')->first();
+           
 
-            Cart::create($cartItem);
+            if(!empty($cartItem)){
+                $cartQuantity = $cartItem->quantity;
+                $price = $cartItem->price;
+
+                $cartItem->quantity = $quantity + $cartQuantity;
+                $cartItem->price = $price + ($quantity * $itemPrice);
+
+                $cartItem->save();
+            }else{
+                $cartItem = ([
+                    'customer_id' => $customerId,
+                    'name' => $name,
+                    'description' => $description,
+                    'product_id' => $productId,
+                    'feature_id' => $featureId,
+                    'quantity' => $quantity,
+                    'price' => $quantity * $itemPrice
+                ]);
+                Cart::create($cartItem);
+            }
+           
             $cart = Cart::where('customer_id', $customerId)->where('status', null)->get();
             
         }else{
@@ -164,12 +178,12 @@ class BusinessController extends Controller
                 $cartItem['quantity'] = $quantity + 1;
                 $cartItem['price'] += $itemPrice;
             } elseif ($action === 'decrease') {
-                    if ($cartItem['quantity'] > 1) {
+                if ($cartItem['quantity'] > 1) {
                     $cartItem['quantity'] = $quantity-1;
                     $cartItem['price'] -= $itemPrice;
                 }
             } elseif ($action === 'delete') {
-                $cartItem->delete();
+                $cartItem->forceDelete();
             }
 
             $cartItem->save();
@@ -299,6 +313,15 @@ class BusinessController extends Controller
         $cart = $request->cart_items;
         $cartItems = json_decode($cart);
 
+        if(empty($cartItems)){
+            $cartData = [
+                'status' => 'error',
+                'message' => 'Cart is empty',
+            ];
+
+            return response()->json($cartData);
+        }
+
         if(!empty($addressLine1)){
             $newAddress = ([
                 'address_1' => $addressLine1,
@@ -360,8 +383,8 @@ class BusinessController extends Controller
             'redirectUrl' => $session->url,
         ];
 
-        // return response()->json($cartData);
-        return redirect()->away($stripeCheckoutSession->url);
+        return response()->json($cartData);
+        // return redirect()->away($stripeCheckoutSession->url);
 
     }
 
@@ -413,14 +436,14 @@ class BusinessController extends Controller
         }
 
 
-        Mail::send('templates.stripePaymentNotification', $transactionData, function ($message) {
-            $message->from('afroserveall@johndoe.com', 'Afroserveall');
-            $message->sender('afroserver@johndoe.com', 'John Doe');
-            $message->to('john@johndoe.com', 'John Doe');
-            $message->subject('Payment for order was successfully processed');
-            $message->priority(3);
-            $message->attach('pathToFile');
-        });
+        // Mail::send('templates.stripePaymentNotification', $transactionData, function ($message) {
+        //     $message->from('afroserveall@johndoe.com', 'Afroserveall');
+        //     $message->sender('afroserver@johndoe.com', 'John Doe');
+        //     $message->to('john@johndoe.com', 'John Doe');
+        //     $message->subject('Payment for order was successfully processed');
+        //     $message->priority(3);
+        //     $message->attach('pathToFile');
+        // });
 
 
 
@@ -430,7 +453,7 @@ class BusinessController extends Controller
         $message["finalText"] = "Final Details";
 
 
-        $customer->notify(new PaymentCheckout($message));
+        // $customer->notify(new PaymentCheckout($message));
 
 
         return redirect()->away($stripeCheckoutSession->url)->with($transactionData);

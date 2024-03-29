@@ -97,12 +97,9 @@
                         <!-- item-->
                         <span class="dropdown-item d-none d-xl-inline-block ms-2 nav-link" key="t-henry">Welcome</span>
                         <hr>
-                        <a class="dropdown-item" href="#"><i
-                                class="bx bx-user font-size-16 align-middle me-1"></i> <span
-                                key="t-profile">Profile</span></a>
-                        <a class="dropdown-item" href="#"><i
-                                class="bx bx-wallet font-size-16 align-middle me-1"></i> <span key="t-my-wallet">Order
-                                History</span></a>
+                        <a class="dropdown-item" href="{{ url('customer/profile') }}"><i
+                            class="bx bx-user font-size-16 align-middle me-1"></i> <span
+                            key="t-profile">Profile</span></a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item text-danger" href="{{ url('/customer/logout') }}"
                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i
@@ -304,7 +301,7 @@
                         <p class="text-muted">Get your free {{ env('APP_NAME') }} account now.</p>
                         <hr>
                     </div>
-                    <form action="/customer/checkout" method="POST">
+                    <form action="/customer/placeOrder" method="POST">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                         <div class="card p-3" id="order-items-container">
@@ -455,19 +452,12 @@
                 booking_date: bookingDate,
             };
 
-            console.log(data);
-
-            // Send data to the server
             axios.post('/customer/checkout')
                 .then(function(response) {
-                    // Handle success response
                     console.log(response.data);
-                    // Optionally, you can redirect the user to a success page or display a success message
                 })
                 .catch(function(error) {
-                    // Handle error response
                     console.error(error);
-                    // Optionally, you can display an error message to the user
                 });
         });
     </script>

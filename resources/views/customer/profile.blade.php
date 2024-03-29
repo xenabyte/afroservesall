@@ -1,3 +1,13 @@
+@php
+    $customer = Auth::guard('customer')->user();
+    $isAuthenticated = !empty($customer) ? true : false;
+    $name = !empty($customer) ? $customer->lastname . ' ' . $customer->othernames : null;
+    $email = !empty($customer) ? $customer->email : null;
+    $addresses = !empty($customer) ? $customer->addresses : null;
+    $order = !empty($customer) ? $customer->orders : null;
+    $transactions = !empty($customer) ? $customer->transactions : null;
+@endphp
+
 <!doctype html>
 <html lang="en">
 
@@ -12,19 +22,24 @@
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}">
 
-    <!-- owl.carousel css -->
-    <link rel="stylesheet" href="{{ asset('assets/libs/owl.carousel/assets/owl.carousel.min.css') }}">
+   <!-- DataTables -->
+   <link href="{{ asset('assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
+   <link href="{{ asset('assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
 
-    <link rel="stylesheet" href="{{ asset('assets/libs/owl.carousel/assets/owl.theme.default.min.css') }}">
+   <!-- Responsive datatable examples -->
+   <link href="{{ asset('assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />     
 
-    <!-- Bootstrap Css -->
-    <link href="{{ asset('assets/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css" />
-    <!-- Icons Css -->
-    <link href="{{ asset('assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
-    <!-- App Css-->
-    <link href="{{ asset('assets/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
-    <!-- App js -->
-    <script src="{{ asset('assets/js/plugin.js') }}"></script>
+
+   <!-- Bootstrap Css -->
+   <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+   <!-- Icons Css -->
+   <link href="{{ asset('assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
+   <!-- App Css-->
+   <link href="{{ asset('assets/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
+   <!-- select2 css -->
+   <link href="{{asset('assets/libs/select2/css/select2.min.css')}}" rel="stylesheet" type="text/css" />
+   <!-- Plugins css -->
+   <link href="{{asset('assets/libs/dropzone/dropzone.css')}}" rel="stylesheet" type="text/css" />
 
 </head>
 
@@ -47,27 +62,49 @@
             <div class="collapse navbar-collapse" id="topnav-menu-content">
                 <ul class="navbar-nav ms-auto" id="topnav-menu">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#home">Home</a>
+                        <a class="nav-link" href="{{ url('/') }}">Afro serves all</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#about">About</a>
+                        <a class="nav-link active" href="{{ url('saloonBooking') }}#home">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#features">Services</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#faqs">FAQs</a>
+                        <a class="nav-link" href="{{ url('/bookNow') }}">Book Here</a>
                     </li>
                 </ul>
-
-                <div class="my-2 ms-lg-2">
-                    <a href="{{ url('foodOrder') }}" class="btn btn-outline-success w-xs">Place an order</a>
-                </div>
-
-                <div class="my-2 ms-lg-2">
-                    <a href="{{ url('saloonBooking') }}" class="btn btn-outline-primary w-xs">Place a booking</a>
-                </div>
             </div>
+            <button type="button" class="btn header-item noti-icon waves-effect bg-white"
+                id="page-header-notifications-dropdown" data-bs-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+                <i class="bx bx-cart bx-tada"></i>
+                <span class="badge bg-danger rounded-pill" id="cart-items-badge">0</span>
+            </button>
+            @if (!empty($name))
+                <div class="dropdown d-inline-block">
+                    <button type="button" class="btn header-item waves-effect bg-white" id="page-header-user-dropdown"
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-right: 5px;">
+                        <img class="rounded-circle header-profile-user"
+                            src="{{ asset('assets/images/users/avatar-1.jpg') }}" alt="Header Avatar">
+                        <span class="d-none d-xl-inline-block ms-1" key="t-henry"
+                            style="margin-right: 5px;">{{ $name }}</span>
+                        <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-end">
+                        <!-- item-->
+                        <span class="dropdown-item d-none d-xl-inline-block ms-2 nav-link" key="t-henry">Welcome</span>
+                        <hr>
+                        <a class="dropdown-item" href="{{ url('customer/profile') }}"><i
+                            class="bx bx-user font-size-16 align-middle me-1"></i> <span
+                            key="t-profile">Profile</span></a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item text-danger" href="{{ url('/customer/logout') }}"
+                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i
+                                class="bx bx-power-off font-size-16 align-middle me-1 text-danger"></i> <span
+                                key="t-logout">Logout</span></a>
+                        <form id="logout-form" action="{{ url('/customer/logout') }}" method="POST"
+                            style="display: none;">@csrf</form>
+                    </div>
+                </div>
+            @endif
         </div>
     </nav>
 
@@ -76,16 +113,11 @@
         style="background-image:url({{ asset('assets/images/bg_img_1.jpg') }});background-size:cover;background-position:top">
         <div class="bg-overlay bg-darke"></div>
         <div class="container">
-            <div class="row align-items-center mt-5 pt-5">
+            <div class="row align-items-center pt-1">
+                <div class="col-lg-7 ">
+                    <div class="text-white-50">
+                        <h1 class="text-white fw-semibold mb-3 hero-title">Your Profile!</h1>
 
-                <div class="col-lg-7 mt-5 pt-5">
-                    <div class="text-white-50 mt-5">
-                        <h1 class="text-white fw-semibold mb-3 hero-title">Food or Craving Pampering? Afroserves All Has You Covered!</h1>
-                        <p class="font-size-14">Order delicious meals from us and book appointments with us - all in one convenient shop!</p>
-
-                        <div class="d-flex flex-wrap gap-2 mt-4">
-                            <a href="#about" class="btn btn-light">What we do</a>
-                        </div>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-8 col-sm-10 ms-lg-auto">
@@ -103,468 +135,312 @@
     <section class="section pt-4 bg-white" id="about">
         <div class="container">
             <div class="row">
-                <div class="col-lg-12">
-                    <div class="text-center mb-5 mt-5">
-                        <div class="small-title">About us</div>
-                        <h4>What we do at Afroserves All?</h4>
-                    </div>
-                </div>
-            </div>
-            <div class="row align-items-center">
-                <div class="col-lg-5">
-
-                    <div class="text-muted">
-                        <h4>Afroserves All: Your One-Stop Shop for Food & Beauty</h4>
-                        <p>Afroserves All takes the hassle out of your day by offering two essential services in one user-friendly app:</p>
-                        <p>Life gets busy, but that doesn't mean you have to sacrifice delicious food or self-care. Afroserves is here to simplify your life by offering two amazing services in one user-friendly app:</p>
-
-                        <div class="d-flex flex-wrap gap-2">
-                            <a href="#features" class="btn btn-success">Read more on our services</a>
-                            <a href="javascript: void(0);" class="btn btn-outline-primary">How It work</a>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="col-lg-6 ms-auto">
-                    <div class="mt-4 mt-lg-0">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="card border">
-                                    <div class="card-body">
-                                        <div class="mb-3">
-                                            <i class="mdi mdi-human-female h2 text-success"></i>
-                                        </div>
-                                        <h5>Saloon Services</h5>
-                                        <p class="text-muted mb-0">Pamper yourself and enhance your beauty with us. Book appointments with us and pamper yourself with the help of skilled professionals.</p>
-
-                                    </div>
-                                    <div class="card-footer bg-transparent border-top text-center">
-                                        <a href="{{ url('saloonBooking') }}" class="text-primary">Place a booking</a>
+                <div class="col-xl-4">
+                    <div class="card overflow-hidden">
+                        <div class="bg-primary-subtle">
+                            <div class="row">
+                                <div class="col-7">
+                                    <div class="text-primary p-3">
+                                        <h5 class="text-primary">Welcome Back !</h5>
+                                        <p>We are pleased to have you here</p>
                                     </div>
                                 </div>
+                                <div class="col-5 align-self-end">
+                                    <img src="{{ asset('assets/images/profile-img.png') }}" alt="" class="img-fluid">
+                                </div>
                             </div>
-                            <div class="col-sm-6">
-                                <div class="card border mt-lg-5">
-                                    <div class="card-body">
-                                        <div class="mb-3">
-                                            <i class="mdi mdi-food h2 text-success"></i>
-                                        </div>
-                                        <h5>Food Ordering Services</h5>
-                                        <p class="text-muted mb-0">Indulge in your culinary cravings by ordering from a wide variety of menu. We offer something for every taste bud, from local favorites to international cuisine.</p>
-
+                        </div>
+                        <div class="card-body pt-0">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="avatar-md profile-user-wid mb-4">
+                                        <img src="{{ asset('assets/images/users/avatar-1.jpg') }}" alt="" class="img-thumbnail rounded-circle">
                                     </div>
-                                    <div class="card-footer bg-transparent border-top text-center">
-                                        <a href="{{ url('foodOrder') }}" class="text-primary">Place an order</a>
+                                    <h5 class="font-size-15 text-truncate">{{ $name }}</h5>
+                                    <p class="text-muted mb-0 text-truncate">{{ $email }} <br> {{ $customer->phone }} </p>
+                                </div>
+        
+                                <div class="col-sm-12">
+                                    <div class="mt-4">
+                                        <a href="javascript: void(0);" class="btn btn-primary waves-effect waves-light btn-sm" data-bs-toggle="modal" data-bs-target="#updatePassword">Update Password<i class="mdi mdi-arrow-right ms-1"></i></a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <!-- end card -->
+                </div>         
+                
+                <div class="col-xl-8">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card mini-stats-wid">
+                                <div class="card-body">
+                                    <div class="d-flex">
+                                        <div class="flex-grow-1">
+                                            <p class="text-muted fw-medium mb-2">Completed Booking(s)/Order(s)</p>
+                                            <h4 class="mb-0">125</h4>
+                                        </div>
+        
+                                        <div class="flex-shrink-0 align-self-center">
+                                            <div class="mini-stat-icon avatar-sm rounded-circle bg-success">
+                                                <span class="avatar-title">
+                                                    <i class="bx bx-check-circle font-size-24"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card mini-stats-wid">
+                                <div class="card-body">
+                                    <div class="d-flex">
+                                        <div class="flex-grow-1">
+                                            <p class="text-muted fw-medium mb-2">Ongoing Booking(s)/Order(s)</p>
+                                            <h4 class="mb-0">12</h4>
+                                        </div>
+        
+                                        <div class="flex-shrink-0 align-self-center">
+                                            <div class="avatar-sm mini-stat-icon rounded-circle bg-primary">
+                                                <span class="avatar-title">
+                                                    <i class="bx bx-hourglass font-size-24"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    
+
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title mb-4">Address</h4>
+                            <hr>
+                            <table id="buttons-datatables1" class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Address</th>
+                                    <th>Phone Number</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+            
+            
+                                <tbody>
+                                @foreach($addresses as $address)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{!! $address->address_1.' '.$address->address_2 !!}</td>
+                                    <td>{{ $address->phone_number }}</td>
+                                    <td>
+                                        <div class="text-end">
+                                            <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#delete{{$address->id}}" class="link-danger"><i class="mdi mdi-map-marker-remove-outline"></i></a>
+
+                                            <div id="delete{{$address->id}}" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none;">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                    <div class="modal-content">
+                                                        <div class="modal-body text-center p-5">
+                                                            <div class="text-end">
+                                                                <button type="button" class="btn-close text-end" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="mt-2">
+                                                                <lord-icon src="https://cdn.lordicon.com/wwneckwc.json" trigger="hover" style="width:150px;height:150px">
+                                                                </lord-icon>
+                                                                <h4 class="mb-3 mt-4">Are you sure you want to delete <br/> {{ $address->address_1 }}?</h4>
+                                                                <form action="{{ url('customer/deleteAddress') }}" method="POST">
+                                                                    @csrf
+                                                                    <input name="address_id" type="hidden" value="{{$address->id}}">
+                                                                    <hr>
+                                                                    <button type="submit" id="submit-button" class="btn btn-danger w-100">Yes, Delete</button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer bg-light p-3 justify-content-center">
+
+                                                        </div>
+                                                    </div><!-- /.modal-content -->
+                                                </div><!-- /.modal-dialog -->
+                                            </div><!-- /.modal -->
+                                        </div>
+                                    </td>
+                                </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title mb-4">Your Booking(s)/Order(s)</h4>
+                            <hr>
+                            <div class="table-responsive">
+                                <table id="buttons-datatables2" class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Projects</th>
+                                            <th scope="col">Start Date</th>
+                                            <th scope="col">Deadline</th>
+                                            <th scope="col">Budget</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">1</th>
+                                            <td>Skote admin UI</td>
+                                            <td>2 Sep, 2019</td>
+                                            <td>20 Oct, 2019</td>
+                                            <td>$506</td>
+                                        </tr>
+        
+                                        <tr>
+                                            <th scope="row">2</th>
+                                            <td>Skote admin Logo</td>
+                                            <td>1 Sep, 2019</td>
+                                            <td>2 Sep, 2019</td>
+                                            <td>$94</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">3</th>
+                                            <td>Redesign - Landing page</td>
+                                            <td>21 Sep, 2019</td>
+                                            <td>29 Sep, 2019</td>
+                                            <td>$156</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">4</th>
+                                            <td>App Landing UI</td>
+                                            <td>29 Sep, 2019</td>
+                                            <td>04 Oct, 2019</td>
+                                            <td>$122</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">5</th>
+                                            <td>Blog Template</td>
+                                            <td>05 Oct, 2019</td>
+                                            <td>16 Oct, 2019</td>
+                                            <td>$164</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">6</th>
+                                            <td>Redesign - Multipurpose Landing</td>
+                                            <td>17 Oct, 2019</td>
+                                            <td>05 Nov, 2019</td>
+                                            <td>$192</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">7</th>
+                                            <td>Logo Branding</td>
+                                            <td>04 Nov, 2019</td>
+                                            <td>05 Nov, 2019</td>
+                                            <td>$94</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <!-- end row -->
 
             <hr class="my-5">
-
-            {{-- <div class="row">
-                    <div class="col-lg-12">
-                        <div class="owl-carousel owl-theme clients-carousel" id="clients-carousel" dir="ltr">
-                            <div class="item">
-                                <div class="client-images">
-                                    <img src="assets/images/clients/1.png" alt="client-img" class="mx-auto img-fluid d-block">
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="client-images">
-                                    <img src="assets/images/clients/2.png" alt="client-img" class="mx-auto img-fluid d-block">
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="client-images">
-                                    <img src="assets/images/clients/3.png" alt="client-img" class="mx-auto img-fluid d-block">
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="client-images">
-                                    <img src="assets/images/clients/4.png" alt="client-img" class="mx-auto img-fluid d-block">
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="client-images">
-                                    <img src="assets/images/clients/5.png" alt="client-img" class="mx-auto img-fluid d-block">
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="client-images">
-                                    <img src="assets/images/clients/6.png" alt="client-img" class="mx-auto img-fluid d-block">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> --}}
-            <!-- end row -->
         </div>
         <!-- end container -->
     </section>
     <!-- about section end -->
 
-    <!-- Features start -->
-    <section class="section" id="features">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="text-center mb-5">
-                        <div class="small-title">Our Services</div>
-                        <h4>At Afroserves, we understand that a busy life shouldn't mean sacrificing delicious meals or well-deserved pampering. That's why we offer two amazing services.</h4>
-                    </div>
-                </div>
-            </div>
-            <!-- end row -->
 
-            <div class="row align-items-center pt-4">
-                <div class="col-md-6 col-sm-8">
-                    <div>
-                        <img src="assets/images/crypto/features-img/img-1.png" alt=""
-                            class="img-fluid mx-auto d-block">
-                    </div>
+    <!-- Static Backdrop Modal -->
+    <div class="modal fade" id="updatePassword" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Update Profile</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="col-md-5 ms-auto">
-                    <div class="mt-4 mt-md-auto">
-                        <div class="d-flex align-items-center mb-2">
-                            <div class="features-number fw-semibold display-4 me-3">01</div>
-                            <h4 class="mb-0">Saloon Services</h4>
+                <form method="POST" action="{{ url('/customer/register') }}">
+                    @csrf
+                    <div class="modal-body">
+                        
+                        <div class="mb-3">
+                            <label for="useremail" class="form-label">Email</label>
+                            <input type="email" name="email" class="form-control" id="useremail" value="{{ $customer->email }}" required>  
+                            <div class="invalid-feedback">
+                                Please Enter Email
+                            </div>        
                         </div>
-                        <p class="text-muted">Pamper yourself, it's time!</p>
-                        <div class="text-muted mt-4">
-                            <p class="mb-2"><i class="mdi mdi-circle-medium text-success me-1"></i>Schedule appointments at a convenient date and time that fits your busy schedule. No more waiting on hold or inconvenient salon hours.</p>
-                            <p><i class="mdi mdi-circle-medium text-success me-1"></i>Afroserves All allows you to book appointments effortlessly anytime, anywhere.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- end row -->
 
-            <div class="row align-items-center mt-5 pt-md-5">
-                <div class="col-md-5">
-                    <div class="mt-4 mt-md-0">
-                        <div class="d-flex align-items-center mb-2">
-                            <div class="features-number fw-semibold display-4 me-3">02</div>
-                            <h4 class="mb-0">Food Ordering Services</h4>
-                        </div>
-                        <p class="text-muted">Browse menus, explore mouthwatering pictures, and add your selections to your cart with just a few taps. Customize your order with special requests and dietary needs.</p>
-                        <div class="text-muted mt-4">
-                            <p class="mb-2"><i class="mdi mdi-circle-medium text-success me-1"></i>Enjoy a diverse range of cuisines to suit every taste bud.</p>
-                            <p><i class="mdi mdi-circle-medium text-success me-1"></i>Our delivery partners ensure your food arrives fresh, hot, and on time.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6  col-sm-8 ms-md-auto">
-                    <div class="mt-4 me-md-0">
-                        <img src="assets/images/crypto/features-img/img-2.png" alt=""
-                            class="img-fluid mx-auto d-block">
-                    </div>
-                </div>
-
-            </div>
-            <!-- end row -->
-        </div>
-        <!-- end container -->
-    </section>
-    <!-- Features end -->
-
-
-    <!-- Faqs start -->
-    <section class="section pt-4 bg-white" id="faqs">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="text-center mb-5">
-                        <div class="small-title">FAQs</div>
-                        <h4>Frequently Asked Questions</h4>
-                    </div>
-                </div>
-            </div>
-            <!-- end row -->
-
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="vertical-nav">
                         <div class="row">
-                            <div class="col-lg-2 col-sm-4">
-                                <div class="nav flex-column nav-pills" role="tablist">
-                                    <a class="nav-link active" id="v-pills-gen-ques-tab" data-bs-toggle="pill"
-                                        href="#v-pills-gen-ques" role="tab">
-                                        <i class= "bx bx-help-circle nav-icon d-block mb-2"></i>
-                                        <p class="fw-bold mb-0">General Questions</p>
-                                    </a>
-                                    <a class="nav-link" id="v-pills-token-sale-tab" data-bs-toggle="pill"
-                                        href="#v-pills-token-sale" role="tab">
-                                        <i class= "bx bx-receipt nav-icon d-block mb-2"></i>
-                                        <p class="fw-bold mb-0">Food Ordering Services</p>
-                                    </a>
-                                    <a class="nav-link" id="v-pills-roadmap-tab" data-bs-toggle="pill"
-                                        href="#v-pills-roadmap" role="tab">
-                                        <i class= "bx bx-timer d-block nav-icon mb-2"></i>
-                                        <p class="fw-bold mb-0">Saloon Services</p>
-                                    </a>
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input type="text" name="lastname" class="form-control" id="lastname" value="{{ $customer->lastname }}" required>
+                                    <div class="invalid-feedback">
+                                        Please Enter Lastname
+                                    </div>  
+                                    <label for="lastname" class="form-label">Lastname</label>
                                 </div>
                             </div>
-                            <div class="col-lg-10 col-sm-8">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="tab-content">
-                                            <div class="tab-pane fade show active" id="v-pills-gen-ques"
-                                                role="tabpanel">
-                                                <h4 class="card-title mb-4">General Questions</h4>
 
-                                                <div>
-                                                    <div id="gen-ques-accordion" class="accordion custom-accordion">
-                                                        <div class="mb-3">
-                                                            <a href="#general-collapseOne" class="accordion-list"
-                                                                data-bs-toggle="collapse" aria-expanded="true"
-                                                                aria-controls="general-collapseOne">
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input type="text" name="othernames" class="form-control" id="othernames" value="{{ $customer->othernames }}" required>
+                                    <div class="invalid-feedback">
+                                        Please Enter Other Names
+                                    </div>
+                                    <label for="othernames" class="form-label">Othernames</label>
+                                </div>
+                            </div>
 
-                                                                <div>What is Afroserves All?</div>
-                                                                <i class="mdi mdi-minus accor-plus-icon"></i>
-
-                                                            </a>
-
-                                                            <div id="general-collapseOne" class="collapse show"
-                                                                data-bs-parent="#gen-ques-accordion">
-                                                                <div class="card-body">
-                                                                    <p class="mb-0">Afroserves All is a convenient app offering two amazing services in one: food ordering and salon service booking.</p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="mb-3">
-                                                            <a href="#general-collapseTwo"
-                                                                class="accordion-list collapsed"
-                                                                data-bs-toggle="collapse" aria-expanded="false"
-                                                                aria-controls="general-collapseTwo">
-                                                                <div>What are the benefits of using Afroserves All?</div>
-                                                                <i class="mdi mdi-minus accor-plus-icon"></i>
-                                                            </a>
-                                                            <div id="general-collapseTwo" class="collapse"
-                                                                data-bs-parent="#gen-ques-accordion">
-                                                                <div class="card-body">
-                                                                    <p class="mb-0">Convenience: Manage both food cravings and self-care needs through one user-friendly website. <br>
-                                                                        Variety: Enjoy a wide selection of foods and delivers top-notch salons services. <br>
-                                                                        Efficiency: Order food and book appointments effortlessly, saving you time and stress. <br>
-                                                                        Security: Secure online payment options ensure a safe and smooth experience.</p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="mb-3">
-                                                            <a href="#general-collapseThree"
-                                                                class="accordion-list collapsed"
-                                                                data-bs-toggle="collapse" aria-expanded="false"
-                                                                aria-controls="general-collapseThree">
-                                                                <div>Where is Afroserves All available?</div>
-                                                                <i class="mdi mdi-minus accor-plus-icon"></i>
-                                                            </a>
-                                                            <div id="general-collapseThree" class="collapse"
-                                                                data-bs-parent="#gen-ques-accordion">
-                                                                <div class="card-body">
-                                                                    <p class="mb-0">Afroserves All is currently available mainly online. We are constantly working on expanding our reach to have physical locations.</p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div>
-                                                            <a href="#general-collapseFour"
-                                                                class="accordion-list collapsed"
-                                                                data-bs-toggle="collapse" aria-expanded="false"
-                                                                aria-controls="general-collapseFour">
-                                                                <div>How much does Afroserves All cost?</div>
-                                                                <i class="mdi mdi-minus accor-plus-icon"></i>
-                                                            </a>
-                                                            <div id="general-collapseFour" class="collapse"
-                                                                data-bs-parent="#gen-ques-accordion">
-                                                                <div class="card-body">
-                                                                    <p class="mb-0">Using the Afroserves All website is free. However, restaurant menu prices and salon service fees will vary depending on your selections..</p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="tab-pane fade" id="v-pills-token-sale" role="tabpanel">
-                                                <h4 class="card-title mb-4">Food Ordering Services</h4>
-
-                                                <div>
-                                                    <div id="token-accordion" class="accordion custom-accordion">
-                                                        <div class="mb-3">
-                                                            <a href="#token-collapseOne"
-                                                                class="accordion-list collapsed"
-                                                                data-bs-toggle="collapse" aria-expanded="false"
-                                                                aria-controls="token-collapseOne">
-                                                                <div>How do I place an order?</div>
-                                                                <i class="mdi mdi-minus accor-plus-icon"></i>
-                                                            </a>
-                                                            <div id="token-collapseOne" class="collapse"
-                                                                data-bs-parent="#token-accordion">
-                                                                <div class="card-body">
-                                                                    <p class="mb-0"> Browse restaurant menus, add your desired dishes to your cart, and proceed to checkout. You can customize your order with special requests and dietary needs. Securely pay online using your preferred method and track your order in real-time until it arrives at your doorstep.</p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="mb-3">
-                                                            <a href="#token-collapseTwo" class="accordion-list"
-                                                                data-bs-toggle="collapse" aria-expanded="true"
-                                                                aria-controls="token-collapseTwo">
-
-                                                                <div>What are the delivery fees?</div>
-                                                                <i class="mdi mdi-minus accor-plus-icon"></i>
-
-                                                            </a>
-
-                                                            <div id="token-collapseTwo" class="collapse show"
-                                                                data-bs-parent="#token-accordion">
-                                                                <div class="card-body">
-                                                                    <p class="mb-0">Delivery fees vary depending on the restaurant and your distance. You'll see the exact delivery fee before confirming your order.
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="mb-3">
-                                                            <a href="#token-collapseThree"
-                                                                class="accordion-list collapsed"
-                                                                data-bs-toggle="collapse" aria-expanded="false"
-                                                                aria-controls="token-collapseThree">
-                                                                <div>How long does it take for my food to arrive?</div>
-                                                                <i class="mdi mdi-minus accor-plus-icon"></i>
-                                                            </a>
-                                                            <div id="token-collapseThree" class="collapse"
-                                                                data-bs-parent="#token-accordion">
-                                                                <div class="card-body">
-                                                                    <p class="mb-0">Delivery times depend on the restaurant's location and current order volume. However, you can always track your order in the app for an estimated arrival time.</p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div>
-                                                            <a href="#token-collapseFour"
-                                                                class="accordion-list collapsed"
-                                                                data-bs-toggle="collapse" aria-expanded="false"
-                                                                aria-controls="token-collapseFour">
-                                                                <div>Can I schedule a food order in advance?</div>
-                                                                <i class="mdi mdi-minus accor-plus-icon"></i>
-                                                            </a>
-                                                            <div id="token-collapseFour" class="collapse"
-                                                                data-bs-parent="#token-accordion">
-                                                                <div class="card-body">
-                                                                    <p class="mb-0">Unfortunately, scheduling food orders in advance is not currently available. However, we are constantly working on improving our app features.</p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="tab-pane fade" id="v-pills-roadmap" role="tabpanel">
-                                                <h4 class="card-title mb-4">Saloon Booking Services</h4>
-
-                                                <div>
-                                                    <div id="roadmap-accordion" class="accordion custom-accordion">
-
-                                                        <div class="mb-3">
-                                                            <a href="#roadmap-collapseOne" class="accordion-list"
-                                                                data-bs-toggle="collapse" aria-expanded="true"
-                                                                aria-controls="roadmap-collapseOne">
-
-
-
-                                                                <div>How do I find a salon and book an appointment?</div>
-                                                                <i class="mdi mdi-minus accor-plus-icon"></i>
-
-                                                            </a>
-
-                                                            <div id="roadmap-collapseOne" class="collapse show"
-                                                                data-bs-parent="#roadmap-accordion">
-                                                                <div class="card-body">
-                                                                    <p class="mb-0">Search on the Afroservices All app by service type (haircut, massage, etc.), choose the perfect match for your needs. Select a convenient date and time slot and confirm your booking with a few clicks.</p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="mb-3">
-                                                            <a href="#roadmap-collapseTwo"
-                                                                class="accordion-list collapsed"
-                                                                data-bs-toggle="collapse" aria-expanded="false"
-                                                                aria-controls="roadmap-collapseTwo">
-                                                                <div>What salon services are available?</div>
-                                                                <i class="mdi mdi-minus accor-plus-icon"></i>
-                                                            </a>
-                                                            <div id="roadmap-collapseTwo" class="collapse"
-                                                                data-bs-parent="#roadmap-accordion">
-                                                                <div class="card-body">
-                                                                    <p class="mb-0">We offered a wide range of salon services , including haircuts, styling, coloring, manicures, pedicures, facials, massages, and more.</p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-
-
-                                                        <div class="mb-3">
-                                                            <a href="#roadmap-collapseThree"
-                                                                class="accordion-list collapsed"
-                                                                data-bs-toggle="collapse" aria-expanded="false"
-                                                                aria-controls="roadmap-collapseThree">
-                                                                <div>Can I cancel or reschedule my appointment?</div>
-                                                                <i class="mdi mdi-minus accor-plus-icon"></i>
-                                                            </a>
-                                                            <div id="roadmap-collapseThree" class="collapse"
-                                                                data-bs-parent="#roadmap-accordion">
-                                                                <div class="card-body">
-                                                                    <p class="mb-0">Yes, you can cancel or reschedule your appointment within a reasonable timeframe (typically 24 hours) through the Afroserves All app.</p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div>
-                                                            <a href="#roadmap-collapseFour"
-                                                                class="accordion-list collapsed"
-                                                                data-bs-toggle="collapse" aria-expanded="false"
-                                                                aria-controls="roadmap-collapseFour">
-                                                                <div>How do I pay for my salon service?</div>
-                                                                <i class="mdi mdi-minus accor-plus-icon"></i>
-                                                            </a>
-                                                            <div id="roadmap-collapseFour" class="collapse"
-                                                                data-bs-parent="#roadmap-accordion">
-                                                                <div class="card-body">
-                                                                    <p class="mb-0">Payment options are avaialble during the booking process.</p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-
-                                                    </div>
-                                                </div>
-                                            </div>
-
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="mb-3">
+                                        <label class="form-label">Phone Number</label>
+                                        <div class="input-group">
+                                            <button class="btn btn-light " type="button">+44</i></button>
+                                            <input type="text" name="phone" class="form-control" placeholder="Enter Phone Number">
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- end vertical nav -->
-                </div>
-            </div>
-            <!-- end row -->
-        </div>
-        <!-- end container -->
-    </section>
-    <!-- Faqs end -->
 
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Password</label>
+                                    <div class="input-group auth-pass-inputgroup">
+                                        <button class="btn btn-light " type="button"><i class="mdi mdi-lock"></i></button>
+                                        <input type="password" name="password" class="form-control" placeholder="Enter password" aria-label="Password" aria-describedby="password-addon">
+                                        <button class="btn btn-light " type="button" id="password-addon"><i class="mdi mdi-eye-outline"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Confirm Password</label>
+                                    <div class="input-group">                                        
+                                        <button class="btn btn-light " type="button"><i class="mdi mdi-lock"></i></button>
+                                        <input type="password" name="password_confirmation" class="form-control" placeholder="Confirm password">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Yes, Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <!-- Footer start -->
     <footer class="landing-footer">
@@ -576,7 +452,7 @@
             <div class="row">
                 <div class="col-lg-8">
                     <div class="mb-4">
-                        <img src="assets/images/logo-light.png" alt="" height="20">
+                        <img src="{{ asset('assets/images/logo-light.png') }}" alt="" height="20">
                     </div>
 
                     <p class="mb-2">
@@ -607,13 +483,84 @@
 
     <!-- owl.carousel js -->
     <script src="{{ asset('assets/libs/owl.carousel/owl.carousel.min.js') }}"></script>
+    
+    <!-- Required datatable js -->
+    <script src="{{ asset('assets/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+    <!-- Buttons examples -->
+    <script src="{{ asset('assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/jszip/jszip.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/pdfmake/build/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/pdfmake/build/vfs_fonts.js') }}"></script>
+    <script src="{{ asset('assets/libs/datatables.net-buttons/js/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/datatables.net-buttons/js/buttons.print.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/datatables.net-buttons/js/buttons.colVis.min.js') }}"></script>
+    
+    <!-- Responsive examples -->
+    <script src="{{ asset('assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js') }}"></script>
 
+    <!-- Datatable init js -->
+    <script src="{{ asset('assets/js/pages/datatables.init.js') }}"></script>  
     <!-- ICO landing init -->
     <script src="{{ asset('assets/js/pages/ico-landing.init.js') }}"></script>
 
     <script src="{{ asset('assets/js/app.js') }}"></script>
     <script>
         sessionStorage.clear();
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#buttons-datatables1').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+            });
+    
+            $('#buttons-datatables2').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+            });
+    
+            $('#buttons-datatables3').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+            });
+    
+            $('#buttons-datatables4').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+            });
+    
+            $('#buttons-datatables5').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+            });
+    
+            $('#buttons-datatables6').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+            });
+    
+            $('#buttons-datatables7').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+            });
+        });
     </script>
 
 </body>

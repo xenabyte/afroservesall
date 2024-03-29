@@ -44,6 +44,9 @@
     <link href="{{ asset('assets/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
     <!-- App js -->
     <script src="{{ asset('assets/js/plugin.js') }}"></script>
+    <!-- Include toastr CSS file -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+
 
 </head>
 
@@ -97,12 +100,9 @@
                         <!-- item-->
                         <span class="dropdown-item d-none d-xl-inline-block ms-2 nav-link" key="t-henry">Welcome</span>
                         <hr>
-                        <a class="dropdown-item" href="#"><i
+                        <a class="dropdown-item" href="{{ url('customer/profile') }}"><i
                                 class="bx bx-user font-size-16 align-middle me-1"></i> <span
                                 key="t-profile">Profile</span></a>
-                        <a class="dropdown-item" href="#"><i
-                                class="bx bx-wallet font-size-16 align-middle me-1"></i> <span key="t-my-wallet">Order
-                                History</span></a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item text-danger" href="{{ url('/customer/logout') }}"
                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i
@@ -306,7 +306,7 @@
                         <p class="text-muted">Get your free {{ env('APP_NAME') }} account now.</p>
                         <hr>
                     </div>
-                    <form action="/customer/checkout" method="POST">
+                    <form action="/customer/placeOrder" method="POST">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <div class="card p-3" id="order-items-container">
                             @if (session()->has('cart') && count(session('cart')) > 0)
@@ -377,7 +377,6 @@
     <!-- ICO landing init -->
     <script src="{{ asset('assets/js/pages/ico-landing.init.js') }}"></script>
 
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="{{ asset('assets/js/pages/toastr.init.js') }}"></script>
 
@@ -432,7 +431,7 @@
             const additionalInfo = document.getElementById('additionalInfo').value;
             const cartItems = document.getElementById('cartItemsInput').value;
 
-            // Make sure all required fields are filled
+            // Client-side validation
             if (deliveryType === 'delivery' && (!addressId && !address1)) {
                 Swal.fire({
                     icon: 'error',
@@ -453,19 +452,34 @@
                 cart_items: cartItems
             };
 
-            console.log(data);
-
+            // Send data to the server
             axios.post('/customer/placeOrder', data)
                 .then(function(response) {
+
+                    console.log(response);
                     const redirectUrl = response.data.redirectUrl;
+                    const status = response.data.status;
+                    const message = response.data.message;
+
                     if (redirectUrl) {
                         window.location.href = redirectUrl;
-                    } else {
-                        console.error('Redirect URL not found in the response');
+                    }
+
+                    if(status == 'error') {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: message,
+                        });
                     }
                 })
                 .catch(function(error) {
                     console.error(error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'An error occurred while processing your request.',
+                    });
                 });
         });
     </script>

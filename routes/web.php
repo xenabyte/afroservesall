@@ -91,7 +91,10 @@ Route::group(['prefix' => 'customer'], function () {
   Route::get('/password/reset', [App\Http\Controllers\Customer\Auth\ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.reset');
   Route::get('/password/reset/{token}', [App\Http\Controllers\Customer\Auth\ResetPasswordController::class, 'showResetForm']);
 
-  Route::get('/profile', [App\Http\Controllers\Customer\CustomerController::class, 'landing'])->name('landing');
+  Route::get('/profile', [App\Http\Controllers\Customer\CustomerController::class, 'profile'])->name('profile')->middleware(['auth:customer']);
+  Route::post('/deleteAddress', [App\Http\Controllers\Customer\CustomerController::class, 'deleteAddress'])->name('deleteAddress')->middleware(['auth:customer']);
+
+  
 });
 
 // handle event webhook
