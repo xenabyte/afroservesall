@@ -35,6 +35,18 @@ class BusinessController extends Controller
 {
     //
 
+    public function landing() {
+        session()->forget('cart');
+        $customer = Auth::guard('customer')->user();
+        
+        if($customer){
+            $customerId = $customer->id;
+            $cartItem = Cart::where('customer_id', $customerId)->whereNull('status')->forceDelete();
+        }
+
+        return view('welcome');
+    }
+
     public function foodOrder(){
         return view('food.welcome');
     }
@@ -73,9 +85,11 @@ class BusinessController extends Controller
         $description = $feature->feature;
 
         $customer = Auth::guard('customer')->user();
+        $customerId = $customer ? $customer->id : null;
 
         if($customer){
             $customerId = $customer->id;
+
             $cartItem = ([
                 'name' => $name,
                 'description' => $description,
@@ -98,6 +112,7 @@ class BusinessController extends Controller
                 $cart[$cartItemKey]['price'] += $itemPrice;
             } else {
                 $cartItem = [
+                    'customerId' => $customerId,
                     'name' => $name,
                     'description' => $description,
                     'product_id' => $productId,
@@ -165,9 +180,7 @@ class BusinessController extends Controller
             $cartItemKey = $this->findCartItemKey($sessionCart, $productId, $featureId);
             $quantity = $sessionCart[$cartItemKey]['quantity'];
 
-            // Update the quantity based on the action
             if ($action === 'increase') {
-                // Increase the quantity
                 $sessionCart[$cartItemKey]['quantity'] = $quantity + 1;
                 $sessionCart[$cartItemKey]['price'] += $itemPrice;
             } elseif ($action === 'decrease') {
@@ -179,7 +192,6 @@ class BusinessController extends Controller
                 unset($sessionCart[$cartItemKey]);
             }
 
-            // Update the cart in the session
             session(['cart' => $sessionCart]);
             $cart =  session('cart');
         }
@@ -240,7 +252,6 @@ class BusinessController extends Controller
             'cart' => $cart,
         ];
 
-        // Return updated cart items
         return response()->json($cartData);
     }
     
@@ -274,8 +285,9 @@ class BusinessController extends Controller
         $customer = Auth::guard('customer')->user();
         $customerId = $customer ? $customer->id : null;
 
-        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
-        
+
+        \Stripe\Stripe::setApiKey(config('Stripe.sk'));
+
 
         $deliveryType = $request->delivery_type;
         $addressId = $request->address_id;
@@ -307,27 +319,40 @@ class BusinessController extends Controller
         $productname = rtrim($productname, ', ');
 
 
-        $session = $session = \Stripe\Checkout\Session::create([
-            'line_items'  => [
-                [
-                    'price_data' => [
-                        'currency'     => 'USD',
-                        'product_data' => [
-                            "name" => $productname,
-                        ],
-                        'unit_amount'  => round($subTotal),
-                    ],
-                    'quantity'   => 1,
+
+        $productItems = [
+            'price_data' => [
+                'currency'     => 'NGN',
+                'product_data' => [
+                    "name" => $productname,
                 ],
-                
+                'unit_amount'  => round($subTotal),
+            ],
+            'quantity'   => 1,
+        ];
+
+        $stripeCheckoutSession = \Stripe\Checkout\Session::create([
+            'line_items'  => [
+                $productItems
+
             ],
             ['metadata' => ['cartItems' => $cartItems]],
             'mode'        => 'payment',
+            'customer_email'=> $customer->email,
+
             'success_url' => route('paymentSuccess'),
             'cancel_url'  => route('paymentFailed'),
         ]);
 
-
+        $transactionData = [
+            'customer_id' => $customerId,
+            'order_id' => $stripeCheckoutSession->client_reference_id,
+            'amount_paid' => $subTotal,
+            'promo_amount' => "promocode",
+            'status' => $stripeCheckoutSession->status == 'complete' ? 'completed' : ($stripeCheckoutSession->status == 'expired' ? "failed" : $stripeCheckoutSession->status == "open" && 'pending'),
+            'payment_method' => $stripeCheckoutSession->payment_method_types,
+        ];
+        Transaction::create($transactionData);
 
        $cartData = [
             'status' => 'success',
@@ -335,9 +360,114 @@ class BusinessController extends Controller
             'redirectUrl' => $session->url,
         ];
 
-        return response()->json($cartData);
-        
+        // return response()->json($cartData);
+        return redirect()->away($stripeCheckoutSession->url);
+
     }
-    
+
+
+    public function checkout(Request $request){
+
+         $customer = Auth::guard('customer')->user();
+
+        \Stripe\Stripe::setApiKey(config('Stripe.sk'));
+         $productItems = [
+                    'price_data' => [
+                        'currency'     => 'NGN',
+                        'product_data' => [
+                            "name" => "marko",
+                        ],
+                        'unit_amount'  => 300000,
+                    ],
+                    'quantity'   => 1,
+                ];
+            // }
+
+        $stripeCheckoutSession = \Stripe\Checkout\Session::create([
+            'line_items'  => [
+                $productItems
+
+            ],
+            ['metadata' => ['cartItems' => 'tems']],
+            'mode'        => 'payment',
+                        // 'allow_promotion_codes' => true,
+            'customer_email'=> "mako@gmail.com",
+
+            'success_url' => route('paymentSuccess'),
+            'cancel_url'  => route('paymentFailed'),
+        ]);
+
+        $transactionData = [];
+
+        if($stripeCheckoutSession->status == 'complete'){
+            $transactionData = [
+                'customer_id' => $stripeCheckoutSession->id,
+                'order_id' => $stripeCheckoutSession->client_reference_id,
+                'amount_paid' => $stripeCheckoutSession->amount_total,
+                'promo_amount' => $stripeCheckoutSession->amount_subtotal,
+                'status' => $stripeCheckoutSession->status == 'complete' ? 'completed' : ($stripeCheckoutSession->status == 'expired' ? "failed" : $stripeCheckoutSession->status == "open" && 'pending'),
+                'payment_method' => $stripeCheckoutSession->payment_method_types,
+            ];
+
+            Transaction::create($transactionData);
+        }
+
+
+        Mail::send('templates.stripePaymentNotification', $transactionData, function ($message) {
+            $message->from('afroserveall@johndoe.com', 'Afroserveall');
+            $message->sender('afroserver@johndoe.com', 'John Doe');
+            $message->to('john@johndoe.com', 'John Doe');
+            $message->subject('Payment for order was successfully processed');
+            $message->priority(3);
+            $message->attach('pathToFile');
+        });
+
+
+
+        $message["greetings"] = "Hey";
+        $message["text"] = "You just made a payment";
+        $message["details"] = "Please enter your details";
+        $message["finalText"] = "Final Details";
+
+
+        $customer->notify(new PaymentCheckout($message));
+
+
+        return redirect()->away($stripeCheckoutSession->url)->with($transactionData);
+    }
+
+    public function handleWebhook(Request $request){
+        $payload = $request->all();
+
+        echo $payload;
+        if ($payload['type'] == 'checkout.session.completed') {
+            $session = $payload['data']['object'];
+
+            $transactionData = [
+                'customer_id' => $session['id'],
+                'order_id' => $session['client_reference_id'],
+                'amount_paid' => $session['amount_total'],
+                'promo_amount' => $session['amount_subtotal'],
+                'status' => 'completed',
+                'payment_method' => $session['payment_method_types'][0],
+            ];
+
+            Transaction::create($transactionData);
+        }
+    }
+
+    public function paymentSuccess(){
+
+        $customerId = Auth::guard('customer')->user()->id;
+        $transactionData = Transaction::where('customer_id', $customerId)->orderBy('created_at', 'desc')->first();
+        return view('common.paymentSuccess', ['transactionData' => $transactionData]);
+
+
+    }
+
+    public function paymentFailed(){
+
+        return view('common.paymentFailed');
+    }
     
 }

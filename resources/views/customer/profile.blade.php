@@ -80,7 +80,7 @@
 
                 <div class="col-lg-7 mt-5 pt-5">
                     <div class="text-white-50 mt-5">
-                        <h1 class="text-white fw-semibold mb-3 hero-title">Food or Craving Pampering? Afroserves all Has You Covered!</h1>
+                        <h1 class="text-white fw-semibold mb-3 hero-title">Food or Craving Pampering? Afroserves All Has You Covered!</h1>
                         <p class="font-size-14">Order delicious meals from us and book appointments with us - all in one convenient shop!</p>
 
                         <div class="d-flex flex-wrap gap-2 mt-4">

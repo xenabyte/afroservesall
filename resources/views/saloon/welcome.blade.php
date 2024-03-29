@@ -52,9 +52,6 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url('/bookNow') }}">Book Here</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#faqs">Contact Us</a>
-                        </li>
                     </ul>
                 </div>
             </div>
@@ -65,17 +62,17 @@
             <div class="bg-overlay bg-darke"></div>
             <div class="container">
                 <div class="row align-items-center mt-5 pt-5">
-                    <div class="col-lg-5 mt-5 pt-5">
+                    <div class="col-lg-8 mt-5 pt-5">
                         <div class="text-white-50 mt-5">
-                            <h1 class="text-white fw-semibold mb-3 hero-title">{{ env('APP_NAME') }}</h1>
-                            <p class="font-size-14">{{ env('APP_DESCRIPTION') }}</p>
+                            <h1 class="text-white fw-semibold mb-3 hero-title">Upgrade Your Look & Feel - Book Your Salon Appointment with Afroserves all!</h1>
+                            <p class="font-size-14">Schedule your appointment for haircuts, styling, massages, and more </p>
                             
                             <div class="d-flex flex-wrap gap-2 mt-4">
-                                <a href="#about" class="btn btn-light">What we do</a>
+                                <a href="{{ url('/bookNow') }}" class="btn btn-light">Book Now</a>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-5 col-md-8 col-sm-10 ms-lg-auto">
+                    <div class="col-lg-2 col-md-8 col-sm-10 ms-lg-auto">
                         
                     </div>
                 </div>
@@ -87,7 +84,7 @@
        
 
         <!-- Features start -->
-        <section class="section" id="features">
+        {{-- <section class="section" id="features">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
@@ -145,7 +142,7 @@
                 <!-- end row -->
             </div>
             <!-- end container -->
-        </section>
+        </section> --}}
         <!-- Features end -->
         
 
@@ -155,7 +152,7 @@
                 <hr class="footer-border my-5">
 
                 <div class="row">
-                    <div class="col-lg-6">
+                    <div class="col-lg-8">
                         <div class="mb-4">
                             <img src="assets/images/logo-light.png" alt="" height="20">
                         </div>
