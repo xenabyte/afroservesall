@@ -13,12 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-  session()->forget('cart');
-  return view('welcome');
-});
-
-
+Route::get('/', [App\Http\Controllers\BusinessController::class, 'landing'])->name('landing');
 
 Route::get('/foodOrder', [App\Http\Controllers\BusinessController::class, 'foodOrder'])->name('foodOrder');
 Route::get('/orderNow', [App\Http\Controllers\BusinessController::class, 'orderNow'])->name('orderNow');
@@ -95,6 +90,8 @@ Route::group(['prefix' => 'customer'], function () {
   Route::post('/password/reset', [App\Http\Controllers\Customer\Auth\ResetPasswordController::class, 'reset'])->name('password.email');
   Route::get('/password/reset', [App\Http\Controllers\Customer\Auth\ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.reset');
   Route::get('/password/reset/{token}', [App\Http\Controllers\Customer\Auth\ResetPasswordController::class, 'showResetForm']);
+
+  Route::get('/profile', [App\Http\Controllers\Customer\CustomerController::class, 'landing'])->name('landing');
 });
 
 // handle event webhook

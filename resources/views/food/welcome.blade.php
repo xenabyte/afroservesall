@@ -52,9 +52,6 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url('/orderNow') }}">Order Here</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#faqs">Contact Us</a>
-                        </li>
                     </ul>
                 </div>
             </div>
@@ -155,7 +152,7 @@
                 <hr class="footer-border my-5">
 
                 <div class="row">
-                    <div class="col-lg-6">
+                    <div class="col-lg-8">
                         <div class="mb-4">
                             <img src="assets/images/logo-light.png" alt="" height="20">
                         </div>

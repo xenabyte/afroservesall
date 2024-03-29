@@ -70,13 +70,10 @@
                         <a class="nav-link" href="{{ url('/') }}">Afro serves all</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/foodOrder') }}">Home</a>
+                        <a class="nav-link" href="{{ url('/foodOrder') }}#home">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url('/orderNow') }}">Order Here</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#faqs">Contact Us</a>
                     </li>
                 </ul>
             </div>
@@ -340,7 +337,7 @@
             <hr class="footer-border my-5">
 
             <div class="row">
-                <div class="col-lg-6">
+                <div class="col-lg-8">
                     <div class="mb-4">
                         <img src="assets/images/logo-light.png" alt="" height="20">
                     </div>
@@ -350,7 +347,7 @@
                             document.write(new Date().getFullYear())
                         </script> © {{ env('APP_NAME') }}. Design & Develop by KoderiaNG
                     </p>
-                    <p>{{ env('APP_DESCRIPTION') }}< /p>
+                    <p>{{ env('APP_DESCRIPTION') }}</p>
                 </div>
 
             </div>

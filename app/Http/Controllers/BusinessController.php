@@ -37,6 +37,17 @@ class BusinessController extends Controller
 {
     //
 
+    public function landing() {
+        session()->forget('cart');
+        $customer = Auth::guard('customer')->user();
+        
+        if($customer){
+            $cartItem = Cart::where('customer_id', $customerId)->whereNull('status')->delete();
+        }
+
+        return view('welcome');
+    }
+
     public function foodOrder(){
         return view('food.welcome');
     }

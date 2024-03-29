@@ -70,13 +70,10 @@
                         <a class="nav-link" href="{{ url('/') }}">Afro serves all</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="#home">Home</a>
+                        <a class="nav-link active" href="{{ url('saloonBooking') }}#home">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url('/bookNow') }}">Book Here</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#faqs">Contact Us</a>
                     </li>
                 </ul>
             </div>
@@ -149,7 +146,14 @@
 
                                     <!-- Second Column: Features (Accordion) -->
                                     <div class="col-md-6">
-                                        <h2></h2>
+                                        <h2></h2> 
+                                        <div class="card">
+                                            <div class="card-header bg-muted">
+                                                <small class="text-danger">By increasing the quantity means
+                                                    you are booking for more than 1 person.</small>
+                                            </div>
+                                        </div>
+                                            
                                         <div id="accordion">
                                             @foreach ($hairProducts as $product)
                                                 <div class="accordion-item">
@@ -166,9 +170,7 @@
                                                                     {{ $product->name }} <br>
                                                                 </button>
                                                             </h2>
-                                                            <small>{{ $product->description }}</small><br>
-                                                            <small class="text-info">By increasing the quantity means
-                                                                you are booking for more than 1 person.</small>
+                                                            <small>{{ $product->description }}</small>
                                                         </div>
 
                                                         <div id="collapse{{ $product->id }}"
@@ -333,7 +335,7 @@
             <hr class="footer-border my-5">
 
             <div class="row">
-                <div class="col-lg-6">
+                <div class="col-lg-8">
                     <div class="mb-4">
                         <img src="assets/images/logo-light.png" alt="" height="20">
                     </div>
