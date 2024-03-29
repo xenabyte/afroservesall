@@ -29,14 +29,6 @@ class ProductType extends Model
 
     public static function getProductTypeId ( $type ) {
         $type = self::where('type', $type)->first();
-        // Check if $type is not null before accessing its properties
-        if ($type) {
-            return $type['id'];
-        }
-
-        // Return null or handle the case where $type is null
-        return null;
-            // return $type['id'];
-
+        return $type['id'];
     }
 }

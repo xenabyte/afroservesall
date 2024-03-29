@@ -142,7 +142,7 @@ class AdminController extends Controller
         }
 
         $slug = $product->slug;
-
+        
         if(!empty($request->name) && $request->name != $product->name){
             $product->name = $request->name;
             $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $request->name)));
@@ -214,7 +214,7 @@ class AdminController extends Controller
         $price = $request->price;
         $description = $request->description;
 
-
+        
         $newProductFeature = [
             'feature' => $feature,
             'product_id' => $product_id,
@@ -224,13 +224,13 @@ class AdminController extends Controller
 
         if(ProductFeature::create($newProductFeature)){
             alert()->success('Changes Saved', 'Product option added successfully')->persistent('Close');
-            return redirect()->back();
+            return redirect()->back();        
         }
 
         alert()->error('Oops!', 'Something went wrong')->persistent('Close');
         return redirect()->back();
     }
-
+    
     public function deleteProductFeature(Request $request){
         $validator = Validator::make($request->all(), [
             'product_feature_id' =>'required',
@@ -259,7 +259,7 @@ class AdminController extends Controller
             alert()->error('Oops!', 'product option not found')->persistent('Close');
             return redirect()->back();
         }
-
+        
         if(!empty($request->feature) && $request->feature != $productFeature->feature){
             $productFeature->feature = $request->feature;
         }
@@ -279,19 +279,5 @@ class AdminController extends Controller
 
         alert()->error('Oops!', 'Something went wrong')->persistent('Close');
         return redirect()->back();
-    }
-
-    public function getAllTransactions(){
-        //get the list of all transactions
-        $transactions = Transaction::all()->forPage(1, 10);
-
-        return view('admin.allTransactions', [ 'transactions' => $transactions]);
-    }
-
-    public function getNewTransactions(){
-        // get new transactions
-        $newTransactions = Transaction::latest()->take(25)->get();
-        return view('admin.reporters', [ 'newTransactions' => $newTransactions]);
-
     }
 }

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Notifications\PaymentCheckout;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -30,7 +29,6 @@ use Mail;
 use Alert;
 use Log;
 use Carbon\Carbon;
-use Date;
 
 
 class BusinessController extends Controller
@@ -42,7 +40,8 @@ class BusinessController extends Controller
         $customer = Auth::guard('customer')->user();
         
         if($customer){
-            $cartItem = Cart::where('customer_id', $customerId)->whereNull('status')->delete();
+            $customerId = $customer->id;
+            $cartItem = Cart::where('customer_id', $customerId)->whereNull('status')->forceDelete();
         }
 
         return view('welcome');
@@ -92,7 +91,6 @@ class BusinessController extends Controller
             $customerId = $customer->id;
 
             $cartItem = ([
-                'customerId' => $customerId,
                 'name' => $name,
                 'description' => $description,
                 'product_id' => $productId,
@@ -103,12 +101,12 @@ class BusinessController extends Controller
 
             Cart::create($cartItem);
             $cart = Cart::where('customer_id', $customerId)->where('status', null)->get();
-
+            
         }else{
             $cart = session()->get('cart', []);
-
+    
             $cartItemKey = $this->findCartItemKey($cart, $productId, $featureId);
-
+        
             if ($cartItemKey !== null) {
                 $cart[$cartItemKey]['quantity'] += $quantity;
                 $cart[$cartItemKey]['price'] += $itemPrice;
@@ -124,21 +122,22 @@ class BusinessController extends Controller
                 ];
                 $cart[] = $cartItem;
             }
-
+        
             session()->put('cart', $cart);
         }
-
-
+    
+    
         $cartData = [
             'status' => 'success',
             'message' => 'Product added to cart successfully',
             'cart' => $cart,
         ];
+
         return response()->json($cartData);
     }
 
     public function updateQuantity(Request $request){
-
+        
         $productId = $request->productId;
         $featureId = $request->featureId;
         $action = $request->action;
@@ -153,9 +152,9 @@ class BusinessController extends Controller
         // Retrieve the cart from the session
         $customer = Auth::guard('customer')->user();
         $customerId = $customer ? $customer->id : null;
-
+    
         $sessionCart = session('cart');
-
+    
         if ($customer) {
             $cartItem = Cart::where('customer_id', $customerId)->where('product_id', $productId)->where('feature_id', $featureId)->whereNull('status')->first();
             $quantity = $cartItem->quantity;
@@ -197,8 +196,8 @@ class BusinessController extends Controller
             $cart =  session('cart');
         }
 
-
-
+        
+    
         $cartData = [
             'status' => 'success',
             'message' => 'Cart successfully updated',
@@ -208,15 +207,16 @@ class BusinessController extends Controller
         return response()->json($cartData);
     }
 
+
     public function getCartItems() {
         $customer = Auth::guard('customer')->user();
         $customerId = $customer ? $customer->id : null;
-
+    
         $sessionCart = session('cart');
-
+    
         if ($customer) {
             $dbCart = Cart::where('customer_id', $customerId)->whereNull('status')->get();
-
+            
             if(!empty($sessionCart)){
                 foreach ($sessionCart as $item) {
                     $existingItem = $dbCart->where('product_id', $item['product_id'])
@@ -240,12 +240,12 @@ class BusinessController extends Controller
                     }
                 }
             }
-
+    
             $cart = Cart::where('customer_id', $customerId)->whereNull('status')->get();
         } else {
             $cart = $sessionCart;
         }
-
+    
         $cartData = [
             'status' => 'success',
             'message' => 'Cart is available',
@@ -254,6 +254,7 @@ class BusinessController extends Controller
 
         return response()->json($cartData);
     }
+    
 
     public function placeOrder(Request $request){
         $validator = Validator::make($request->all(), [
@@ -270,14 +271,13 @@ class BusinessController extends Controller
             'phone' => 'nullable',
             'cart_items' => 'required',
         ]);
-
+        
         if($validator->fails()) {
 
             $cartData = [
                 'status' => 'error',
                 'message' => $validator->messages()->all()[0],
             ];
-
 
             return response()->json($cartData);
         }
@@ -357,7 +357,7 @@ class BusinessController extends Controller
        $cartData = [
             'status' => 'success',
             'message' => 'Cart is available',
-            'redirectUrl' => $stripeCheckoutSession->url,
+            'redirectUrl' => $session->url,
         ];
 
         // return response()->json($cartData);
