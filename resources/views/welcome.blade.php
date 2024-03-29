@@ -78,17 +78,17 @@
         <div class="container">
             <div class="row align-items-center mt-5 pt-5">
 
-                <div class="col-lg-5 mt-5 pt-5">
+                <div class="col-lg-7 mt-5 pt-5">
                     <div class="text-white-50 mt-5">
-                        <h1 class="text-white fw-semibold mb-3 hero-title">{{ env('APP_NAME') }}</h1>
-                        <p class="font-size-14">{{ env('APP_DESCRIPTION') }}</p>
+                        <h1 class="text-white fw-semibold mb-3 hero-title">Food or Craving Pampering? Afroserves Has You Covered!</h1>
+                        <p class="font-size-14">Order delicious meals from us and book appointments with us - all in one convenient shop!</p>
 
                         <div class="d-flex flex-wrap gap-2 mt-4">
                             <a href="#about" class="btn btn-light">What we do</a>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-5 col-md-8 col-sm-10 ms-lg-auto">
+                <div class="col-lg-3 col-md-8 col-sm-10 ms-lg-auto">
 
                 </div>
             </div>
@@ -106,7 +106,7 @@
                 <div class="col-lg-12">
                     <div class="text-center mb-5 mt-5">
                         <div class="small-title">About us</div>
-                        <h4>What we do at Afro Serves all?</h4>
+                        <h4>What we do at Afroserves All?</h4>
                     </div>
                 </div>
             </div>
@@ -114,13 +114,12 @@
                 <div class="col-lg-5">
 
                     <div class="text-muted">
-                        <h4>Best ICO for your cryptocurrency business</h4>
-                        <p>If several languages coalesce, the grammar of the resulting that of the individual new common
-                            language will be more simple and regular than the existing.</p>
-                        <p class="mb-4">It would be necessary to have uniform pronunciation.</p>
+                        <h4>Afroserves All: Your One-Stop Shop for Food & Beauty</h4>
+                        <p>Afroserves All takes the hassle out of your day by offering two essential services in one user-friendly app:</p>
+                        <p>Life gets busy, but that doesn't mean you have to sacrifice delicious food or self-care. Afroserves is here to simplify your life by offering two amazing services in one user-friendly app:</p>
 
                         <div class="d-flex flex-wrap gap-2">
-                            <a href="javascript: void(0);" class="btn btn-success">Read More</a>
+                            <a href="#features" class="btn btn-success">Read more on our services</a>
                             <a href="javascript: void(0);" class="btn btn-outline-primary">How It work</a>
                         </div>
 
@@ -137,7 +136,7 @@
                                             <i class="mdi mdi-human-female h2 text-success"></i>
                                         </div>
                                         <h5>Saloon Services</h5>
-                                        <p class="text-muted mb-0">At vero eos et accusamus et iusto blanditiis</p>
+                                        <p class="text-muted mb-0">Pamper yourself and enhance your beauty with us. Book appointments with us and pamper yourself with the help of skilled professionals.</p>
 
                                     </div>
                                     <div class="card-footer bg-transparent border-top text-center">
@@ -152,7 +151,7 @@
                                             <i class="mdi mdi-food h2 text-success"></i>
                                         </div>
                                         <h5>Food Ordering Services</h5>
-                                        <p class="text-muted mb-0">Quis autem vel eum iure reprehenderit</p>
+                                        <p class="text-muted mb-0">Indulge in your culinary cravings by ordering from a wide variety of menu. We offer something for every taste bud, from local favorites to international cuisine.</p>
 
                                     </div>
                                     <div class="card-footer bg-transparent border-top text-center">
@@ -217,7 +216,7 @@
                 <div class="col-lg-12">
                     <div class="text-center mb-5">
                         <div class="small-title">Our Services</div>
-                        <h4>What we offer</h4>
+                        <h4>At Afroserves, we understand that a busy life shouldn't mean sacrificing delicious meals or well-deserved pampering. That's why we offer two amazing services.</h4>
                     </div>
                 </div>
             </div>
@@ -234,15 +233,12 @@
                     <div class="mt-4 mt-md-auto">
                         <div class="d-flex align-items-center mb-2">
                             <div class="features-number fw-semibold display-4 me-3">01</div>
-                            <h4 class="mb-0">Lending</h4>
+                            <h4 class="mb-0">Saloon Services</h4>
                         </div>
-                        <p class="text-muted">If several languages coalesce, the grammar of the resulting language is
-                            more simple and regular than of the individual will be more simple and regular than the
-                            existing.</p>
+                        <p class="text-muted">Pamper yourself, it's time!</p>
                         <div class="text-muted mt-4">
-                            <p class="mb-2"><i class="mdi mdi-circle-medium text-success me-1"></i>Donec pede justo
-                                vel aliquet</p>
-                            <p><i class="mdi mdi-circle-medium text-success me-1"></i>Aenean et nisl sagittis</p>
+                            <p class="mb-2"><i class="mdi mdi-circle-medium text-success me-1"></i>Schedule appointments at a convenient date and time that fits your busy schedule. No more waiting on hold or inconvenient salon hours.</p>
+                            <p><i class="mdi mdi-circle-medium text-success me-1"></i>Afroserves All allows you to book appointments effortlessly anytime, anywhere.</p>
                         </div>
                     </div>
                 </div>
@@ -254,14 +250,12 @@
                     <div class="mt-4 mt-md-0">
                         <div class="d-flex align-items-center mb-2">
                             <div class="features-number fw-semibold display-4 me-3">02</div>
-                            <h4 class="mb-0">Wallet</h4>
+                            <h4 class="mb-0">Food Ordering Services</h4>
                         </div>
-                        <p class="text-muted">It will be as simple as Occidental; in fact, it will be Occidental. To an
-                            English person, it will seem like simplified English, as a skeptical Cambridge friend.</p>
+                        <p class="text-muted">Browse menus, explore mouthwatering pictures, and add your selections to your cart with just a few taps. Customize your order with special requests and dietary needs.</p>
                         <div class="text-muted mt-4">
-                            <p class="mb-2"><i class="mdi mdi-circle-medium text-success me-1"></i>Donec pede justo
-                                vel aliquet</p>
-                            <p><i class="mdi mdi-circle-medium text-success me-1"></i>Aenean et nisl sagittis</p>
+                            <p class="mb-2"><i class="mdi mdi-circle-medium text-success me-1"></i>Enjoy a diverse range of cuisines to suit every taste bud.</p>
+                            <p><i class="mdi mdi-circle-medium text-success me-1"></i>Our delivery partners ensure your food arrives fresh, hot, and on time.</p>
                         </div>
                     </div>
                 </div>
@@ -331,7 +325,7 @@
                                                                 data-bs-toggle="collapse" aria-expanded="true"
                                                                 aria-controls="general-collapseOne">
 
-                                                                <div>What is Lorem Ipsum ?</div>
+                                                                <div>What is Afroserves All?</div>
                                                                 <i class="mdi mdi-minus accor-plus-icon"></i>
 
                                                             </a>
@@ -339,12 +333,7 @@
                                                             <div id="general-collapseOne" class="collapse show"
                                                                 data-bs-parent="#gen-ques-accordion">
                                                                 <div class="card-body">
-                                                                    <p class="mb-0">Everyone realizes why a new
-                                                                        common language would be desirable: one could
-                                                                        refuse to
-                                                                        pay expensive translators. To achieve this, it
-                                                                        would be necessary to have uniform grammar,
-                                                                        pronunciation and more common words.</p>
+                                                                    <p class="mb-0">Afroserves All is a convenient app offering two amazing services in one: food ordering and salon service booking.</p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -354,20 +343,16 @@
                                                                 class="accordion-list collapsed"
                                                                 data-bs-toggle="collapse" aria-expanded="false"
                                                                 aria-controls="general-collapseTwo">
-                                                                <div>Why do we use it ?</div>
+                                                                <div>What are the benefits of using Afroserves All?</div>
                                                                 <i class="mdi mdi-minus accor-plus-icon"></i>
                                                             </a>
                                                             <div id="general-collapseTwo" class="collapse"
                                                                 data-bs-parent="#gen-ques-accordion">
                                                                 <div class="card-body">
-                                                                    <p class="mb-0">If several languages coalesce,
-                                                                        the grammar of the resulting language is more
-                                                                        simple
-                                                                        and regular than that of the individual
-                                                                        languages. The new common language will be more
-                                                                        simple
-                                                                        and regular than the existing European
-                                                                        languages.</p>
+                                                                    <p class="mb-0">Convenience: Manage both food cravings and self-care needs through one user-friendly website. <br>
+                                                                        Variety: Enjoy a wide selection of foods and delivers top-notch salons services. <br>
+                                                                        Efficiency: Order food and book appointments effortlessly, saving you time and stress. <br>
+                                                                        Security: Secure online payment options ensure a safe and smooth experience.</p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -377,18 +362,13 @@
                                                                 class="accordion-list collapsed"
                                                                 data-bs-toggle="collapse" aria-expanded="false"
                                                                 aria-controls="general-collapseThree">
-                                                                <div>Where does it come from ?</div>
+                                                                <div>Where is Afroserves All available?</div>
                                                                 <i class="mdi mdi-minus accor-plus-icon"></i>
                                                             </a>
                                                             <div id="general-collapseThree" class="collapse"
                                                                 data-bs-parent="#gen-ques-accordion">
                                                                 <div class="card-body">
-                                                                    <p class="mb-0">It will be as simple as
-                                                                        Occidental; in fact, it will be Occidental. To
-                                                                        an English
-                                                                        person, it will seem like simplified English, as
-                                                                        a skeptical Cambridge friend of mine told me
-                                                                        what Occidental.</p>
+                                                                    <p class="mb-0">Afroserves All is currently available mainly online. We are constantly working on expanding our reach to have physical locations.</p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -398,18 +378,13 @@
                                                                 class="accordion-list collapsed"
                                                                 data-bs-toggle="collapse" aria-expanded="false"
                                                                 aria-controls="general-collapseFour">
-                                                                <div>Where can I get some ?</div>
+                                                                <div>How much does Afroserves All cost?</div>
                                                                 <i class="mdi mdi-minus accor-plus-icon"></i>
                                                             </a>
                                                             <div id="general-collapseFour" class="collapse"
                                                                 data-bs-parent="#gen-ques-accordion">
                                                                 <div class="card-body">
-                                                                    <p class="mb-0">To an English person, it will
-                                                                        seem like simplified English, as a skeptical
-                                                                        Cambridge
-                                                                        friend of mine told me what Occidental is. The
-                                                                        European languages are members of the same
-                                                                        family. Their separate existence is a myth.</p>
+                                                                    <p class="mb-0">Using the Afroserves All website is free. However, restaurant menu prices and salon service fees will vary depending on your selections..</p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -418,7 +393,7 @@
                                             </div>
 
                                             <div class="tab-pane fade" id="v-pills-token-sale" role="tabpanel">
-                                                <h4 class="card-title mb-4">Token sale</h4>
+                                                <h4 class="card-title mb-4">Food Ordering Services</h4>
 
                                                 <div>
                                                     <div id="token-accordion" class="accordion custom-accordion">
@@ -427,18 +402,13 @@
                                                                 class="accordion-list collapsed"
                                                                 data-bs-toggle="collapse" aria-expanded="false"
                                                                 aria-controls="token-collapseOne">
-                                                                <div>Why do we use it ?</div>
+                                                                <div>How do I place an order?</div>
                                                                 <i class="mdi mdi-minus accor-plus-icon"></i>
                                                             </a>
                                                             <div id="token-collapseOne" class="collapse"
                                                                 data-bs-parent="#token-accordion">
                                                                 <div class="card-body">
-                                                                    <p class="mb-0">If several languages coalesce,
-                                                                        the grammar of the resulting language is more
-                                                                        simple and regular than that of the individual
-                                                                        languages. The new common language will be more
-                                                                        simple and regular than the existing European
-                                                                        languages.</p>
+                                                                    <p class="mb-0"> Browse restaurant menus, add your desired dishes to your cart, and proceed to checkout. You can customize your order with special requests and dietary needs. Securely pay online using your preferred method and track your order in real-time until it arrives at your doorstep.</p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -448,7 +418,7 @@
                                                                 data-bs-toggle="collapse" aria-expanded="true"
                                                                 aria-controls="token-collapseTwo">
 
-                                                                <div>What is Lorem Ipsum ?</div>
+                                                                <div>What are the delivery fees?</div>
                                                                 <i class="mdi mdi-minus accor-plus-icon"></i>
 
                                                             </a>
@@ -456,11 +426,7 @@
                                                             <div id="token-collapseTwo" class="collapse show"
                                                                 data-bs-parent="#token-accordion">
                                                                 <div class="card-body">
-                                                                    <p class="mb-0">Everyone realizes why a new
-                                                                        common language would be desirable: one could
-                                                                        refuse to pay expensive translators. To achieve
-                                                                        this, it would be necessary to have uniform
-                                                                        grammar, pronunciation and more common words.
+                                                                    <p class="mb-0">Delivery fees vary depending on the restaurant and your distance. You'll see the exact delivery fee before confirming your order.
                                                                     </p>
                                                                 </div>
                                                             </div>
@@ -471,18 +437,13 @@
                                                                 class="accordion-list collapsed"
                                                                 data-bs-toggle="collapse" aria-expanded="false"
                                                                 aria-controls="token-collapseThree">
-                                                                <div>Where can I get some ?</div>
+                                                                <div>How long does it take for my food to arrive?</div>
                                                                 <i class="mdi mdi-minus accor-plus-icon"></i>
                                                             </a>
                                                             <div id="token-collapseThree" class="collapse"
                                                                 data-bs-parent="#token-accordion">
                                                                 <div class="card-body">
-                                                                    <p class="mb-0">To an English person, it will
-                                                                        seem like simplified English, as a skeptical
-                                                                        Cambridge friend of mine told me what Occidental
-                                                                        is. The European languages are members of the
-                                                                        same family. Their separate existence is a myth.
-                                                                    </p>
+                                                                    <p class="mb-0">Delivery times depend on the restaurant's location and current order volume. However, you can always track your order in the app for an estimated arrival time.</p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -492,17 +453,13 @@
                                                                 class="accordion-list collapsed"
                                                                 data-bs-toggle="collapse" aria-expanded="false"
                                                                 aria-controls="token-collapseFour">
-                                                                <div>Where does it come from ?</div>
+                                                                <div>Can I schedule a food order in advance?</div>
                                                                 <i class="mdi mdi-minus accor-plus-icon"></i>
                                                             </a>
                                                             <div id="token-collapseFour" class="collapse"
                                                                 data-bs-parent="#token-accordion">
                                                                 <div class="card-body">
-                                                                    <p class="mb-0">It will be as simple as
-                                                                        Occidental; in fact, it will be Occidental. To
-                                                                        an English person, it will seem like simplified
-                                                                        English, as a skeptical Cambridge friend of mine
-                                                                        told me what Occidental.</p>
+                                                                    <p class="mb-0">Unfortunately, scheduling food orders in advance is not currently available. However, we are constantly working on improving our app features.</p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -513,7 +470,7 @@
                                             </div>
 
                                             <div class="tab-pane fade" id="v-pills-roadmap" role="tabpanel">
-                                                <h4 class="card-title mb-4">Roadmap</h4>
+                                                <h4 class="card-title mb-4">Saloon Booking Services</h4>
 
                                                 <div>
                                                     <div id="roadmap-accordion" class="accordion custom-accordion">
@@ -525,7 +482,7 @@
 
 
 
-                                                                <div>Where can I get some ?</div>
+                                                                <div>How do I find a salon and book an appointment?</div>
                                                                 <i class="mdi mdi-minus accor-plus-icon"></i>
 
                                                             </a>
@@ -533,12 +490,7 @@
                                                             <div id="roadmap-collapseOne" class="collapse show"
                                                                 data-bs-parent="#roadmap-accordion">
                                                                 <div class="card-body">
-                                                                    <p class="mb-0">Everyone realizes why a new
-                                                                        common language would be desirable: one could
-                                                                        refuse to pay expensive translators. To achieve
-                                                                        this, it would be necessary to have uniform
-                                                                        grammar, pronunciation and more common words.
-                                                                    </p>
+                                                                    <p class="mb-0">Search on the Afroservices All app by service type (haircut, massage, etc.), choose the perfect match for your needs. Select a convenient date and time slot and confirm your booking with a few clicks.</p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -548,18 +500,13 @@
                                                                 class="accordion-list collapsed"
                                                                 data-bs-toggle="collapse" aria-expanded="false"
                                                                 aria-controls="roadmap-collapseTwo">
-                                                                <div>What is Lorem Ipsum ?</div>
+                                                                <div>What salon services are available?</div>
                                                                 <i class="mdi mdi-minus accor-plus-icon"></i>
                                                             </a>
                                                             <div id="roadmap-collapseTwo" class="collapse"
                                                                 data-bs-parent="#roadmap-accordion">
                                                                 <div class="card-body">
-                                                                    <p class="mb-0">If several languages coalesce,
-                                                                        the grammar of the resulting language is more
-                                                                        simple and regular than that of the individual
-                                                                        languages. The new common language will be more
-                                                                        simple and regular than the existing European
-                                                                        languages.</p>
+                                                                    <p class="mb-0">We offered a wide range of salon services , including haircuts, styling, coloring, manicures, pedicures, facials, massages, and more.</p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -571,18 +518,13 @@
                                                                 class="accordion-list collapsed"
                                                                 data-bs-toggle="collapse" aria-expanded="false"
                                                                 aria-controls="roadmap-collapseThree">
-                                                                <div>Why do we use it ?</div>
+                                                                <div>Can I cancel or reschedule my appointment?</div>
                                                                 <i class="mdi mdi-minus accor-plus-icon"></i>
                                                             </a>
                                                             <div id="roadmap-collapseThree" class="collapse"
                                                                 data-bs-parent="#roadmap-accordion">
                                                                 <div class="card-body">
-                                                                    <p class="mb-0">To an English person, it will
-                                                                        seem like simplified English, as a skeptical
-                                                                        Cambridge friend of mine told me what Occidental
-                                                                        is. The European languages are members of the
-                                                                        same family. Their separate existence is a myth.
-                                                                    </p>
+                                                                    <p class="mb-0">Yes, you can cancel or reschedule your appointment within a reasonable timeframe (typically 24 hours) through the Afroserves All app.</p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -592,17 +534,13 @@
                                                                 class="accordion-list collapsed"
                                                                 data-bs-toggle="collapse" aria-expanded="false"
                                                                 aria-controls="roadmap-collapseFour">
-                                                                <div>Where does it come from ?</div>
+                                                                <div>How do I pay for my salon service?</div>
                                                                 <i class="mdi mdi-minus accor-plus-icon"></i>
                                                             </a>
                                                             <div id="roadmap-collapseFour" class="collapse"
                                                                 data-bs-parent="#roadmap-accordion">
                                                                 <div class="card-body">
-                                                                    <p class="mb-0">It will be as simple as
-                                                                        Occidental; in fact, it will be Occidental. To
-                                                                        an English person, it will seem like simplified
-                                                                        English, as a skeptical Cambridge friend of mine
-                                                                        told me what Occidental.</p>
+                                                                    <p class="mb-0">Payment options are avaialble during the booking process.</p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -636,7 +574,7 @@
             <hr class="footer-border my-5">
 
             <div class="row">
-                <div class="col-lg-6">
+                <div class="col-lg-8">
                     <div class="mb-4">
                         <img src="assets/images/logo-light.png" alt="" height="20">
                     </div>

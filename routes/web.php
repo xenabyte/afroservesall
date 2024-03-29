@@ -81,14 +81,14 @@ Route::group(['prefix' => 'customer'], function () {
   Route::get('/paymentFailed', [App\Http\Controllers\BusinessController::class, 'paymentFailed'])->name('paymentFailed');
   Route::post('/placeOrder', [App\Http\Controllers\BusinessController::class,'placeOrder'])->name('placeOrder')->middleware(['auth:customer']);
 
-    Route::post('/checkout', [App\Http\Controllers\BusinessController::class,'checkout'])->name('checkout')->middleware(['auth:customer']);
+  Route::post('/checkout', [App\Http\Controllers\BusinessController::class,'checkout'])->name('checkout')->middleware(['auth:customer']);
 
   Route::get('/', [App\Http\Controllers\Customer\Auth\LoginController::class, 'showLoginForm'])->name('customer.login');
-  Route::get('/login', [App\Http\Controllers\Customer\Auth\LoginController::class, 'showLoginForm'])->name('login');
+  // Route::get('/login', [App\Http\Controllers\Customer\Auth\LoginController::class, 'showLoginForm'])->name('login');
   Route::post('/login', [App\Http\Controllers\Customer\Auth\LoginController::class, 'login']);
   Route::post('/logout', [App\Http\Controllers\Customer\Auth\LoginController::class, 'logout'])->name('logout');
 
-  Route::get('/register', [App\Http\Controllers\Customer\Auth\RegisterController::class, 'showRegistrationForm'])->name('register');
+  // Route::get('/register', [App\Http\Controllers\Customer\Auth\RegisterController::class, 'showRegistrationForm'])->name('register');
   Route::post('/register', [App\Http\Controllers\Customer\Auth\RegisterController::class, 'register']);
 
   Route::post('/password/email', [App\Http\Controllers\Customer\Auth\ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.request');

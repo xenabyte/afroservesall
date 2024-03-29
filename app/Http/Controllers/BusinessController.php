@@ -390,15 +390,15 @@ class BusinessController extends Controller
 
         if($stripeCheckoutSession->status == 'complete'){
             $transactionData = [
-'customer_id' => $stripeCheckoutSession->id,
-        'order_id' => $stripeCheckoutSession->client_reference_id,
-        'amount_paid' => $stripeCheckoutSession->amount_total,
-        'promo_amount' => $stripeCheckoutSession->amount_subtotal,
-        'status' => $stripeCheckoutSession->status == 'complete' ? 'completed' : ($stripeCheckoutSession->status == 'expired' ? "failed" : $stripeCheckoutSession->status == "open" && 'pending'),
-        'payment_method' => $stripeCheckoutSession->payment_method_types,
-        ];
+                'customer_id' => $stripeCheckoutSession->id,
+                'order_id' => $stripeCheckoutSession->client_reference_id,
+                'amount_paid' => $stripeCheckoutSession->amount_total,
+                'promo_amount' => $stripeCheckoutSession->amount_subtotal,
+                'status' => $stripeCheckoutSession->status == 'complete' ? 'completed' : ($stripeCheckoutSession->status == 'expired' ? "failed" : $stripeCheckoutSession->status == "open" && 'pending'),
+                'payment_method' => $stripeCheckoutSession->payment_method_types,
+            ];
 
-        Transaction::create($transactionData);
+            Transaction::create($transactionData);
         }
 
 
@@ -425,26 +425,25 @@ class BusinessController extends Controller
         return redirect()->away($stripeCheckoutSession->url)->with($transactionData);
     }
 
-    public function handleWebhook(Request $request)
-{
-    $payload = $request->all();
+    public function handleWebhook(Request $request){
+        $payload = $request->all();
 
-    echo $payload;
-    if ($payload['type'] == 'checkout.session.completed') {
-        $session = $payload['data']['object'];
+        echo $payload;
+        if ($payload['type'] == 'checkout.session.completed') {
+            $session = $payload['data']['object'];
 
-        $transactionData = [
-            'customer_id' => $session['id'],
-            'order_id' => $session['client_reference_id'],
-            'amount_paid' => $session['amount_total'],
-            'promo_amount' => $session['amount_subtotal'],
-            'status' => 'completed',
-            'payment_method' => $session['payment_method_types'][0],
-        ];
+            $transactionData = [
+                'customer_id' => $session['id'],
+                'order_id' => $session['client_reference_id'],
+                'amount_paid' => $session['amount_total'],
+                'promo_amount' => $session['amount_subtotal'],
+                'status' => 'completed',
+                'payment_method' => $session['payment_method_types'][0],
+            ];
 
-        Transaction::create($transactionData);
+            Transaction::create($transactionData);
+        }
     }
-}
 
     public function paymentSuccess(){
 

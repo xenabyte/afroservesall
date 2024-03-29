@@ -65,17 +65,17 @@
             <div class="bg-overlay bg-darke"></div>
             <div class="container">
                 <div class="row align-items-center mt-5 pt-5">
-                    <div class="col-lg-5 mt-5 pt-5">
+                    <div class="col-lg-8 mt-5 pt-5">
                         <div class="text-white-50 mt-5">
-                            <h1 class="text-white fw-semibold mb-3 hero-title">{{ env('APP_NAME') }}</h1>
-                            <p class="font-size-14">{{ env('APP_DESCRIPTION') }}</p>
+                            <h1 class="text-white fw-semibold mb-3 hero-title"> Craving Crushed. Food Delivered. Order Now with Afroserves All!</h1>
+                            <p class="font-size-14"> Indulge in your culinary adventures with Afroserves, your's leading food delivery app. Explore a wide variety of menu, order your favorites with a few taps, and enjoy a hassle-free dining experience.</p>
                             
                             <div class="d-flex flex-wrap gap-2 mt-4">
-                                <a href="#about" class="btn btn-light">What we do</a>
+                                <a href="{{ url('/orderNow') }}" class="btn btn-lg btn-light">Order Now</a>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-5 col-md-8 col-sm-10 ms-lg-auto">
+                    <div class="col-lg-2 col-md-8 col-sm-10 ms-lg-auto">
                         
                     </div>
                 </div>
@@ -87,7 +87,7 @@
        
 
         <!-- Features start -->
-        <section class="section" id="features">
+        {{-- <section class="section" id="features">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
@@ -145,7 +145,7 @@
                 <!-- end row -->
             </div>
             <!-- end container -->
-        </section>
+        </section> --}}
         <!-- Features end -->
         
 
