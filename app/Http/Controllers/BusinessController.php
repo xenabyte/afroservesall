@@ -49,25 +49,27 @@ class BusinessController extends Controller
         return view('welcome');
     }
 
-    public function foodOrder(){
+    public function foodOrder(Request $request){
+        session(['previous_url' => $request->url()]);
         return view('food.welcome');
     }
 
-    public function saloonBooking(){
+    public function saloonBooking(Request $request){
+        session(['previous_url' => $request->url()]);
         return view('saloon.welcome');
     }
 
-    public function orderNow(){
+    public function orderNow(Request $request){
         $foodProducts = Product::with('features')->where('product_type_id', ProductType::getProductTypeId(ProductType::PRODUCT_TYPE_FOOD))->get();
-
+        session(['previous_url' => $request->url()]);
         return view('food.orderNow', [
             'foodProducts' => $foodProducts
         ]);
     }
 
-    public function bookNow(){
+    public function bookNow(Request $request){
         $hairProducts = Product::where('product_type_id', ProductType::getProductTypeId(ProductType::PRODUCT_TYPE_HAIR))->get();
-
+        session(['previous_url' => $request->url()]);
         return view('saloon.bookNow', [
             'hairProducts' => $hairProducts
         ]);

@@ -45,7 +45,6 @@
                         <th>Image</th>
                         <th>Name</th>
                         <th>Description</th>
-                        <th>Price</th>
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -55,16 +54,17 @@
                     @foreach($hairProducts as $hairProduct)
                     <tr>
                         <td>
+                            @if(!empty($hairProduct->image))
                             <img src="{{ asset($hairProduct->image) }}" alt="" class="rounded avatar-lg">
+                            @endif
                         </td>
                         <td>{{ $hairProduct->name }}</td>
                         <td>{{ $hairProduct->description }}</td>
-                        <td>${{ $hairProduct->price }}</td>
                         <td>
                             <div class="text-end">
 
                                 <a class="btn btn-outline-primary btn-sm edit" title="Edit" href="{{ url('/admin/viewProduct/'.$hairProduct->slug) }}">
-                                    <i class="fas fa-pencil-alt"></i>
+                                    <i class="fas fa-eye"></i>
                                 </a>
                             </div>
                         </td>

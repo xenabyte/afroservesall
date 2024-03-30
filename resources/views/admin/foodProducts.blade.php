@@ -45,7 +45,6 @@
                         <th>Image</th>
                         <th>Name</th>
                         <th>Description</th>
-                        {{-- <th>Price</th> --}}
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -55,16 +54,17 @@
                     @foreach($foodProducts as $foodProduct)
                     <tr>
                         <td>
+                            @if(!empty($foodProduct->image))
                             <img src="{{ asset($foodProduct->image) }}" alt="" class="rounded avatar-lg">
+                            @endif
                         </td>
                         <td>{{ $foodProduct->name }}</td>
                         <td>{{ $foodProduct->description }}</td>
-                        {{-- <td>${{ $foodProduct->price }}</td> --}}
                         <td>
                             <div class="text-end">
 
-                                <a class="btn btn-outline-primary btn-sm edit" title="Edit" href="{{ url('/admin/viewProduct/'.$foodProduct->slug) }}">
-                                    <i class="fas fa-pencil-alt"></i>
+                                <a class="btn btn-outline-primary btn-sm edit" title="view" href="{{ url('/admin/viewProduct/'.$foodProduct->slug) }}">
+                                    <i class="fas fa-eye"></i>
                                 </a>
                             </div>
                         </td>

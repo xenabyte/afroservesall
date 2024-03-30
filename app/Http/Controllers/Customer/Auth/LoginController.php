@@ -75,6 +75,11 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
-        return redirect()->intended('/orderNow');
+        if ($request->session()->has('previous_url')) {
+            $previousUrl = $request->session()->pull('previous_url');
+            return redirect()->intended($previousUrl);
+        }
+        
+        return redirect()->intended('/home');
     }
 }
