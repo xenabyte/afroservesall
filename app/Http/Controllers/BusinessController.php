@@ -275,18 +275,13 @@ class BusinessController extends Controller
     public function placeOrder(Request $request){
         $validator = Validator::make($request->all(), [
             'delivery_type' => 'nullable',
-            'address_id' => $request->get('delivery_type') === 'delivery' ? 'required' : 'nullable',
-            'address_1' => [
-                'required_if:delivery_type,delivery',
-                Rule::requiredIf(function () use ($request) {
-                    return $request->input('delivery_type') === 'delivery' && !$request->input('address_id');
-                })
-            ],
+            'address_id' => $request->get('delivery_type') === 'delivery' ? 'required_if:delivery_type,delivery' : 'nullable',
+            'address_1' => empty($request->get('address_id')) ? 'required_if:delivery_type,delivery' : 'nullable',
             'address_2' => 'nullable',
-            'additional_infomation' => 'nullable',
+            'additional_information' => 'nullable',
             'phone' => 'nullable',
             'cart_items' => 'required',
-        ]);
+        ]);                      
         
         if($validator->fails()) {
 
@@ -329,7 +324,7 @@ class BusinessController extends Controller
             $newAddress = ([
                 'address_1' => $addressLine1,
                 'address_2' => $addressLine2,
-                'phone' => $phone,
+                'phone_number' => $phone,
                 'customer_id' => $customerId
             ]);
 
@@ -384,6 +379,9 @@ class BusinessController extends Controller
             'message' => 'Cart is available',
             'redirectUrl' => $stripeCheckoutSession->url,
         ];
+
+        $cartItemIds = collect($cartItems)->pluck('id');
+        Cart::whereIn('id', $cartItemIds)->update(['status' => 'pending']);
 
         return response()->json($cartData);
 
@@ -466,8 +464,8 @@ class BusinessController extends Controller
         if ($payload['object'] == 'checkout.session') {
             $customerId = $payload['metadata']['customerId'];
             $addressId = $payload['metadata']['addressId'];
-            $additionalInfomation = $payload['metadata']['additionalInfomation'];
-            $bookingDate = $payload['metadata']['bookingDate'];
+            $additionalInformation = isset($payload['metadata']['additionalInfomation']) ? $payload['metadata']['additionalInfomation'] : null;
+            $bookingDate = isset($payload['metadata']['bookingDate']) ? $payload['metadata']['bookingDate'] : null;
             $deliveryType = $payload['metadata']['deliveryType'];
             $productType = $payload['metadata']['productType'];
             $cartInformation = json_decode($payload['metadata']['cartItems'], true);
@@ -478,7 +476,7 @@ class BusinessController extends Controller
             $customer = Customer::find($customerId);
 
             //check double creation of transaction
-            if(!$checkTransaction = Transaction::where('reference', $paymentReference)->first()){
+            if($checkTransaction = Transaction::where('reference', $paymentReference)->first()){
                 return false;
             }
 
@@ -488,10 +486,10 @@ class BusinessController extends Controller
                 'promo_amount' => $amountTotal,
                 'status' => $status,
                 'reference' => $paymentReference,
-                'payment_method' => $session['payment_method_types'][0],
+                'payment_method' => $payload['payment_method_types'][0],
             ];
 
-            $transction = Transaction::create($transactionData);
+            $transaction = Transaction::create($transactionData);
             $transactionId  = $transaction->id;
             
             //create order
@@ -499,7 +497,7 @@ class BusinessController extends Controller
                 'sku' => $this->generateOrderCode(),
                 'customer_id' => $customerId,
                 'amount_paid' => $amountTotal,
-                'additional_information' => $additionalInfomation,
+                'additional_information' => $additionalInformation,
                 'address_id' => $addressId,
                 'booking_date' => $bookingDate,
                 'delivery_type' => $deliveryType,
@@ -515,7 +513,7 @@ class BusinessController extends Controller
             $transaction->save();
 
             $cartItemIds = collect($cartInformation)->pluck('id');
-            Cart::whereIn('id', $cartItemIds)->update(['status' => 'completed']);
+            Cart::whereIn('id', $cartItemIds)->update(['status' => 'completed', 'order_id' => $orderId]);
 
             //send notification mail
             $orderData = Order::with('cartItems', 'transaction')->where('id', $orderId)->first();

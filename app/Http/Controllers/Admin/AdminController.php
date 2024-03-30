@@ -280,4 +280,61 @@ class AdminController extends Controller
         alert()->error('Oops!', 'Something went wrong')->persistent('Close');
         return redirect()->back();
     }
+
+    public function pendingFood(){
+        $foodOrders = Order::with('customer', 'cartItems', 'customer')->where('product_type', ProductType::PRODUCT_TYPE_FOOD)->where('status', '!=', 'completed')->get();
+
+        return view('admin.pendingFood', [
+            'foodOrders' => $foodOrders
+        ]);
+    }
+
+    public function completedFood(){
+        $foodOrders = Order::with('customer', 'cartItems', 'customer')->where('product_type', ProductType::PRODUCT_TYPE_FOOD)->where('status', 'completed')->get();
+
+        return view('admin.completedFood', [
+            'foodOrders' => $foodOrders
+        ]);
+    }
+
+    public function pendingHair(){
+        $hairOrders = Order::with('customer', 'cartItems', 'customer')->where('product_type', ProductType::PRODUCT_TYPE_HAIR)->where('status', '!=', 'completed')->get();
+
+        return view('admin.pendingHair', [
+            'hairOrders' => $hairOrders
+        ]);
+    }
+
+    public function completedHair(){
+        $hairOrders = Order::with('customer', 'cartItems', 'customer')->where('product_type', ProductType::PRODUCT_TYPE_HAIR)->where('status', 'completed')->get();
+
+        return view('admin.completedHair', [
+            'hairOrders' => $hairOrders
+        ]);
+    }
+
+
+    public function updateOrder(Request $request){
+        $validator = Validator::make($request->all(), [
+            'order_id' =>'required',
+        ]);
+
+        if(!$order = Order::find($request->order_id)){
+            alert()->error('Oops!', 'Order not found')->persistent('Close');
+            return redirect()->back();
+        }
+        
+        if(!empty($request->status) && $request->status != $order->status){
+            $order->status = $request->status;
+        }
+
+        if($order->save()){
+            alert()->success('Changes Saved', 'Order status changes saved successfully')->persistent('Close');
+            return redirect()->back();
+        }
+
+        alert()->error('Oops!', 'Something went wrong')->persistent('Close');
+        return redirect()->back();
+    }
+
 }

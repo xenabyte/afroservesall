@@ -55,6 +55,15 @@ Route::group(['prefix' => 'admin'], function () {
   Route::get('/hairProducts', [App\Http\Controllers\Admin\AdminController::class, 'hairProducts'])->name('hairProducts')->middleware(['auth:admin']);
 
 
+  Route::get('/pendingFood', [App\Http\Controllers\Admin\AdminController::class, 'pendingFood'])->name('pendingFood')->middleware(['auth:admin']);
+  Route::get('/completedFood', [App\Http\Controllers\Admin\AdminController::class, 'completedFood'])->name('completedFood')->middleware(['auth:admin']);
+
+  Route::get('/pendingHair', [App\Http\Controllers\Admin\AdminController::class, 'pendingHair'])->name('pendingHair')->middleware(['auth:admin']);
+  Route::get('/completedHair', [App\Http\Controllers\Admin\AdminController::class, 'completedHair'])->name('completedHair')->middleware(['auth:admin']);
+
+  Route::post('/updateOrder', [App\Http\Controllers\Admin\AdminController::class, 'updateOrder'])->name('updateOrder')->middleware(['auth:admin']);
+
+  
 
 
 

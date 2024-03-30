@@ -52,4 +52,14 @@ class Order extends Model
     {
         return $this->hasMany(Cart::class, 'order_id', 'id');
     }
+
+    /**
+     * Get the address that owns the Order
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function address()
+    {
+        return $this->belongsTo(Address::class, 'address_id', 'id');
+    }
 }

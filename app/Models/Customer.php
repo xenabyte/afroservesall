@@ -54,5 +54,15 @@ class Customer extends Authenticatable
     {
         return $this->hasMany(Address::class, 'customer_id', 'id');
     }
+
+    /**
+     * Get all of the orders for the Customer
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'customer_id', 'id');
+    }
     
 }

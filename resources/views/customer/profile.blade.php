@@ -4,7 +4,7 @@
     $name = !empty($customer) ? $customer->lastname . ' ' . $customer->othernames : null;
     $email = !empty($customer) ? $customer->email : null;
     $addresses = !empty($customer) ? $customer->addresses : null;
-    $order = !empty($customer) ? $customer->orders : null;
+    $orders = !empty($customer) ? $customer->orders : null;
     $transactions = !empty($customer) ? $customer->transactions : null;
 @endphp
 
@@ -284,63 +284,42 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">#</th>
-                                            <th scope="col">Projects</th>
-                                            <th scope="col">Start Date</th>
-                                            <th scope="col">Deadline</th>
-                                            <th scope="col">Budget</th>
+                                            <th scope="col">SKU</th>
+                                            <th scope="col">Product Type</th>
+                                            <th scope="col">Delivery Type</th>
+                                            <th scope="col">Booking Date</th>
+                                            <th scope="col">Status</th>
+                                            <th scope="col"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <th scope="row">1</th>
-                                            <td>Skote admin UI</td>
-                                            <td>2 Sep, 2019</td>
-                                            <td>20 Oct, 2019</td>
-                                            <td>$506</td>
+                                        @foreach($orders as $order)
+                                            <th scope="row">{{ $loop->iteration }}</th>
+                                            <td>{{ $order->sku }}</td>
+                                            <td>{{ $order->product_type }}</td>
+                                            <td>{{ ucwords($order->delivery_type) }}</td>
+                                            <td>{{ date('F d, Y', strtotime($order->booking_date)) }}</td>
+                                            <td>
+                                                @if($order->status == 'pending')
+                                                <span class="btn btn-primary waves-effect waves-light">
+                                                 Pending
+                                                </span>
+                                                @elseif($order->status == 'completed')
+                                                <span class="btn btn-success waves-effect waves-light">
+                                                     Completed
+                                                </span>
+                                                @else
+                                                <span class="btn btn-warning waves-effect waves-light">
+                                                    {{ $order->status }}
+                                                </span>
+                                                @endif
+                                            </td>
+                                            <td>
+
+
+                                            </td>
                                         </tr>
-        
-                                        <tr>
-                                            <th scope="row">2</th>
-                                            <td>Skote admin Logo</td>
-                                            <td>1 Sep, 2019</td>
-                                            <td>2 Sep, 2019</td>
-                                            <td>$94</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">3</th>
-                                            <td>Redesign - Landing page</td>
-                                            <td>21 Sep, 2019</td>
-                                            <td>29 Sep, 2019</td>
-                                            <td>$156</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">4</th>
-                                            <td>App Landing UI</td>
-                                            <td>29 Sep, 2019</td>
-                                            <td>04 Oct, 2019</td>
-                                            <td>$122</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">5</th>
-                                            <td>Blog Template</td>
-                                            <td>05 Oct, 2019</td>
-                                            <td>16 Oct, 2019</td>
-                                            <td>$164</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">6</th>
-                                            <td>Redesign - Multipurpose Landing</td>
-                                            <td>17 Oct, 2019</td>
-                                            <td>05 Nov, 2019</td>
-                                            <td>$192</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">7</th>
-                                            <td>Logo Branding</td>
-                                            <td>04 Nov, 2019</td>
-                                            <td>05 Nov, 2019</td>
-                                            <td>$94</td>
-                                        </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -434,8 +413,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Yes, Save Changes</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
                     </div>
                 </form>
             </div>

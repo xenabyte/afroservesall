@@ -411,6 +411,7 @@
             const additionalInfo = document.getElementById('additionalInfo').value;
             const cartItems = document.getElementById('cartItemsInput').value;
             const bookingDate = document.getElementById('bookingDate').value;
+            const productType = 'Hair';
 
             if (!bookingDate) {
                 Swal.fire({
@@ -441,20 +442,38 @@
                 additional_infomation: additionalInfo,
                 cart_items: cartItems,
                 booking_date: bookingDate,
+                product_type: productType,
             };
 
             // Send data to the server
-            axios.post('/create-order', data)
-                    .then(function(response) {
-                        // Handle success response
-                        console.log(response.data);
-                        // Optionally, you can redirect the user to a success page or display a success message
-                    })
-                    .catch(function(error) {
-                        // Handle error response
-                        console.error(error);
-                        // Optionally, you can display an error message to the user
+            axios.post('/customer/placeOrder', data)
+                .then(function(response) {
+
+                    console.log(response);
+                    const redirectUrl = response.data.redirectUrl;
+                    const status = response.data.status;
+                    const message = response.data.message;
+
+                    if (redirectUrl) {
+                        window.location.href = redirectUrl;
+                    }
+
+                    if(status == 'error') {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: message,
+                        });
+                    }
+                })
+                .catch(function(error) {
+                    console.error(error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'An error occurred while processing your request.',
                     });
+                });
             });
     </script>
 
