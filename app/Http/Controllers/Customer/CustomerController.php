@@ -52,7 +52,7 @@ class CustomerController extends Controller
         }
 
         if($address->delete()){
-            alert()->success('Changes Saved', 'address deleted successfully')->persistent('Close');
+            alert()->success('Changes Saved', 'Address deleted successfully')->persistent('Close');
             return redirect()->back();
         }
 

@@ -44,7 +44,7 @@
 </head>
 
 <body data-bs-spy="scroll" data-bs-target="#topnav-menu" data-bs-offset="60">
-
+    @include('sweetalert::alert')
     <nav class="navbar navbar-expand-lg navigation fixed-top sticky">
         <div class="container">
             <a class="navbar-logo" href="{{ url('/') }}">
@@ -179,7 +179,7 @@
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
                                             <p class="text-muted fw-medium mb-2">Completed Booking(s)/Order(s)</p>
-                                            <h4 class="mb-0">125</h4>
+                                            <h4 class="mb-0">{{ $orders->where('status', 'completed')->count() }}</h4>
                                         </div>
         
                                         <div class="flex-shrink-0 align-self-center">
@@ -199,7 +199,7 @@
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
                                             <p class="text-muted fw-medium mb-2">Ongoing Booking(s)/Order(s)</p>
-                                            <h4 class="mb-0">12</h4>
+                                            <h4 class="mb-0">{{ $orders->where('status', '!=', 'completed')->count() }}</h4>
                                         </div>
         
                                         <div class="flex-shrink-0 align-self-center">
@@ -220,7 +220,7 @@
                         <div class="card-body">
                             <h4 class="card-title mb-4">Address</h4>
                             <hr>
-                            <table id="buttons-datatables1" class="table table-bordered">
+                            <table id="datatable" class="table table-bordered">
                                 <thead>
                                 <tr>
                                     <th>#</th>
@@ -280,7 +280,7 @@
                             <h4 class="card-title mb-4">Your Booking(s)/Order(s)</h4>
                             <hr>
                             <div class="table-responsive">
-                                <table id="buttons-datatables2" class="table table-bordered">
+                                <table id="buttons-datatables1" class="table table-bordered">
                                     <thead>
                                         <tr>
                                             <th scope="col">#</th>
@@ -315,7 +315,103 @@
                                                 @endif
                                             </td>
                                             <td>
-
+                                                <a class="btn btn-outline-secondary btn-sm edit" data-bs-toggle="modal" data-bs-target="#viewOrder{{ $order->id }}" title="view">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                    
+                                                <!-- Static Backdrop Modal -->
+                                                <div class="modal fade" id="viewOrder{{ $order->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                    <div class="modal-dialog .modal-dialog-scrollable modal-xl modal-dialog-centered" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="staticBackdropLabel">Order Information</h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body row">
+                                                                <div class="col-xl-8">
+                                                                    <div class="card">
+                                                                        <div class="card-body">
+                                                                            <div class="table-responsive">
+                                                                                <table class="table align-middle mb-0 table-nowrap">
+                                                                                    <thead class="table-light">
+                                                                                        <tr>
+                                                                                            <th>#</th>
+                                                                                            <th>Product</th>
+                                                                                            <th>Quantity</th>
+                                                                                            <th>Price</th>
+                                                                                            <th colspan="2">Total</th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                        @foreach($order->cartItems as $cartItem)
+                                                                                        <tr class="product">
+                                                                                            <td>{{ $loop->iteration }}</td>
+                                                                                            <td>
+                                                                                                <h5 class="font-size-14 text-truncate"><a href="#" class="text-dark">{{ $cartItem->name }}</a></h5>
+                                                                                                <p class="mb-0">{{ $cartItem->description }}</p>
+                                                                                            </td>
+                                                                                            <td><span class="product-price">{{ $cartItem->quantity }}</span></td>
+                                                                                            <td>$<span class="product-line-price">{{ $cartItem->price/number_format($cartItem->quantity) }}</span></td>
+                                                                                            <td>$<span class="product-line-price">{{ $cartItem->price }}</span> </td>
+                                                                                        </tr>
+                                                                                        @endforeach
+                                                                                    
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="card-body">
+                                                                            @if($order->address)
+                                                                            <p class="mb-0">Address : <span class="fw-medium">{{ $order->address->address_1.' '.$order->address->address_2 }}</span></p>
+                                                                            <p class="mb-0">Phone Number : <span class="fw-medium">{{ $order->address->phone_number }}</span></p>
+                                                                            @endif
+                                                                            <p class="mb-0">Additional Information : <span class="fw-medium">{{ $order->additional_infomation }}</span></p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-xl-4">
+                                                                    <div class="card">
+                                                                        <div class="card-body">
+                                                                            <h4 class="card-title mb-3">Order Summary</h4>
+                                                                            <hr>
+                                                                            <div class="table-responsive">
+                                                                                <table class="table mb-0">
+                                                                                    <tbody>
+                                                                                        <tr>
+                                                                                            <td>Grand Total :</td>
+                                                                                            <td id="cart-subtotal">${{ number_format($order->amount_paid/100, 2) }}</td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>Discount : </td>
+                                                                                            <td id="cart-discount">- $ 0.00</td>
+                                                                                        </tr>
+                                                                                        {{-- <tr>
+                                                                                            <td>Shipping Charge :</td>
+                                                                                            <td id="cart-shipping">$ 25</td>
+                                                                                        </tr> --}}
+                                                                                        {{-- <tr>
+                                                                                            <td>Estimated Tax (12.5%) :</td>
+                                                                                            <td id="cart-tax">$ 19.22</td>
+                                                                                        </tr> --}}
+                                                                                        <tr class="bg-light">
+                                                                                            <th>Total :</th>
+                                                                                            <th id="cart-total">${{ number_format($order->amount_paid/100, 2) }}</th>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                            <!-- end table-responsive -->
+                                                                        </div>
+                                                                    </div>
+                                                                    <!-- end card -->
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
 
                                             </td>
                                         </tr>
@@ -491,6 +587,9 @@
     </script>
     <script type="text/javascript">
         $(document).ready(function() {
+            $('#datatables1').DataTable({
+                dom: 'Bfrtip',
+            });
             $('#buttons-datatables1').DataTable({
                 dom: 'Bfrtip',
                 buttons: [

@@ -337,4 +337,14 @@ class AdminController extends Controller
         return redirect()->back();
     }
 
+
+    public function getAllTransactions(){
+        $getAllTransactions = Transaction::with('customer', 'order')->get();
+
+        return view('admin.getAllTransactions', [
+            'getAllTransactions' => $getAllTransactions
+        ]);
+    }
+
+
 }

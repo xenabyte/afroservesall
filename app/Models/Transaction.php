@@ -30,4 +30,14 @@ class Transaction extends Model
     {
         return $this->belongsTo(Customer::class, 'customer_id');
     }
+
+    /**
+     * Get the order that owns the Transaction
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function order()
+    {
+        return $this->belongsTo(Order::class, 'order_id', 'id');
+    }
 }
