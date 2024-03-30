@@ -259,14 +259,11 @@
                                             <textarea class="form-control mb-3" id="additionalInfo" placeholder="Additional information"></textarea>
                                             <div class="form-group">
                                                 <label for="deliveryDate">Booking Date</label>
-                                                <input class="form-control" type="date" id="bookingDate"
-                                                    name="bookingDate">
-                                            </div>
-                                            <input type="hidden" name="delivery" id="deliveryType"
-                                                value="delivery">
+                                                <input class="form-control" type="date" id="bookingDate" name="bookingDate">
+                                            </div>   
+                                            <input type="hidden" name="delivery" id="deliveryType" value="delivery">                                             
                                             <hr>
-                                            <button type="button" class="btn btn-primary"
-                                                id="proceedToCheckoutBtn">Proceed to Checkout</button>
+                                            <button type="button" class="btn btn-primary" id="proceedToCheckoutBtn">Proceed to Checkout</button>
                                         </div>
                                     </div>
                                 </div>
@@ -287,8 +284,7 @@
     @include('common.auth')
 
     <!-- Payment Modal -->
-    <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -301,24 +297,19 @@
                         <p class="text-muted">Get your free {{ env('APP_NAME') }} account now.</p>
                         <hr>
                     </div>
-                    <form action="/customer/placeOrder" method="POST">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-
-                        <div class="card p-3" id="order-items-container">
-                            @if (session()->has('cart') && count(session('cart')) > 0)
-                                <!-- Cart items will be dynamically added here by JavaScript -->
-                            @else
-                                <p>Your cart is empty.</p>
-                            @endif
-                        </div>
-                        <input type="hidden" id="cartItemsInput" name="cartItems">
-                        <div class="text-end mt-1">
-                            <strong>Subtotal:</strong> $<span id="orderSubtotal">00.00</span>
-                        </div>
-                        <hr>
-                        <button type="submit" class="btn btn-primary" id="proceedToPayment">Proceed to
-                            Payment</button>
-                    </form>
+                    <div class="card p-3" id="order-items-container">
+                        @if(session()->has('cart') && count(session('cart')) > 0)
+                            <!-- Cart items will be dynamically added here by JavaScript -->
+                        @else
+                            <p>Your cart is empty.</p>
+                        @endif
+                    </div>
+                    <input type="hidden" id="cartItemsInput" name="cartItems">
+                    <div class="text-end mt-1">
+                        <strong>Subtotal:</strong> $<span id="orderSubtotal">00.00</span>
+                    </div>
+                    <hr>
+                    <button type="button" class="btn btn-primary" id="proceedToPayment">Proceed to Payment</button>
                 </div>
             </div>
         </div>
@@ -452,14 +443,19 @@
                 booking_date: bookingDate,
             };
 
-            axios.post('/customer/checkout')
-                .then(function(response) {
-                    console.log(response.data);
-                })
-                .catch(function(error) {
-                    console.error(error);
-                });
-        });
+            // Send data to the server
+            axios.post('/create-order', data)
+                    .then(function(response) {
+                        // Handle success response
+                        console.log(response.data);
+                        // Optionally, you can redirect the user to a success page or display a success message
+                    })
+                    .catch(function(error) {
+                        // Handle error response
+                        console.error(error);
+                        // Optionally, you can display an error message to the user
+                    });
+            });
     </script>
 
 </body>

@@ -23,6 +23,7 @@ class CreateCartsTable extends Migration
             $table->decimal('price')->nullable();
             $table->string('status')->nullable();
             $table->string('name')->nullable();
+            $table->string('order_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

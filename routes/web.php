@@ -22,6 +22,8 @@ Route::get('/orderNow', [App\Http\Controllers\BusinessController::class, 'orderN
 Route::get('/saloonBooking', [App\Http\Controllers\BusinessController::class, 'saloonBooking'])->name('saloonBooking');
 Route::get('/bookNow', [App\Http\Controllers\BusinessController::class,'bookNow'])->name('bookNow');
 
+Route::post('/webhook', [App\Http\Controllers\BusinessController::class,'handleWebhook'])->name('handleWebhook');
+
 
 
 Route::group(['prefix' => 'admin'], function () {
@@ -97,6 +99,3 @@ Route::group(['prefix' => 'customer'], function () {
   
 });
 
-// handle event webhook
-
-Route::post('/webhook', [App\Http\Controllers\BusinessController::class,'handleWebhook'])->name('handleWebhook');

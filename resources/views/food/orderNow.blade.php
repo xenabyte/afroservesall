@@ -256,22 +256,15 @@
                                             <hr>
                                             <textarea class="form-control mb-3" id="additionalInfo" placeholder="Additional information"></textarea>
                                             <div class="form-check mb-2">
-                                                <input class="form-check-input" type="radio" name="delivery"
-                                                    id="pickup" value="pickup" checked>
+                                                <input class="form-check-input" type="radio" name="delivery" id="pickup" value="pickup" checked>
                                                 <label class="form-check-label" for="pickup">Pickup</label>
                                             </div>
                                             <div class="form-check mb-2">
-                                                <input class="form-check-input" type="radio" name="delivery"
-                                                    id="delivery" value="delivery">
+                                                <input class="form-check-input" type="radio" name="delivery" id="delivery" value="delivery">
                                                 <label class="form-check-label" for="delivery">Delivery</label>
                                             </div>
                                             <hr>
-                                            <form action="{{ route('placeOrder') }}" method="post">
-                                                @csrf
-                                                <input type="hidden" name="price" value="300">
-                                                <button type="button" class="btn btn-primary"
-                                                    id="proceedToCheckoutBtn">Proceed to Checkout</button>
-                                            </form>
+                                            <button type="button" class="btn btn-primary" id="proceedToCheckoutBtn">Proceed to Checkout</button>
                                         </div>
                                     </div>
                                 </div>
@@ -292,8 +285,7 @@
     @include('common.auth')
 
     <!-- Payment Modal -->
-    <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -306,24 +298,19 @@
                         <p class="text-muted">Get your free {{ env('APP_NAME') }} account now.</p>
                         <hr>
                     </div>
-                    <form action="/customer/placeOrder" method="POST">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        <div class="card p-3" id="order-items-container">
-                            @if (session()->has('cart') && count(session('cart')) > 0)
-                                <!-- Cart items will be dynamically added here by JavaScript -->
-                            @else
-                                <p>Your cart is empty.</p>
-                            @endif
-                        </div>
-                        <input type="hidden" id="cartItemsInput" name="cartItems">
-                        <div class="text-end mt-1">
-                            <strong>Subtotal:</strong> $<span id="orderSubtotal">00.00</span>
-                        </div>
-                        <hr>
-                        <button type="submit" class="btn btn-primary" id="proceedToPayment">Proceed to
-                            Payment</button>
-                    </form>
-
+                    <div class="card p-3" id="order-items-container">
+                        @if(session()->has('cart') && count(session('cart')) > 0)
+                            <!-- Cart items will be dynamically added here by JavaScript -->
+                        @else
+                            <p>Your cart is empty.</p>
+                        @endif
+                    </div>
+                    <input type="hidden" id="cartItemsInput" name="cartItems">
+                    <div class="text-end mt-1">
+                        <strong>Subtotal:</strong> $<span id="orderSubtotal">00.00</span>
+                    </div>
+                    <hr>
+                    <button type="button" class="btn btn-primary" id="proceedToPayment">Proceed to Payment</button>
                 </div>
             </div>
         </div>
@@ -430,6 +417,7 @@
             const phone = document.getElementById('phone').value;
             const additionalInfo = document.getElementById('additionalInfo').value;
             const cartItems = document.getElementById('cartItemsInput').value;
+            const productType = 'Food';
 
             // Client-side validation
             if (deliveryType === 'delivery' && (!addressId && !address1)) {
@@ -449,7 +437,8 @@
                 address_2: address2,
                 phone: phone,
                 additional_infomation: additionalInfo,
-                cart_items: cartItems
+                cart_items: cartItems,
+                product_type: productType,
             };
 
             // Send data to the server
@@ -484,7 +473,7 @@
         });
     </script>
 
-
+{{-- 
     <script>
         function addToCart() {
             // fetch product details from the page or pass them as arguments
@@ -565,7 +554,7 @@
 
         // Call the function initially to populate the cart items
         addCartItems();
-    </script>
+    </script> --}}
 
 </body>
 

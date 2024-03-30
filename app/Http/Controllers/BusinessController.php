@@ -23,6 +23,8 @@ use App\Models\ProductType;
 use App\Models\Transaction;
 use App\Models\Address;
 
+use App\Mail\PaymentSuccess;
+use App\Mail\SupportMail;
 
 use SweetAlert;
 use Mail;
@@ -311,6 +313,7 @@ class BusinessController extends Controller
         $phone = $request->phone;
         $bookingDate = $request->booking_date;
         $cart = $request->cart_items;
+        $productType = $request->product_type;
         $cartItems = json_decode($cart);
 
         if(empty($cartItems)){
@@ -326,6 +329,7 @@ class BusinessController extends Controller
             $newAddress = ([
                 'address_1' => $addressLine1,
                 'address_2' => $addressLine2,
+                'phone' => $phone,
                 'customer_id' => $customerId
             ]);
 
@@ -339,17 +343,17 @@ class BusinessController extends Controller
             $subTotal += $cartItem->price;
         }
 
-        $productname = rtrim($productname, ', ');
+        $productname = rtrim('Afroserves All - '.$productname, ', ');
 
 
 
         $productItems = [
             'price_data' => [
-                'currency'     => 'NGN',
+                'currency'     => 'USD',
                 'product_data' => [
                     "name" => $productname,
                 ],
-                'unit_amount'  => round($subTotal),
+                'unit_amount'  => round($subTotal * 100),
             ],
             'quantity'   => 1,
         ];
@@ -359,32 +363,29 @@ class BusinessController extends Controller
                 $productItems
 
             ],
-            ['metadata' => ['cartItems' => $cartItems]],
+            'metadata' => [
+                'customerId' => $customerId, 
+                'addressId' => $addressId,
+                'additionalInfomation' => $additionalInfomation,
+                'bookingDate' => $bookingDate,
+                'deliveryType' => $deliveryType,
+                'productType' => $productType,
+                'cartItems' => json_encode($cartItems)
+            ],
             'mode'        => 'payment',
             'customer_email'=> $customer->email,
-
             'success_url' => route('paymentSuccess'),
             'cancel_url'  => route('paymentFailed'),
         ]);
 
-        $transactionData = [
-            'customer_id' => $customerId,
-            'order_id' => $stripeCheckoutSession->client_reference_id,
-            'amount_paid' => $subTotal,
-            'promo_amount' => "promocode",
-            'status' => $stripeCheckoutSession->status == 'complete' ? 'completed' : ($stripeCheckoutSession->status == 'expired' ? "failed" : $stripeCheckoutSession->status == "open" && 'pending'),
-            'payment_method' => $stripeCheckoutSession->payment_method_types,
-        ];
-        Transaction::create($transactionData);
 
        $cartData = [
             'status' => 'success',
             'message' => 'Cart is available',
-            'redirectUrl' => $session->url,
+            'redirectUrl' => $stripeCheckoutSession->url,
         ];
 
         return response()->json($cartData);
-        // return redirect()->away($stripeCheckoutSession->url);
 
     }
 
@@ -462,20 +463,68 @@ class BusinessController extends Controller
     public function handleWebhook(Request $request){
         $payload = $request->all();
 
-        echo $payload;
-        if ($payload['type'] == 'checkout.session.completed') {
-            $session = $payload['data']['object'];
+        if ($payload['object'] == 'checkout.session') {
+            $customerId = $payload['metadata']['customerId'];
+            $addressId = $payload['metadata']['addressId'];
+            $additionalInfomation = $payload['metadata']['additionalInfomation'];
+            $bookingDate = $payload['metadata']['bookingDate'];
+            $deliveryType = $payload['metadata']['deliveryType'];
+            $productType = $payload['metadata']['productType'];
+            $cartInformation = json_decode($payload['metadata']['cartItems'], true);
+            $amountTotal = $payload["amount_total"];
+            $paymentReference = $payload["payment_intent"];
+            $status = $payload['payment_status'];
+
+            $customer = Customer::find($customerId);
+
+            //check double creation of transaction
+            if(!$checkTransaction = Transaction::where('reference', $paymentReference)->first()){
+                return false;
+            }
 
             $transactionData = [
-                'customer_id' => $session['id'],
-                'order_id' => $session['client_reference_id'],
-                'amount_paid' => $session['amount_total'],
-                'promo_amount' => $session['amount_subtotal'],
-                'status' => 'completed',
+                'customer_id' => $customerId,
+                'amount_paid' => $amountTotal,
+                'promo_amount' => $amountTotal,
+                'status' => $status,
+                'reference' => $paymentReference,
                 'payment_method' => $session['payment_method_types'][0],
             ];
 
-            Transaction::create($transactionData);
+            $transction = Transaction::create($transactionData);
+            $transactionId  = $transaction->id;
+            
+            //create order
+            $orderData = [
+                'sku' => $this->generateOrderCode(),
+                'customer_id' => $customerId,
+                'amount_paid' => $amountTotal,
+                'additional_information' => $additionalInfomation,
+                'address_id' => $addressId,
+                'booking_date' => $bookingDate,
+                'delivery_type' => $deliveryType,
+                'product_type' => $productType,
+                'transaction_id' => $transactionId,
+                'status' => 'pending',
+            ];
+
+            $order = Order::create($orderData);
+            $orderId = $order->id;
+
+            $transaction->order_id = $orderId;
+            $transaction->save();
+
+            $cartItemIds = collect($cartInformation)->pluck('id');
+            Cart::whereIn('id', $cartItemIds)->update(['status' => 'completed']);
+
+            //send notification mail
+            $orderData = Order::with('cartItems', 'transaction')->where('id', $orderId)->first();
+            $mail = new PaymentSuccess($customer, $orderData);
+            Mail::to($customer->email)->send($mail);
+
+            Mail::to(env('SUPPORT_EMAIL'))->send(new SupportMail('New Order'));
+
+            return true;
         }
     }
 
@@ -484,8 +533,6 @@ class BusinessController extends Controller
         $customerId = Auth::guard('customer')->user()->id;
         $transactionData = Transaction::where('customer_id', $customerId)->orderBy('created_at', 'desc')->first();
         return view('common.paymentSuccess', ['transactionData' => $transactionData]);
-
-
     }
 
     public function paymentFailed(){
