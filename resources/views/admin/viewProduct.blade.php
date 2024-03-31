@@ -125,17 +125,17 @@
                                                 <td>
                                                     <div class="text-end">
 
-                                                        <a class="btn btn-outline-secondary btn-sm edit" title="manage" data-bs-toggle="modal" data-bs-target="#editFeature{{ $product->id }}">
+                                                        <a class="btn btn-outline-secondary btn-sm edit" title="manage" data-bs-toggle="modal" data-bs-target="#editFeature{{ $feature->id }}">
                                                             <i class="fas fas fa-cogs"></i>
                                                         </a> 
                             
-                                                        <a class="btn btn-outline-danger btn-sm edit" title="delete" data-bs-toggle="modal" data-bs-target="#deleteFeature{{ $product->id }}">
+                                                        <a class="btn btn-outline-danger btn-sm edit" title="delete" data-bs-toggle="modal" data-bs-target="#deleteFeature{{ $feature->id }}">
                                                             <i class="fas fa-trash"></i>
                                                         </a>
                                                     </div>
                             
                                                     <!-- Static Backdrop Modal -->
-                                                    <div class="modal fade" id="deleteFeature{{ $product->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="deleteFeature" aria-hidden="true">
+                                                    <div class="modal fade" id="deleteFeature{{ $feature->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="deleteFeature" aria-hidden="true">
                                                         <div class="modal-dialog modal-md modal-dialog-centered" role="document">
                                                             <div class="modal-content">
                                                             
@@ -157,7 +157,7 @@
                                                     </div>
                             
                                                     <!-- Static Backdrop Modal -->
-                                                    <div class="modal fade" id="editFeature{{ $product->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="editFeature" aria-hidden="true">
+                                                    <div class="modal fade" id="editFeature{{ $feature->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="editFeature" aria-hidden="true">
                                                         <div class="modal-dialog modal-md modal-dialog-centered" role="document">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">

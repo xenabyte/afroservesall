@@ -227,6 +227,58 @@ class BusinessController extends Controller
         return response()->json($cartData);
     }
 
+    public function removeFromCart(Request $request){
+        $productId = $request->productId;
+        $featureId = $request->featureId;
+
+    
+        $customer = Auth::guard('customer')->user();
+        $customerId = $customer ? $customer->id : null;
+    
+        if ($customer) {
+            $cartItem = Cart::where('customer_id', $customerId)
+                            ->where('product_id', $productId)
+                            ->where('feature_id', $featureId)
+                            ->whereNull('status')
+                            ->first();
+    
+            if ($cartItem) {
+                $cartItem->forceDelete();
+            }
+            
+            $cart = Cart::where('customer_id', $customerId)
+                        ->whereNull('status')
+                        ->get();
+        } else {
+            $sessionCart = session('cart');
+            $cartItemKey = $this->findCartItemKey($sessionCart, $productId, $featureId);
+    
+            if ($cartItemKey !== false) {
+                unset($sessionCart[$cartItemKey]);
+                session(['cart' => $sessionCart]);
+            }
+    
+            $cart = session('cart');
+
+            // Return the updated cart data
+            $cartData = [
+                'status' => 'success',
+                'message' => 'Item removed from cart',
+                'cart' => $sessionCart,
+            ];
+
+            return response()->json($cartData);
+        }
+    
+        $cartData = [
+            'status' => 'success',
+            'message' => 'Item removed from cart',
+            'cart' => $cart,
+        ];
+    
+        return response()->json($cartData);
+    }
+    
 
     public function getCartItems() {
         $customer = Auth::guard('customer')->user();
