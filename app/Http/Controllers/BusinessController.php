@@ -138,7 +138,7 @@ class BusinessController extends Controller
                     'product_id' => $productId,
                     'feature_id' => $featureId,
                     'quantity' => $quantity,
-                    'price' => $itemPrice
+                    'price' => $quantity * $itemPrice
                 ];
                 $cart[] = $cartItem;
             }
