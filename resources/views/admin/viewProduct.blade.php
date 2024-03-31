@@ -121,7 +121,7 @@
                                                 
                                                 <td>{{ $feature->feature }}</td>
                                                 <td>{{ $feature->description }}</td>
-                                                <td>${{ $feature->price }}</td>
+                                                <td>£{{ $feature->price }}</td>
                                                 <td>
                                                     <div class="text-end">
 
@@ -178,7 +178,7 @@
                                                                         <div class="mb-3">
                                                                             <label for="price">Price</label>
                                                                             <div class="input-group">
-                                                                                <span class="input-group-text">$</span> <!-- Dollar sign prefix -->
+                                                                                <span class="input-group-text">£</span> <!-- Dollar sign prefix -->
                                                                                 <input id="price" name="price" type="number" step="0.01" class="form-control" value="{{ $feature->price }}" required>
                                                                             </div>
                                                                         </div>
@@ -228,13 +228,13 @@
                         @csrf
                         <input type="hidden" name="product_id" value="{{ $product->id }}">
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="productname">Product Name</label>
                                     <input id="name" name="name" type="text" class="form-control" value="{{ $product->name }}" required>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            {{-- <div class="col-md-4">
                                 <div class="mb-3">
                                     <label for="price">Price</label>
                                     <div class="input-group">
@@ -242,9 +242,9 @@
                                         <input id="price" name="price" type="number" step="0.01" class="form-control" value="{{ $product->price }}" required>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                             
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="mb-3">
                                     <label class="control-label">Product Type</label>
                                     <select class="form-control" name="product_type_id" required>
@@ -269,8 +269,7 @@
                         </div>
 
                         <div class="d-flex flex-wrap gap-2">
-                            <button type="submit" class="btn btn-primary waves-effect waves-light">Create Product</button>
-                            <button type="button" class="btn btn-danger waves-effect waves-light" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center">Delete Product</button>
+                            <button type="submit" class="btn btn-primary waves-effect waves-light">Save Changes</button>
                         </div>
                     </form>
 
@@ -322,7 +321,7 @@
                         <div class="mb-3">
                             <label for="price">Price</label>
                             <div class="input-group">
-                                <span class="input-group-text">$</span> <!-- Dollar sign prefix -->
+                                <span class="input-group-text">£</span> <!-- pounds sign prefix -->
                                 <input id="price" name="price" type="number" step="0.01" class="form-control" required>
                             </div>
                         </div>

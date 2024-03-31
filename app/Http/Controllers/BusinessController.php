@@ -346,7 +346,7 @@ class BusinessController extends Controller
 
         $productItems = [
             'price_data' => [
-                'currency'     => 'USD',
+                'currency'     => 'GBP',
                 'product_data' => [
                     "name" => $productname,
                 ],

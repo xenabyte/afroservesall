@@ -104,8 +104,8 @@
                                                                             <p class="mb-0">{{ $cartItem->description }}</p>
                                                                         </td>
                                                                         <td><span class="product-price">{{ $cartItem->quantity }}</span></td>
-                                                                        <td>$<span class="product-line-price">{{ $cartItem->price/number_format($cartItem->quantity) }}</span></td>
-                                                                        <td>$<span class="product-line-price">{{ $cartItem->price }}</span> </td>
+                                                                        <td>£<span class="product-line-price">{{ $cartItem->price/number_format($cartItem->quantity) }}</span></td>
+                                                                        <td>£<span class="product-line-price">{{ $cartItem->price }}</span> </td>
                                                                     </tr>
                                                                     @endforeach
                                                                 
@@ -132,11 +132,11 @@
                                                                 <tbody>
                                                                     <tr>
                                                                         <td>Grand Total :</td>
-                                                                        <td id="cart-subtotal">${{ number_format($hairOrder->amount_paid/100, 2) }}</td>
+                                                                        <td id="cart-subtotal">£{{ number_format($hairOrder->amount_paid/100, 2) }}</td>
                                                                     </tr>
                                                                     <tr>
                                                                         <td>Discount : </td>
-                                                                        <td id="cart-discount">- $ 0.00</td>
+                                                                        <td id="cart-discount">- £0.00</td>
                                                                     </tr>
                                                                     {{-- <tr>
                                                                         <td>Shipping Charge :</td>
@@ -148,7 +148,7 @@
                                                                     </tr> --}}
                                                                     <tr class="bg-light">
                                                                         <th>Total :</th>
-                                                                        <th id="cart-total">${{ number_format($hairOrder->amount_paid/100, 2) }}</th>
+                                                                        <th id="cart-total">£{{ number_format($hairOrder->amount_paid/100, 2) }}</th>
                                                                     </tr>
                                                                 </tbody>
                                                             </table>

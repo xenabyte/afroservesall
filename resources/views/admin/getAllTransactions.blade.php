@@ -46,7 +46,7 @@
                         <td class="bg-primary-subtle">{{ $getAllTransaction->order->sku }}</td>
                         <td class="bg-warning-subtle">{{ ucwords($getAllTransaction->customer->lastname.' '.$getAllTransaction->customer->othernames) }}</td>
                         <td class="bg-info-subtle">{{ $getAllTransaction->reference }}</td>
-                        <td class="bg-success-subtle">${{ number_format($getAllTransaction->amount_paid/100, 2) }}</td>
+                        <td class="bg-success-subtle">£{{ number_format($getAllTransaction->amount_paid/100, 2) }}</td>
                         <td>
                             <span class="btn btn-primary waves-effect waves-light">
                                 {{ ucwords($getAllTransaction->status) }}

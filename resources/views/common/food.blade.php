@@ -128,7 +128,7 @@
                                     <i class="mdi mdi-plus"></i>
                                 </button>
                                 <button type="button" class="btn btn-outline-secondary input-group-text">
-                                    <strong><span class="text-danger">$${(cartItem.price)}</span></strong>
+                                    <strong><span class="text-danger">£${(cartItem.price)}</span></strong>
                                 </button>
                             </div>
                         </div>
@@ -168,7 +168,7 @@
                      updateCartQuantity(this, 'decrease');
                  }
 
-                 if (parseInt(quantityInput.value) == 1) {
+                 if (parseInt(quantityInput.value) < 1) {
                      quantityInput.value = parseInt(quantityInput.value) - 1;
                      updateCartQuantity(this, 'delete');
                  }

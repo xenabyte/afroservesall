@@ -50,7 +50,7 @@
                             <a class="nav-link active" href="#home">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/bookNow') }}">Book Here</a>
+                            <a class="nav-link" href="{{ url('/bookNow') }}">Book Now</a>
                         </li>
                     </ul>
                 </div>
