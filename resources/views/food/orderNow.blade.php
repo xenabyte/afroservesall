@@ -120,7 +120,7 @@
 
     <!-- hero section start -->
     <section class="section hero-section bg-ico-hero" id="home"
-        style="background-image:url({{ asset('assets/images/bg_img_1.jpg') }});background-size:cover;background-position:top">
+        style="background-image:url({{ asset('assets/images/services/f2.jpg') }});background-size:cover;background-position:top">
         <div class="bg-overlay bg-darke"></div>
         <div class="container">
             <div class="row align-items-center mt-5 pt-5">
