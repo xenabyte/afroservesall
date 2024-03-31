@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Notifications\PaymentCheckout;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests;
@@ -29,7 +31,7 @@ use Mail;
 use Alert;
 use Log;
 use Carbon\Carbon;
-
+use Notification;
 
 class BusinessController extends Controller
 {
@@ -38,7 +40,7 @@ class BusinessController extends Controller
     public function landing() {
         session()->forget('cart');
         $customer = Auth::guard('customer')->user();
-        
+
         if($customer){
             $customerId = $customer->id;
             $cartItem = Cart::where('customer_id', $customerId)->whereNull('status')->forceDelete();
@@ -91,6 +93,7 @@ class BusinessController extends Controller
             $customerId = $customer->id;
 
             $cartItem = ([
+                'customerId' => $customer->id,
                 'name' => $name,
                 'description' => $description,
                 'product_id' => $productId,
@@ -101,12 +104,12 @@ class BusinessController extends Controller
 
             Cart::create($cartItem);
             $cart = Cart::where('customer_id', $customerId)->where('status', null)->get();
-            
+
         }else{
             $cart = session()->get('cart', []);
-    
+
             $cartItemKey = $this->findCartItemKey($cart, $productId, $featureId);
-        
+
             if ($cartItemKey !== null) {
                 $cart[$cartItemKey]['quantity'] += $quantity;
                 $cart[$cartItemKey]['price'] += $itemPrice;
@@ -122,11 +125,11 @@ class BusinessController extends Controller
                 ];
                 $cart[] = $cartItem;
             }
-        
+
             session()->put('cart', $cart);
         }
-    
-    
+
+
         $cartData = [
             'status' => 'success',
             'message' => 'Product added to cart successfully',
@@ -137,7 +140,7 @@ class BusinessController extends Controller
     }
 
     public function updateQuantity(Request $request){
-        
+
         $productId = $request->productId;
         $featureId = $request->featureId;
         $action = $request->action;
@@ -152,9 +155,9 @@ class BusinessController extends Controller
         // Retrieve the cart from the session
         $customer = Auth::guard('customer')->user();
         $customerId = $customer ? $customer->id : null;
-    
+
         $sessionCart = session('cart');
-    
+
         if ($customer) {
             $cartItem = Cart::where('customer_id', $customerId)->where('product_id', $productId)->where('feature_id', $featureId)->whereNull('status')->first();
             $quantity = $cartItem->quantity;
@@ -196,8 +199,8 @@ class BusinessController extends Controller
             $cart =  session('cart');
         }
 
-        
-    
+
+
         $cartData = [
             'status' => 'success',
             'message' => 'Cart successfully updated',
@@ -211,12 +214,12 @@ class BusinessController extends Controller
     public function getCartItems() {
         $customer = Auth::guard('customer')->user();
         $customerId = $customer ? $customer->id : null;
-    
+
         $sessionCart = session('cart');
-    
+
         if ($customer) {
             $dbCart = Cart::where('customer_id', $customerId)->whereNull('status')->get();
-            
+
             if(!empty($sessionCart)){
                 foreach ($sessionCart as $item) {
                     $existingItem = $dbCart->where('product_id', $item['product_id'])
@@ -240,12 +243,12 @@ class BusinessController extends Controller
                     }
                 }
             }
-    
+
             $cart = Cart::where('customer_id', $customerId)->whereNull('status')->get();
         } else {
             $cart = $sessionCart;
         }
-    
+
         $cartData = [
             'status' => 'success',
             'message' => 'Cart is available',
@@ -254,7 +257,7 @@ class BusinessController extends Controller
 
         return response()->json($cartData);
     }
-    
+
 
     public function placeOrder(Request $request){
         $validator = Validator::make($request->all(), [
@@ -271,7 +274,7 @@ class BusinessController extends Controller
             'phone' => 'nullable',
             'cart_items' => 'required',
         ]);
-        
+
         if($validator->fails()) {
 
             $cartData = [
@@ -357,7 +360,7 @@ class BusinessController extends Controller
        $cartData = [
             'status' => 'success',
             'message' => 'Cart is available',
-            'redirectUrl' => $session->url,
+            'redirectUrl' => $stripeCheckoutSession->url,
         ];
 
         // return response()->json($cartData);
@@ -412,27 +415,6 @@ class BusinessController extends Controller
             Transaction::create($transactionData);
         }
 
-
-        Mail::send('templates.stripePaymentNotification', $transactionData, function ($message) {
-            $message->from('afroserveall@johndoe.com', 'Afroserveall');
-            $message->sender('afroserver@johndoe.com', 'John Doe');
-            $message->to('john@johndoe.com', 'John Doe');
-            $message->subject('Payment for order was successfully processed');
-            $message->priority(3);
-            $message->attach('pathToFile');
-        });
-
-
-
-        $message["greetings"] = "Hey";
-        $message["text"] = "You just made a payment";
-        $message["details"] = "Please enter your details";
-        $message["finalText"] = "Final Details";
-
-
-        $customer->notify(new PaymentCheckout($message));
-
-
         return redirect()->away($stripeCheckoutSession->url)->with($transactionData);
     }
 
@@ -458,8 +440,19 @@ class BusinessController extends Controller
 
     public function paymentSuccess(){
 
-        $customerId = Auth::guard('customer')->user()->id;
+        $customer = Auth::guard('customer')->user();
+        $customerId = $customer->id;
         $transactionData = Transaction::where('customer_id', $customerId)->orderBy('created_at', 'desc')->first();
+
+        $sessionCart = session('cart');
+        $details["customer_name"] = "Wale";
+        $details["product_name"] = "Mab";
+        $details["total_price"] = "You just made a payment";
+        $details["quantity"] = "Please enter your details";
+        $details["transaction_id"] = "Please enter your details";
+
+        $customer->notify(new PaymentCheckout($details));
+
         return view('common.paymentSuccess', ['transactionData' => $transactionData]);
 
 
@@ -469,5 +462,5 @@ class BusinessController extends Controller
 
         return view('common.paymentFailed');
     }
-    
+
 }
