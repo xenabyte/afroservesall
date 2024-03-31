@@ -129,6 +129,11 @@ class RegisterController extends Controller
             // Optionally, you can log in the user automatically after registration
             auth()->login($customer);
 
+            if ($request->session()->has('previous_url')) {
+                $previousUrl = $request->session()->pull('previous_url');
+                return redirect()->intended($previousUrl);
+            }
+
             // Redirect the user to the desired page
             return redirect()->intended('/orderNow'); // Replace '/dashboard' with the desired URL
         } else {

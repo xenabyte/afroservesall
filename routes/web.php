@@ -22,6 +22,8 @@ Route::get('/orderNow', [App\Http\Controllers\BusinessController::class, 'orderN
 Route::get('/saloonBooking', [App\Http\Controllers\BusinessController::class, 'saloonBooking'])->name('saloonBooking');
 Route::get('/bookNow', [App\Http\Controllers\BusinessController::class,'bookNow'])->name('bookNow');
 
+Route::post('/webhook', [App\Http\Controllers\BusinessController::class,'handleWebhook'])->name('handleWebhook');
+
 
 
 Route::group(['prefix' => 'admin'], function () {
@@ -53,6 +55,15 @@ Route::group(['prefix' => 'admin'], function () {
   Route::get('/hairProducts', [App\Http\Controllers\Admin\AdminController::class, 'hairProducts'])->name('hairProducts')->middleware(['auth:admin']);
 
 
+  Route::get('/pendingFood', [App\Http\Controllers\Admin\AdminController::class, 'pendingFood'])->name('pendingFood')->middleware(['auth:admin']);
+  Route::get('/completedFood', [App\Http\Controllers\Admin\AdminController::class, 'completedFood'])->name('completedFood')->middleware(['auth:admin']);
+
+  Route::get('/pendingHair', [App\Http\Controllers\Admin\AdminController::class, 'pendingHair'])->name('pendingHair')->middleware(['auth:admin']);
+  Route::get('/completedHair', [App\Http\Controllers\Admin\AdminController::class, 'completedHair'])->name('completedHair')->middleware(['auth:admin']);
+
+  Route::post('/updateOrder', [App\Http\Controllers\Admin\AdminController::class, 'updateOrder'])->name('updateOrder')->middleware(['auth:admin']);
+
+  
 
 
 
@@ -91,9 +102,9 @@ Route::group(['prefix' => 'customer'], function () {
   Route::get('/password/reset', [App\Http\Controllers\Customer\Auth\ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.reset');
   Route::get('/password/reset/{token}', [App\Http\Controllers\Customer\Auth\ResetPasswordController::class, 'showResetForm']);
 
-  Route::get('/profile', [App\Http\Controllers\Customer\CustomerController::class, 'landing'])->name('landing');
+  Route::get('/profile', [App\Http\Controllers\Customer\CustomerController::class, 'profile'])->name('profile')->middleware(['auth:customer']);
+  Route::post('/deleteAddress', [App\Http\Controllers\Customer\CustomerController::class, 'deleteAddress'])->name('deleteAddress')->middleware(['auth:customer']);
+
+  
 });
 
-// handle event webhook
-
-Route::post('/webhook', [App\Http\Controllers\BusinessController::class,'handleWebhook'])->name('handleWebhook');

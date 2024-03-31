@@ -25,6 +25,23 @@
     <link href="{{ asset('assets/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
     <!-- App js -->
     <script src="{{ asset('assets/js/plugin.js') }}"></script>
+    <style>
+        .hero-images img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .hero-images img.active {
+            opacity: 1;
+        }
+
+
+    </style>
 
 </head>
 
@@ -77,26 +94,22 @@
         <div class="bg-overlay bg-darke"></div>
         <div class="container">
             <div class="row align-items-center mt-5 pt-5">
-
                 <div class="col-lg-7 mt-5 pt-5">
                     <div class="text-white-50 mt-5">
                         <h1 class="text-white fw-semibold mb-3 hero-title">Food or Craving Pampering? Afroserves all Has You Covered!</h1>
                         <p class="font-size-14">Order delicious meals from us and book appointments with us - all in one convenient shop!</p>
-
+    
                         <div class="d-flex flex-wrap gap-2 mt-4">
                             <a href="#about" class="btn btn-light">What we do</a>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-3 col-md-8 col-sm-10 ms-lg-auto">
-
                 </div>
             </div>
             <!-- end row -->
         </div>
         <!-- end container -->
     </section>
-    <!-- hero section end -->
+    
 
 
     <!-- about section start -->
@@ -210,7 +223,7 @@
     <!-- about section end -->
 
     <!-- Features start -->
-    <section class="section" id="features">
+    <section class="section bg-dark text-white" id="features">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -225,18 +238,18 @@
             <div class="row align-items-center pt-4">
                 <div class="col-md-6 col-sm-8">
                     <div>
-                        <img src="assets/images/crypto/features-img/img-1.png" alt=""
-                            class="img-fluid mx-auto d-block">
+                        <img src="{{ asset('assets/images/services/s5.jpg') }}" alt=""
+                            class="rounded img-fluid mx-auto d-block">
                     </div>
                 </div>
                 <div class="col-md-5 ms-auto">
                     <div class="mt-4 mt-md-auto">
                         <div class="d-flex align-items-center mb-2">
                             <div class="features-number fw-semibold display-4 me-3">01</div>
-                            <h4 class="mb-0">Saloon Services</h4>
+                            <h4 class="mb-0">Saloon Appointment Services</h4>
                         </div>
-                        <p class="text-muted">Pamper yourself, it's time!</p>
-                        <div class="text-muted mt-4">
+                        <p class="text-white">Pamper yourself, it's time!</p>
+                        <div class="text-white mt-4">
                             <p class="mb-2"><i class="mdi mdi-circle-medium text-success me-1"></i>Schedule appointments at a convenient date and time that fits your busy schedule. No more waiting on hold or inconvenient salon hours.</p>
                             <p><i class="mdi mdi-circle-medium text-success me-1"></i>Afroserves All allows you to book appointments effortlessly anytime, anywhere.</p>
                         </div>
@@ -252,8 +265,8 @@
                             <div class="features-number fw-semibold display-4 me-3">02</div>
                             <h4 class="mb-0">Food Ordering Services</h4>
                         </div>
-                        <p class="text-muted">Browse menus, explore mouthwatering pictures, and add your selections to your cart with just a few taps. Customize your order with special requests and dietary needs.</p>
-                        <div class="text-muted mt-4">
+                        <p class="text-white">Browse menus, explore mouthwatering pictures, and add your selections to your cart with just a few taps. Customize your order with special requests and dietary needs.</p>
+                        <div class="text-white mt-4">
                             <p class="mb-2"><i class="mdi mdi-circle-medium text-success me-1"></i>Enjoy a diverse range of cuisines to suit every taste bud.</p>
                             <p><i class="mdi mdi-circle-medium text-success me-1"></i>Our delivery partners ensure your food arrives fresh, hot, and on time.</p>
                         </div>
@@ -261,8 +274,8 @@
                 </div>
                 <div class="col-md-6  col-sm-8 ms-md-auto">
                     <div class="mt-4 me-md-0">
-                        <img src="assets/images/crypto/features-img/img-2.png" alt=""
-                            class="img-fluid mx-auto d-block">
+                        <img src="{{ asset('assets/images/services/f4.jpg') }}" alt=""
+                            class="rounded img-fluid mx-auto d-block">
                     </div>
                 </div>
 
@@ -600,6 +613,7 @@
     <script src="{{ asset('assets/libs/simplebar/simplebar.min.js') }}"></script>
     <script src="{{ asset('assets/libs/node-waves/waves.min.js') }}"></script>
 
+
     <script src="{{ asset('assets/libs/jquery.easing/jquery.easing.min.js') }}"></script>
 
     <!-- Plugins js-->
@@ -611,9 +625,44 @@
     <!-- ICO landing init -->
     <script src="{{ asset('assets/js/pages/ico-landing.init.js') }}"></script>
 
-    <script src="{{ asset('assets/js/app.js') }}"></script>
     <script>
-        sessionStorage.clear();
+         $(document).ready(function(){
+            var imageUrls = [
+                "{{ asset('assets/images/bg_img_1.jpg') }}",
+                "{{ asset('assets/images/services/s2.jpg') }}",
+                "{{ asset('assets/images/services/f2.jpg') }}",
+                "{{ asset('assets/images/services/s1.jpg') }}",
+                "{{ asset('assets/images/services/f3.jpg') }}",
+                "{{ asset('assets/images/services/s3.jpg') }}",
+                "{{ asset('assets/images/services/f4.jpg') }}",
+                "{{ asset('assets/images/services/s4.jpg') }}",
+                // Add more image URLs as needed
+            ];
+
+            var heroSection = $('.hero-section');
+            var overlay = $('.bg-overlay');
+
+            var index = 0;
+            var img = new Image();
+            img.onload = function() {
+                overlay.fadeOut(50, function() {
+                    heroSection.css('background-image', 'url(' + imageUrls[index] + ')');
+                    overlay.show();
+                });
+            };
+            img.src = imageUrls[index];
+
+            setInterval(function(){
+                index = (index + 1) % imageUrls.length;
+                overlay.fadeIn(500, function() {
+                    var nextImg = new Image();
+                    nextImg.onload = function() {
+                        heroSection.css('background-image', 'url(' + imageUrls[index] + ')');
+                    };
+                    nextImg.src = imageUrls[index];
+                });
+            }, 5000); // Change image every 5 seconds
+        });
     </script>
 
 </body>

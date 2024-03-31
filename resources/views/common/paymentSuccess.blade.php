@@ -28,11 +28,9 @@
 
                     <div class="card-body">
                         <p class="text-center">Thank you for your payment. Your transaction has been successful.</p>
-                        <p class="text-center">Transaction ID: $transactionData->order_id </p>
-                        <p class="text-center">Amount Paid: $transactionData->amount_paid </p>
 
                         <div class="d-flex justify-content-center">
-                            <a href="{{ route('bookNow') }}" class="btn btn-primary">Return to Booking</a>
+                            <a href="{{ url('/') }}" class="btn btn-primary">Return to Afroserves All</a>
                         </div>
                     </div>
                 </div>

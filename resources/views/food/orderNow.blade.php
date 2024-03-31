@@ -44,6 +44,9 @@
     <link href="{{ asset('assets/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
     <!-- App js -->
     <script src="{{ asset('assets/js/plugin.js') }}"></script>
+    <!-- Include toastr CSS file -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+
 
 </head>
 
@@ -97,12 +100,9 @@
                         <!-- item-->
                         <span class="dropdown-item d-none d-xl-inline-block ms-2 nav-link" key="t-henry">Welcome</span>
                         <hr>
-                        <a class="dropdown-item" href="#"><i
+                        <a class="dropdown-item" href="{{ url('customer/profile') }}"><i
                                 class="bx bx-user font-size-16 align-middle me-1"></i> <span
                                 key="t-profile">Profile</span></a>
-                        <a class="dropdown-item" href="#"><i
-                                class="bx bx-wallet font-size-16 align-middle me-1"></i> <span key="t-my-wallet">Order
-                                History</span></a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item text-danger" href="{{ url('/customer/logout') }}"
                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i
@@ -120,7 +120,7 @@
 
     <!-- hero section start -->
     <section class="section hero-section bg-ico-hero" id="home"
-        style="background-image:url({{ asset('assets/images/bg_img_1.jpg') }});background-size:cover;background-position:top">
+        style="background-image:url({{ asset('assets/images/services/f2.jpg') }});background-size:cover;background-position:top">
         <div class="bg-overlay bg-darke"></div>
         <div class="container">
             <div class="row align-items-center mt-5 pt-5">
@@ -256,22 +256,15 @@
                                             <hr>
                                             <textarea class="form-control mb-3" id="additionalInfo" placeholder="Additional information"></textarea>
                                             <div class="form-check mb-2">
-                                                <input class="form-check-input" type="radio" name="delivery"
-                                                    id="pickup" value="pickup" checked>
+                                                <input class="form-check-input" type="radio" name="delivery" id="pickup" value="pickup" checked>
                                                 <label class="form-check-label" for="pickup">Pickup</label>
                                             </div>
                                             <div class="form-check mb-2">
-                                                <input class="form-check-input" type="radio" name="delivery"
-                                                    id="delivery" value="delivery">
+                                                <input class="form-check-input" type="radio" name="delivery" id="delivery" value="delivery">
                                                 <label class="form-check-label" for="delivery">Delivery</label>
                                             </div>
                                             <hr>
-                                            <form action="{{ route('placeOrder') }}" method="post">
-                                                @csrf
-                                                <input type="hidden" name="price" value="300">
-                                                <button type="button" class="btn btn-primary"
-                                                    id="proceedToCheckoutBtn">Proceed to Checkout</button>
-                                            </form>
+                                            <button type="button" class="btn btn-primary" id="proceedToCheckoutBtn">Proceed to Checkout</button>
                                         </div>
                                     </div>
                                 </div>
@@ -292,8 +285,7 @@
     @include('common.auth')
 
     <!-- Payment Modal -->
-    <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -306,24 +298,19 @@
                         <p class="text-muted">Get your free {{ env('APP_NAME') }} account now.</p>
                         <hr>
                     </div>
-                    <form action="/customer/checkout" method="POST">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        <div class="card p-3" id="order-items-container">
-                            @if (session()->has('cart') && count(session('cart')) > 0)
-                                <!-- Cart items will be dynamically added here by JavaScript -->
-                            @else
-                                <p>Your cart is empty.</p>
-                            @endif
-                        </div>
-                        <input type="hidden" id="cartItemsInput" name="cartItems">
-                        <div class="text-end mt-1">
-                            <strong>Subtotal:</strong> $<span id="orderSubtotal">00.00</span>
-                        </div>
-                        <hr>
-                        <button type="submit" class="btn btn-primary" id="proceedToPayment">Proceed to
-                            Payment</button>
-                    </form>
-
+                    <div class="card p-3" id="order-items-container">
+                        @if(session()->has('cart') && count(session('cart')) > 0)
+                            <!-- Cart items will be dynamically added here by JavaScript -->
+                        @else
+                            <p>Your cart is empty.</p>
+                        @endif
+                    </div>
+                    <input type="hidden" id="cartItemsInput" name="cartItems">
+                    <div class="text-end mt-1">
+                        <strong>Subtotal:</strong> $<span id="orderSubtotal">00.00</span>
+                    </div>
+                    <hr>
+                    <button type="button" class="btn btn-primary" id="proceedToPayment">Proceed to Payment</button>
                 </div>
             </div>
         </div>
@@ -377,7 +364,6 @@
     <!-- ICO landing init -->
     <script src="{{ asset('assets/js/pages/ico-landing.init.js') }}"></script>
 
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="{{ asset('assets/js/pages/toastr.init.js') }}"></script>
 
@@ -431,8 +417,9 @@
             const phone = document.getElementById('phone').value;
             const additionalInfo = document.getElementById('additionalInfo').value;
             const cartItems = document.getElementById('cartItemsInput').value;
+            const productType = 'Food';
 
-            // Make sure all required fields are filled
+            // Client-side validation
             if (deliveryType === 'delivery' && (!addressId && !address1)) {
                 Swal.fire({
                     icon: 'error',
@@ -450,27 +437,43 @@
                 address_2: address2,
                 phone: phone,
                 additional_infomation: additionalInfo,
-                cart_items: cartItems
+                cart_items: cartItems,
+                product_type: productType,
             };
 
-            console.log(data);
-
+            // Send data to the server
             axios.post('/customer/placeOrder', data)
                 .then(function(response) {
+
+                    console.log(response);
                     const redirectUrl = response.data.redirectUrl;
+                    const status = response.data.status;
+                    const message = response.data.message;
+
                     if (redirectUrl) {
                         window.location.href = redirectUrl;
-                    } else {
-                        console.error('Redirect URL not found in the response');
+                    }
+
+                    if(status == 'error') {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: message,
+                        });
                     }
                 })
                 .catch(function(error) {
                     console.error(error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'An error occurred while processing your request.',
+                    });
                 });
         });
     </script>
 
-
+{{-- 
     <script>
         function addToCart() {
             // fetch product details from the page or pass them as arguments
@@ -551,7 +554,7 @@
 
         // Call the function initially to populate the cart items
         addCartItems();
-    </script>
+    </script> --}}
 
 </body>
 

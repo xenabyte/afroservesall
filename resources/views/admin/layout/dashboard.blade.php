@@ -158,7 +158,7 @@
                                 </a>
                                 <ul class="sub-menu" aria-expanded="false">
                                     <li><a href="{{ url('/admin/pendingHair') }}" key="t-default">Pending</a></li>
-                                    <li><a href="{{ url('/admin/completedGair') }}" key="t-saas">Completed</a></li>
+                                    <li><a href="{{ url('/admin/completedHair') }}" key="t-saas">Completed</a></li>
                                 </ul>
                             </li>
                             <br>
@@ -169,7 +169,6 @@
                                     <span key="t-reporters">Transaction</span>
                                 </a>
                                 <ul class="sub-menu" aria-expanded="false">
-                                    <li><a href="{{ url('/admin/reporters') }}" key="t-default">New Transactions</a></li>
                                     <li><a href="{{ url('/admin/allTransactions') }}" key="t-saas">All Transactions</a></li>
                                 </ul>
                             </li>

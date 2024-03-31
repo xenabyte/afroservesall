@@ -97,12 +97,9 @@
                         <!-- item-->
                         <span class="dropdown-item d-none d-xl-inline-block ms-2 nav-link" key="t-henry">Welcome</span>
                         <hr>
-                        <a class="dropdown-item" href="#"><i
-                                class="bx bx-user font-size-16 align-middle me-1"></i> <span
-                                key="t-profile">Profile</span></a>
-                        <a class="dropdown-item" href="#"><i
-                                class="bx bx-wallet font-size-16 align-middle me-1"></i> <span key="t-my-wallet">Order
-                                History</span></a>
+                        <a class="dropdown-item" href="{{ url('customer/profile') }}"><i
+                            class="bx bx-user font-size-16 align-middle me-1"></i> <span
+                            key="t-profile">Profile</span></a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item text-danger" href="{{ url('/customer/logout') }}"
                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i
@@ -120,7 +117,7 @@
 
     <!-- hero section start -->
     <section class="section hero-section bg-ico-hero" id="home"
-        style="background-image:url({{ asset('assets/images/bg_img_1.jpg') }});background-size:cover;background-position:top">
+        style="background-image:url({{ asset('assets/images/services/s4.jpg') }});background-size:cover;background-position:top">
         <div class="bg-overlay bg-darke"></div>
         <div class="container">
             <div class="row align-items-center mt-5 pt-5">
@@ -262,14 +259,11 @@
                                             <textarea class="form-control mb-3" id="additionalInfo" placeholder="Additional information"></textarea>
                                             <div class="form-group">
                                                 <label for="deliveryDate">Booking Date</label>
-                                                <input class="form-control" type="date" id="bookingDate"
-                                                    name="bookingDate">
-                                            </div>
-                                            <input type="hidden" name="delivery" id="deliveryType"
-                                                value="delivery">
+                                                <input class="form-control" type="date" id="bookingDate" name="bookingDate">
+                                            </div>   
+                                            <input type="hidden" name="delivery" id="deliveryType" value="delivery">                                             
                                             <hr>
-                                            <button type="button" class="btn btn-primary"
-                                                id="proceedToCheckoutBtn">Proceed to Checkout</button>
+                                            <button type="button" class="btn btn-primary" id="proceedToCheckoutBtn">Proceed to Checkout</button>
                                         </div>
                                     </div>
                                 </div>
@@ -290,8 +284,7 @@
     @include('common.auth')
 
     <!-- Payment Modal -->
-    <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -304,24 +297,19 @@
                         <p class="text-muted">Get your free {{ env('APP_NAME') }} account now.</p>
                         <hr>
                     </div>
-                    <form action="/customer/checkout" method="POST">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-
-                        <div class="card p-3" id="order-items-container">
-                            @if (session()->has('cart') && count(session('cart')) > 0)
-                                <!-- Cart items will be dynamically added here by JavaScript -->
-                            @else
-                                <p>Your cart is empty.</p>
-                            @endif
-                        </div>
-                        <input type="hidden" id="cartItemsInput" name="cartItems">
-                        <div class="text-end mt-1">
-                            <strong>Subtotal:</strong> $<span id="orderSubtotal">00.00</span>
-                        </div>
-                        <hr>
-                        <button type="submit" class="btn btn-primary" id="proceedToPayment">Proceed to
-                            Payment</button>
-                    </form>
+                    <div class="card p-3" id="order-items-container">
+                        @if(session()->has('cart') && count(session('cart')) > 0)
+                            <!-- Cart items will be dynamically added here by JavaScript -->
+                        @else
+                            <p>Your cart is empty.</p>
+                        @endif
+                    </div>
+                    <input type="hidden" id="cartItemsInput" name="cartItems">
+                    <div class="text-end mt-1">
+                        <strong>Subtotal:</strong> $<span id="orderSubtotal">00.00</span>
+                    </div>
+                    <hr>
+                    <button type="button" class="btn btn-primary" id="proceedToPayment">Proceed to Payment</button>
                 </div>
             </div>
         </div>
@@ -423,6 +411,7 @@
             const additionalInfo = document.getElementById('additionalInfo').value;
             const cartItems = document.getElementById('cartItemsInput').value;
             const bookingDate = document.getElementById('bookingDate').value;
+            const productType = 'Hair';
 
             if (!bookingDate) {
                 Swal.fire({
@@ -453,23 +442,39 @@
                 additional_infomation: additionalInfo,
                 cart_items: cartItems,
                 booking_date: bookingDate,
+                product_type: productType,
             };
 
-            console.log(data);
-
             // Send data to the server
-            axios.post('/customer/checkout')
+            axios.post('/customer/placeOrder', data)
                 .then(function(response) {
-                    // Handle success response
-                    console.log(response.data);
-                    // Optionally, you can redirect the user to a success page or display a success message
+
+                    console.log(response);
+                    const redirectUrl = response.data.redirectUrl;
+                    const status = response.data.status;
+                    const message = response.data.message;
+
+                    if (redirectUrl) {
+                        window.location.href = redirectUrl;
+                    }
+
+                    if(status == 'error') {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: message,
+                        });
+                    }
                 })
                 .catch(function(error) {
-                    // Handle error response
                     console.error(error);
-                    // Optionally, you can display an error message to the user
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'An error occurred while processing your request.',
+                    });
                 });
-        });
+            });
     </script>
 
 </body>
