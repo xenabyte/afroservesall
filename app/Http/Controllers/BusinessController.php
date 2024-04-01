@@ -531,5 +531,5 @@ class BusinessController extends Controller
 
         return view('common.paymentFailed');
     }
-
 }
+

@@ -88,7 +88,7 @@
                     <button type="button" class="btn header-item waves-effect bg-white" id="page-header-user-dropdown"
                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-right: 5px;">
                         <img class="rounded-circle header-profile-user"
-                            src="{{ asset('assets/images/users/avatar-1.jpg') }}" alt="Header Avatar">
+                            src="{{ asset('assets/images/users/avatar.png') }}" alt="Header Avatar">
                         <span class="d-none d-xl-inline-block ms-1" key="t-henry"
                             style="margin-right: 5px;">{{ $name }}</span>
                         <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
@@ -98,8 +98,8 @@
                         <span class="dropdown-item d-none d-xl-inline-block ms-2 nav-link" key="t-henry">Welcome</span>
                         <hr>
                         <a class="dropdown-item" href="{{ url('customer/profile') }}"><i
-                            class="bx bx-user font-size-16 align-middle me-1"></i> <span
-                            key="t-profile">Profile</span></a>
+                                class="bx bx-user font-size-16 align-middle me-1"></i> <span
+                                key="t-profile">Profile</span></a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item text-danger" href="{{ url('/customer/logout') }}"
                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i
@@ -143,14 +143,14 @@
 
                                     <!-- Second Column: Features (Accordion) -->
                                     <div class="col-md-6">
-                                        <h2></h2> 
+                                        <h2></h2>
                                         <div class="card">
                                             <div class="card-header bg-muted">
                                                 <small class="text-danger">By increasing the quantity means
                                                     you are booking for more than 1 person.</small>
                                             </div>
                                         </div>
-                                            
+
                                         <div id="accordion">
                                             @foreach ($hairProducts as $product)
                                                 <div class="accordion-item">
@@ -259,11 +259,14 @@
                                             <textarea class="form-control mb-3" id="additionalInfo" placeholder="Additional information"></textarea>
                                             <div class="form-group">
                                                 <label for="deliveryDate">Booking Date</label>
-                                                <input class="form-control" type="date" id="bookingDate" name="bookingDate">
-                                            </div>   
-                                            <input type="hidden" name="delivery" id="deliveryType" value="delivery">                                             
+                                                <input class="form-control" type="date" id="bookingDate"
+                                                    name="bookingDate">
+                                            </div>
+                                            <input type="hidden" name="delivery" id="deliveryType"
+                                                value="delivery">
                                             <hr>
-                                            <button type="button" class="btn btn-primary" id="proceedToCheckoutBtn">Proceed to Checkout</button>
+                                            <button type="button" class="btn btn-primary"
+                                                id="proceedToCheckoutBtn">Proceed to Checkout</button>
                                         </div>
                                     </div>
                                 </div>
@@ -284,7 +287,8 @@
     @include('common.auth')
 
     <!-- Payment Modal -->
-    <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+    <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -298,7 +302,7 @@
                         <hr>
                     </div>
                     <div class="card p-3" id="order-items-container">
-                        @if(session()->has('cart') && count(session('cart')) > 0)
+                        @if (session()->has('cart') && count(session('cart')) > 0)
                             <!-- Cart items will be dynamically added here by JavaScript -->
                         @else
                             <p>Your cart is empty.</p>
@@ -458,7 +462,7 @@
                         window.location.href = redirectUrl;
                     }
 
-                    if(status == 'error') {
+                    if (status == 'error') {
                         Swal.fire({
                             icon: 'error',
                             title: 'Oops...',
@@ -474,7 +478,7 @@
                         text: 'An error occurred while processing your request.',
                     });
                 });
-            });
+        });
     </script>
 
 </body>

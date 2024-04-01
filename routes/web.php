@@ -63,7 +63,7 @@ Route::group(['prefix' => 'admin'], function () {
 
   Route::post('/updateOrder', [App\Http\Controllers\Admin\AdminController::class, 'updateOrder'])->name('updateOrder')->middleware(['auth:admin']);
 
-  
+
 
 
 
@@ -105,6 +105,6 @@ Route::group(['prefix' => 'customer'], function () {
   Route::get('/profile', [App\Http\Controllers\Customer\CustomerController::class, 'profile'])->name('profile')->middleware(['auth:customer']);
   Route::post('/deleteAddress', [App\Http\Controllers\Customer\CustomerController::class, 'deleteAddress'])->name('deleteAddress')->middleware(['auth:customer']);
 
-  
+
 });
 

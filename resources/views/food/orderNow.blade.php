@@ -91,7 +91,7 @@
                     <button type="button" class="btn header-item waves-effect bg-white" id="page-header-user-dropdown"
                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-right: 5px;">
                         <img class="rounded-circle header-profile-user"
-                            src="{{ asset('assets/images/users/avatar-1.jpg') }}" alt="Header Avatar">
+                            src="{{ asset('assets/images/users/avatar.png') }}" alt="Header Avatar">
                         <span class="d-none d-xl-inline-block ms-1" key="t-henry"
                             style="margin-right: 5px;">{{ $name }}</span>
                         <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
@@ -256,15 +256,18 @@
                                             <hr>
                                             <textarea class="form-control mb-3" id="additionalInfo" placeholder="Additional information"></textarea>
                                             <div class="form-check mb-2">
-                                                <input class="form-check-input" type="radio" name="delivery" id="pickup" value="pickup" checked>
+                                                <input class="form-check-input" type="radio" name="delivery"
+                                                    id="pickup" value="pickup" checked>
                                                 <label class="form-check-label" for="pickup">Pickup</label>
                                             </div>
                                             <div class="form-check mb-2">
-                                                <input class="form-check-input" type="radio" name="delivery" id="delivery" value="delivery">
+                                                <input class="form-check-input" type="radio" name="delivery"
+                                                    id="delivery" value="delivery">
                                                 <label class="form-check-label" for="delivery">Delivery</label>
                                             </div>
                                             <hr>
-                                            <button type="button" class="btn btn-primary" id="proceedToCheckoutBtn">Proceed to Checkout</button>
+                                            <button type="button" class="btn btn-primary"
+                                                id="proceedToCheckoutBtn">Proceed to Checkout</button>
                                         </div>
                                     </div>
                                 </div>
@@ -285,7 +288,8 @@
     @include('common.auth')
 
     <!-- Payment Modal -->
-    <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+    <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -299,7 +303,7 @@
                         <hr>
                     </div>
                     <div class="card p-3" id="order-items-container">
-                        @if(session()->has('cart') && count(session('cart')) > 0)
+                        @if (session()->has('cart') && count(session('cart')) > 0)
                             <!-- Cart items will be dynamically added here by JavaScript -->
                         @else
                             <p>Your cart is empty.</p>
@@ -454,7 +458,7 @@
                         window.location.href = redirectUrl;
                     }
 
-                    if(status == 'error') {
+                    if (status == 'error') {
                         Swal.fire({
                             icon: 'error',
                             title: 'Oops...',
@@ -473,7 +477,7 @@
         });
     </script>
 
-{{-- 
+    {{--
     <script>
         function addToCart() {
             // fetch product details from the page or pass them as arguments

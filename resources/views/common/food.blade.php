@@ -1,98 +1,108 @@
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-     fetchCartItems();
+    document.addEventListener('DOMContentLoaded', function() {
+        fetchCartItems();
 
-     // Event delegation for minus buttons
-     document.addEventListener('click', function(event) {
-         if (event.target.classList.contains('cart-minus-button')) {
-             const quantityInput = event.target.parentNode.querySelector('.cart-quantity-input');
-             if (parseInt(quantityInput.value) > 1) {
-                 quantityInput.value = parseInt(quantityInput.value) - 1;
-                 updateCartQuantity(event.target, 'decrease');
-             }
-         }
-     });
+        // Event delegation for minus buttons
+        document.addEventListener('click', function(event) {
+            if (event.target.classList.contains('cart-minus-button')) {
+                const quantityInput = event.target.parentNode.querySelector('.cart-quantity-input');
+                if (parseInt(quantityInput.value) > 1) {
+                    quantityInput.value = parseInt(quantityInput.value) - 1;
+                    updateCartQuantity(event.target, 'decrease');
+                }
+            }
+        });
 
-     // Event delegation for plus buttons
-     document.addEventListener('click', function(event) {
-         if (event.target.classList.contains('cart-plus-button')) {
-             const quantityInput = event.target.parentNode.querySelector('.cart-quantity-input');
-             quantityInput.value = parseInt(quantityInput.value) + 1;
-             updateCartQuantity(event.target, 'increase');
-         }
-     });
+        // Event delegation for plus buttons
+        document.addEventListener('click', function(event) {
+            if (event.target.classList.contains('cart-plus-button')) {
+                const quantityInput = event.target.parentNode.querySelector('.cart-quantity-input');
+                quantityInput.value = parseInt(quantityInput.value) + 1;
+                updateCartQuantity(event.target, 'increase');
+            }
+        });
 
-     const minusButtons = document.querySelectorAll('.minus-button');
-     minusButtons.forEach(function(minusButton) {
-         minusButton.addEventListener('click', function() {
-             const quantityInput = this.parentNode.querySelector('.quantity-input');
-             if (parseInt(quantityInput.value) > 1) {
-                 quantityInput.value = parseInt(quantityInput.value) - 1;
-             }
-         });
-     });
+        const minusButtons = document.querySelectorAll('.minus-button');
+        minusButtons.forEach(function(minusButton) {
+            minusButton.addEventListener('click', function() {
+                const quantityInput = this.parentNode.querySelector('.quantity-input');
+                if (parseInt(quantityInput.value) > 1) {
+                    quantityInput.value = parseInt(quantityInput.value) - 1;
+                }
+            });
+        });
 
-     const plusButtons = document.querySelectorAll('.plus-button');
-     plusButtons.forEach(function(plusButton) {
-         plusButton.addEventListener('click', function() {
-             const quantityInput = this.parentNode.querySelector('.quantity-input');
-             quantityInput.value = parseInt(quantityInput.value) + 1;
-         });
-     });
+        const plusButtons = document.querySelectorAll('.plus-button');
+        plusButtons.forEach(function(plusButton) {
+            plusButton.addEventListener('click', function() {
+                const quantityInput = this.parentNode.querySelector('.quantity-input');
+                quantityInput.value = parseInt(quantityInput.value) + 1;
+            });
+        });
 
-     const addToCartButtons = document.querySelectorAll('.add-to-cart-button');
-         addToCartButtons.forEach(function(button) {
-             button.addEventListener('click', function () {
-                 const featureId = this.parentElement.querySelector('.feature-id').value;
-                 const productId = this.parentElement.querySelector('.product-id').value;
-                 const quantity = this.parentElement.querySelector('.quantity-input').value;
-                 console.log(featureId, productId, quantity);
-             
-                 // Send a POST request to the Laravel route
-                 axios.post('/customer/addToCart', { product_id: productId, feature_id: featureId, quantity: quantity })
-                     .then(function (response) {
-                         if (response.data.status === 'error') {
-                             // Show a SweetAlert for record not found
-                             Swal.fire({
-                                 icon: 'error',
-                                 title: 'Product could not be added to cart',
-                                 text: 'Product not found',
-                             });
-                         } else {
-                             updateCartSection(response.data.cart);
-                         }
-                     })
-                     .catch(function (error) {
-                         console.error(error);
-                     });
-             });
-         });
+        const addToCartButtons = document.querySelectorAll('.add-to-cart-button');
+        addToCartButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                const featureId = this.parentElement.querySelector('.feature-id').value;
+                const productId = this.parentElement.querySelector('.product-id').value;
+                const quantity = this.parentElement.querySelector('.quantity-input').value;
+                console.log(featureId, productId, quantity);
 
-     });
+                // Send a POST request to the Laravel route
+                axios.post('/customer/addToCart', {
+                        product_id: productId,
+                        feature_id: featureId,
+                        quantity: quantity
+                    })
+                    .then(function(response) {
+                        if (response.data.status === 'error') {
+                            // Show a SweetAlert for record not found
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Product could not be added to cart',
+                                text: 'Product not found',
+                            });
+                        } else {
+                            updateCartSection(response.data.cart);
+                        }
+                    })
+                    .catch(function(error) {
+                        console.error(error);
+                    });
+            });
+        });
 
-     function updateCartQuantity(button, action) {
-         const productId = button.parentElement.querySelector('.cart-product-id').value;
-         const featureId = button.parentElement.querySelector('.cart-feature-id').value;
+    });
 
-         axios.post('/customer/updateQuantity', { productId: productId, featureId: featureId, action: action })
-             .then(function(response) {
-                 fetchCartItems();
-             })
-             .catch(function(error) {
-                 console.error(error);
-             });
-     }
 
-     function fetchCartItems() {
-         axios.get('/customer/getCartItems')
-             .then(function(response) {
-                 const cart = response.data.cart;
-                 updateCartSection(cart);
-             })
-             .catch(function(error) {
-                 console.error(error);
-             });
-     }
+
+    function updateCartQuantity(button, action) {
+        const productId = button.parentElement.querySelector('.cart-product-id').value;
+        const featureId = button.parentElement.querySelector('.cart-feature-id').value;
+
+        axios.post('/customer/updateQuantity', {
+                productId: productId,
+                featureId: featureId,
+                action: action
+            })
+            .then(function(response) {
+                fetchCartItems();
+            })
+            .catch(function(error) {
+                console.error(error);
+            });
+    }
+
+    function fetchCartItems() {
+        axios.get('/customer/getCartItems')
+            .then(function(response) {
+                const cart = response.data.cart;
+                updateCartSection(cart);
+            })
+            .catch(function(error) {
+                console.error(error);
+            });
+    }
 
     function updateCartSection(cartItems) {
         const cartContainer = document.getElementById('cart-items-container');
@@ -158,31 +168,31 @@
 
 
     function attachEventListeners() {
-         // Add event listeners for minus buttons
-         const minusButtons = document.querySelectorAll('.cart-minus-button');
-         minusButtons.forEach(function(minusButton) {
-             minusButton.addEventListener('click', function() {
-                 const quantityInput = this.parentNode.querySelector('.cart-quantity-input');
-                 if (parseInt(quantityInput.value) > 1) {
-                     quantityInput.value = parseInt(quantityInput.value) - 1;
-                     updateCartQuantity(this, 'decrease');
-                 }
+        // Add event listeners for minus buttons
+        const minusButtons = document.querySelectorAll('.cart-minus-button');
+        minusButtons.forEach(function(minusButton) {
+            minusButton.addEventListener('click', function() {
+                const quantityInput = this.parentNode.querySelector('.cart-quantity-input');
+                if (parseInt(quantityInput.value) > 1) {
+                    quantityInput.value = parseInt(quantityInput.value) - 1;
+                    updateCartQuantity(this, 'decrease');
+                }
 
-                 if (parseInt(quantityInput.value) == 1) {
-                     quantityInput.value = parseInt(quantityInput.value) - 1;
-                     updateCartQuantity(this, 'delete');
-                 }
-             });
-         });
+                if (parseInt(quantityInput.value) == 1) {
+                    quantityInput.value = parseInt(quantityInput.value) - 1;
+                    updateCartQuantity(this, 'delete');
+                }
+            });
+        });
 
-         // Add event listeners for plus buttons
-         const plusButtons = document.querySelectorAll('.cart-plus-button');
-         plusButtons.forEach(function(plusButton) {
-             plusButton.addEventListener('click', function() {
-                 const quantityInput = this.parentNode.querySelector('.cart-quantity-input');
-                 quantityInput.value = parseInt(quantityInput.value) + 1;
-                 updateCartQuantity(this, 'increase');
-             });
-         });
-     }
- </script>
+        // Add event listeners for plus buttons
+        const plusButtons = document.querySelectorAll('.cart-plus-button');
+        plusButtons.forEach(function(plusButton) {
+            plusButton.addEventListener('click', function() {
+                const quantityInput = this.parentNode.querySelector('.cart-quantity-input');
+                quantityInput.value = parseInt(quantityInput.value) + 1;
+                updateCartQuantity(this, 'increase');
+            });
+        });
+    }
+</script>
