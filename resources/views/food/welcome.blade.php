@@ -44,13 +44,13 @@
                 <div class="collapse navbar-collapse" id="topnav-menu-content">
                     <ul class="navbar-nav ms-auto" id="topnav-menu" >
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/') }}">Afro serves all</a>
+                            <a class="nav-link" href="{{ url('/') }}">Afroserves all</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link active" href="{{ url('/foodOrder') }}">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/orderNow') }}">Order Here</a>
+                            <a class="nav-link" href="{{ url('/orderNow') }}">Order Now</a>
                         </li>
                     </ul>
                 </div>

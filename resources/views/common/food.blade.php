@@ -74,8 +74,6 @@
 
     });
 
-
-
     function updateCartQuantity(button, action) {
         const productId = button.parentElement.querySelector('.cart-product-id').value;
         const featureId = button.parentElement.querySelector('.cart-feature-id').value;
@@ -137,8 +135,11 @@
                                 <button type="button" class="btn btn-outline-secondary input-group-text cart-plus-button">
                                     <i class="mdi mdi-plus"></i>
                                 </button>
+                                <button type="button" class="btn btn-outline-danger input-group-text cart-delete-button">
+                                    <i class="mdi mdi-delete"></i>
+                                </button>
                                 <button type="button" class="btn btn-outline-secondary input-group-text">
-                                    <strong><span class="text-danger">$${(cartItem.price)}</span></strong>
+                                    <strong><span class="text-danger">£${(cartItem.price)}</span></strong>
                                 </button>
                             </div>
                         </div>
@@ -155,7 +156,7 @@
 
             document.getElementById('cartItemsInput').value = JSON.stringify(cartItems);
 
-            // Reattach event listeners for plus and minus buttons
+            // Reattach event listeners for plus, minus, and delete buttons
             attachEventListeners();
         } else {
             cartContainer.innerHTML = '<p>Your cart is empty.</p>';
@@ -165,7 +166,6 @@
         subtotalElement.textContent = subtotal.toFixed(2);
         orderSubtotalElement.textContent = subtotal.toFixed(2);
     }
-
 
     function attachEventListeners() {
         // Add event listeners for minus buttons

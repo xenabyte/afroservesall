@@ -73,7 +73,7 @@
                         <a class="nav-link active" href="{{ url('saloonBooking') }}#home">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/bookNow') }}">Book Here</a>
+                        <a class="nav-link" href="{{ url('/bookNow') }}">Book Now</a>
                     </li>
                 </ul>
             </div>
@@ -125,7 +125,7 @@
                     <div class="card overflow-hidden mb-0 mt-5 mt-lg-0"
                         style="background-color: rgba(255, 255, 255, 0.1);">
                         <div class="card-header text-center">
-                            <h5 class="mb-0">Book a Session Here</h5>
+                            <h5 class="mt-4 mb-4">Book an appointment</h5>
                         </div>
                         <div class="card-body">
                             <div class="container">
@@ -191,7 +191,7 @@
                                                                                     <button type="button"
                                                                                         class="btn btn-outline-secondary input-group-text">
                                                                                         <strong><span
-                                                                                                class="text-danger">${{ $feature->price }}</span></strong>
+                                                                                                class="text-danger">£{{ $feature->price }}</span></strong>
                                                                                     </button>
                                                                                     <!-- Quantity buttons -->
                                                                                     <button type="button"
@@ -253,7 +253,7 @@
                                         <!-- Subtotal -->
                                         <div class="card p-3">
                                             <div class="text-end mt-1">
-                                                <strong>Subtotal:</strong> $<span id="subtotal">00.00</span>
+                                                <strong>Subtotal:</strong> £<span id="subtotal">00.00</span>
                                             </div>
                                             <hr>
                                             <textarea class="form-control mb-3" id="additionalInfo" placeholder="Additional information"></textarea>
@@ -310,7 +310,7 @@
                     </div>
                     <input type="hidden" id="cartItemsInput" name="cartItems">
                     <div class="text-end mt-1">
-                        <strong>Subtotal:</strong> $<span id="orderSubtotal">00.00</span>
+                        <strong>Subtotal:</strong> £<span id="orderSubtotal">00.00</span>
                     </div>
                     <hr>
                     <button type="button" class="btn btn-primary" id="proceedToPayment">Proceed to Payment</button>
