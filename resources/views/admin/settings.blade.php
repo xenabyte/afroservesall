@@ -19,7 +19,6 @@
 <!-- end page title -->
 
 <div class="row">
-
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header align-items-center d-flex">
@@ -272,56 +271,42 @@
 <!-- end row -->
 
 <div class="row">
-
-    {{-- <div class="col-lg-12">
+    <div class="col-lg-12">
         <div class="card">
             <div class="card-header align-items-center d-flex">
-                <h4 class="card-title mb-0 flex-grow-1">Session Settings</h4>
+                <h4 class="card-title mb-0 flex-grow-1">Food Section Settings</h4>
             </div><!-- end card header -->
 
             <div class="card-body">
                 <div class="row mb-2">
                     <div class="col-sm-6 col-xl-12">
-                        <form action="{{ url('/admin/setSession') }}" method="POST">
+                        <form action="{{ url('/admin/updateSettings') }}" method="POST">
                             @csrf
-                            <input type="hidden" name="sessionSetting_id" value="{{ !empty($pageGlobalData->sessionSetting)?$pageGlobalData->sessionSetting->id:null }}">
+                            <input type="hidden" name="setting_id" value="{{ !empty($pageGlobalData->setting)?$pageGlobalData->setting->id:null }}">
                             <div class="row g-3">
 
-                                <div class="col-lg-4">
-                                    <h4 class="card-title mb-0 flex-grow-1">Active Academic Session: {{ !empty($pageGlobalData->sessionSetting)?$pageGlobalData->sessionSetting->academic_session:'Not Set' }}</h4>
+                                <div class="col-lg-6">
+                                    <h4 class="card-title mb-0 flex-grow-1">Status: {{ !empty($pageGlobalData->setting)?$pageGlobalData->setting->food_status:'Not Set' }}</h4>
                                     <br>
                                     <div class="form-floating">
-                                        <select class="form-select" id="academic_session" name="academic_session" aria-label="academic session">
+                                        <select class="form-select" id="foodStatus" name="food_status" aria-label="Food section status">
                                             <option value="" selected>--Select--</option>
-                                            @foreach($sessions as $session)<option value="{{$session->year}}">{{ $session->year}}</option>@endforeach
+                                            <option value="Open">Open</option>
+                                            <option value="Closed">Closed</option>
                                         </select>
-                                        <label for="academic_session">Academic Session</label>
+                                        <label for="foodStatus">Food Session Status</label>
                                     </div>
                                 </div>
 
-                                <div class="col-lg-4">
-                                    <h4 class="card-title mb-0 flex-grow-1">Active Admission Session: {{ !empty($pageGlobalData->sessionSetting)?$pageGlobalData->sessionSetting->admission_session:'Not Set' }}</h4>
+                                <div class="col-lg-6">
+                                    <h4 class="card-title mb-0 flex-grow-1">Message: {{ !empty($pageGlobalData->setting)?$pageGlobalData->setting->food_message:'Not Set' }}</h4>
                                     <br>
                                     <div class="form-floating">
-                                        <select class="form-select" id="admission_session" name="admission_session" aria-label="admission session">
-                                            <option value="" selected>--Select--</option>
-                                            @foreach($sessions as $session)<option value="{{$session->year}}">{{ $session->year}}</option>@endforeach
-                                        </select>
-                                        <label for="admission_session">Admission Session</label>
+                                        <input type="text" class="form-control" id="food_message" name="food_message" placeholder="Message as to when the store will be opened">
+                                        <label for="food_message">Food Session Message</label>
                                     </div>
                                 </div>
 
-                                <div class="col-lg-4">
-                                    <h4 class="card-title mb-0 flex-grow-1">Active Application Session: {{ !empty($pageGlobalData->sessionSetting)?$pageGlobalData->sessionSetting->application_session:'Not Set' }}</h4>
-                                    <br>
-                                    <div class="form-floating">
-                                        <select class="form-select" id="application_session" name="application_session" aria-label="application session">
-                                            <option value="" selected>--Select--</option>
-                                            @foreach($sessions as $session)<option value="{{$session->year}}">{{ $session->year}}</option>@endforeach
-                                        </select>
-                                        <label for="application_session">Application Session</label>
-                                    </div>
-                                </div>
                                 <hr>
                                 <div class="col-lg-12">
                                     <div class="text-end">
@@ -334,49 +319,44 @@
                 </div>
             </div>
         </div><!-- end card -->
-    </div> --}}
+    </div>
 
-    {{-- <div class="col-lg-12">
+    <div class="col-lg-12">
         <div class="card">
             <div class="card-header align-items-center d-flex">
-                <h4 class="card-title mb-0 flex-grow-1">Registrar Settings</h4>
+                <h4 class="card-title mb-0 flex-grow-1">Hair Section Settings</h4>
             </div><!-- end card header -->
 
             <div class="card-body">
                 <div class="row mb-2">
                     <div class="col-sm-6 col-xl-12">
-                        <form action="{{ url('/admin/setRegistrarSetting') }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ url('/admin/updateSettings') }}" method="POST">
                             @csrf
-                            <input type="hidden" name="sessionSetting_id" value="{{ !empty($pageGlobalData->sessionSetting)?$pageGlobalData->sessionSetting->id:null }}">
+                            <input type="hidden" name="setting_id" value="{{ !empty($pageGlobalData->setting)?$pageGlobalData->setting->id:null }}">
                             <div class="row g-3">
 
-                                <div class="col-lg-4">
-                                    <h4 class="card-title mb-0 flex-grow-1">Registrar Name: {{ !empty($pageGlobalData->sessionSetting)?$pageGlobalData->sessionSetting->registrar_name:'Not Set' }}</h4>
+                                <div class="col-lg-6">
+                                    <h4 class="card-title mb-0 flex-grow-1">Status: {{ !empty($pageGlobalData->setting)?$pageGlobalData->setting->saloon_status:'Not Set' }}</h4>
                                     <br>
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" id="registrar_name" name="registrar_name" placeholder="Enter your registrar name">
-                                        <label for="registrar_name">Registrar Name</label>
+                                        <select class="form-select" id="saloon_status" name="saloon_status" aria-label="Hair section status">
+                                            <option value="" selected>--Select--</option>
+                                            <option value="Open">Open</option>
+                                            <option value="Closed">Closed</option>
+                                        </select>
+                                        <label for="saloon_status">Hair Session Status</label>
                                     </div>
                                 </div>
 
-                                <div class="col-lg-4">
-                                    <h4 class="card-title mb-0 flex-grow-1">Registrar Signature:
-                                        <img class="img-thumbnail" alt="Registrar Signature" width="200" src="{{ !empty($pageGlobalData->sessionSetting)? asset($pageGlobalData->sessionSetting->registrar_signature):'Not Set' }}"></h4>
+                                <div class="col-lg-6">
+                                    <h4 class="card-title mb-0 flex-grow-1">Message: {{ !empty($pageGlobalData->setting)?$pageGlobalData->setting->saloon_message:'Not Set' }}</h4>
                                     <br>
                                     <div class="form-floating">
-                                        <input type="file" class="form-control" id="registrar_signature" name="registrar_signature">
-                                        <label for="registrar_signature"></label>
+                                        <input type="text" class="form-control" id="food_message" name="saloon_message" placeholder="Message as to when the store will be opened">
+                                        <label for="saloon_message">Hair Session Message</label>
                                     </div>
                                 </div>
 
-                                <div class="col-lg-4">
-                                    <h4 class="card-title mb-0 flex-grow-1">Resumption Date: {{ !empty($pageGlobalData->sessionSetting) ? date('l, jS F, Y', strtotime($pageGlobalData->sessionSetting->resumption_date)) :'Not Set' }}</h4>
-                                    <br>
-                                    <div class="form-floating">
-                                        <input type="date" class="form-control" id="resumption_date" name="resumption_date">
-                                        <label for="resumption_date">Resumption Date</label>
-                                    </div>
-                                </div>
                                 <hr>
                                 <div class="col-lg-12">
                                     <div class="text-end">
@@ -389,7 +369,7 @@
                 </div>
             </div>
         </div><!-- end card -->
-    </div> --}}
+    </div>
 </div>
 <!-- end row -->
 

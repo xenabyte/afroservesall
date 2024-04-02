@@ -363,34 +363,32 @@ class AdminController extends Controller
     }
 
 
-    public function setSession(Request $request){
-        $validator = Validator::make($request->all(), [
-            'admission_session' => 'required',
-            'academic_session' => 'required',
-            'application_session' => 'required',
-        ]);
+    public function updateSettings(Request $request){
 
-
-        $sessionSetting = new SessionSetting;
-        if(!empty($request->sessionSetting_id) && !$sessionSetting = SessionSetting::find($request->sessionSetting_id)){
-            alert()->error('Oops', 'Invalid Session Setting Information')->persistent('Close');
+        $setting = new Setting;
+        if(!empty($request->setting_id) && !$setting = Setting::find($request->setting_id)){
+            alert()->error('Oops', 'Invalid Setting Information')->persistent('Close');
             return redirect()->back();
         }
 
-        if(!empty($request->admission_session) &&  $request->admission_session != $sessionSetting->admission_session){
-            $sessionSetting->admission_session = $request->admission_session;
+        if(!empty($request->food_status) &&  $request->food_status != $setting->food_status){
+            $setting->food_status = $request->food_status;
         }
 
-        if(!empty($request->academic_session) &&  $request->academic_session != $sessionSetting->academic_session){
-            $sessionSetting->academic_session = $request->academic_session;
+        if(!empty($request->saloon_status) &&  $request->saloon_status != $setting->saloon_status){
+            $setting->saloon_status = $request->saloon_status;
         }
 
-        if(!empty($request->application_session) &&  $request->application_session != $sessionSetting->application_session){
-            $sessionSetting->application_session = $request->application_session;
+        if(!empty($request->food_message) &&  $request->food_message != $setting->food_message){
+            $setting->food_message = $request->food_message;
         }
 
-        if($sessionSetting->save()){
-            alert()->success('Changes Saved', 'Session changes saved successfully')->persistent('Close');
+        if(!empty($request->saloon_message) &&  $request->saloon_message != $setting->saloon_message){
+            $setting->saloon_message = $request->saloon_message;
+        }
+
+        if($setting->save()){
+            alert()->success('Changes Saved', 'Settings changes saved successfully')->persistent('Close');
             return redirect()->back();
         }
 
