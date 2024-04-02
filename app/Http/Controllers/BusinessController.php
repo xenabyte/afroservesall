@@ -71,9 +71,15 @@ class BusinessController extends Controller
 
     public function bookNow(Request $request){
         $hairProducts = Product::where('product_type_id', ProductType::getProductTypeId(ProductType::PRODUCT_TYPE_HAIR))->get();
+
+        $bookingDate = Order::where('status', '!=', 'completed')->pluck('booking_date');
+
+        log::info($bookingDate);
+        
         session(['previous_url' => $request->url()]);
         return view('saloon.bookNow', [
-            'hairProducts' => $hairProducts
+            'hairProducts' => $hairProducts,
+            'bookingDate' => $bookingDate
         ]);
     }
 
@@ -394,7 +400,7 @@ class BusinessController extends Controller
             $subTotal += $cartItem->price;
         }
 
-        $productname = rtrim('Afroserves All - '.$productname, ', ');
+        $productname = rtrim('Afroservesall - '.$productname, ', ');
 
 
 

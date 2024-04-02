@@ -96,7 +96,7 @@
             <div class="row align-items-center mt-5 pt-5">
                 <div class="col-lg-7 mt-5 pt-5">
                     <div class="text-white-50 mt-5">
-                        <h1 class="text-white fw-semibold mb-3 hero-title">Food or Craving Pampering? Afroserves all Has You Covered!</h1>
+                        <h1 class="text-white fw-semibold mb-3 hero-title">Food or Craving Pampering? Afroservesall Has You Covered!</h1>
                         <p class="font-size-14">Order delicious meals from us and book appointments with us - all in one convenient shop!</p>
     
                         <div class="d-flex flex-wrap gap-2 mt-4">
@@ -119,7 +119,7 @@
                 <div class="col-lg-12">
                     <div class="text-center mb-5 mt-5">
                         <div class="small-title">About us</div>
-                        <h4>What we do at Afroserves All?</h4>
+                        <h4>What we do at Afroservesall?</h4>
                     </div>
                 </div>
             </div>
@@ -127,8 +127,8 @@
                 <div class="col-lg-5">
 
                     <div class="text-muted">
-                        <h4>Afroserves All: Your One-Stop Shop for Food & Beauty</h4>
-                        <p>Afroserves All takes the hassle out of your day by offering two essential services in one user-friendly app:</p>
+                        <h4>Afroservesall: Your One-Stop Shop for Food & Beauty</h4>
+                        <p>Afroservesall takes the hassle out of your day by offering two essential services in one user-friendly app:</p>
                         <p>Life gets busy, but that doesn't mean you have to sacrifice delicious food or self-care. Afroserves is here to simplify your life by offering two amazing services in one user-friendly app:</p>
 
                         <div class="d-flex flex-wrap gap-2">
@@ -251,7 +251,7 @@
                         <p class="text-white">Pamper yourself, it's time!</p>
                         <div class="text-white mt-4">
                             <p class="mb-2"><i class="mdi mdi-circle-medium text-success me-1"></i>Schedule appointments at a convenient date and time that fits your busy schedule. No more waiting on hold or inconvenient salon hours.</p>
-                            <p><i class="mdi mdi-circle-medium text-success me-1"></i>Afroserves All allows you to book appointments effortlessly anytime, anywhere.</p>
+                            <p><i class="mdi mdi-circle-medium text-success me-1"></i>Afroservesall allows you to book appointments effortlessly anytime, anywhere.</p>
                         </div>
                     </div>
                 </div>
@@ -338,7 +338,7 @@
                                                                 data-bs-toggle="collapse" aria-expanded="true"
                                                                 aria-controls="general-collapseOne">
 
-                                                                <div>What is Afroserves All?</div>
+                                                                <div>What is Afroservesall?</div>
                                                                 <i class="mdi mdi-minus accor-plus-icon"></i>
 
                                                             </a>
@@ -346,7 +346,7 @@
                                                             <div id="general-collapseOne" class="collapse show"
                                                                 data-bs-parent="#gen-ques-accordion">
                                                                 <div class="card-body">
-                                                                    <p class="mb-0">Afroserves All is a convenient app offering two amazing services in one: food ordering and salon service booking.</p>
+                                                                    <p class="mb-0">Afroservesall is a convenient app offering two amazing services in one: food ordering and salon service booking.</p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -356,7 +356,7 @@
                                                                 class="accordion-list collapsed"
                                                                 data-bs-toggle="collapse" aria-expanded="false"
                                                                 aria-controls="general-collapseTwo">
-                                                                <div>What are the benefits of using Afroserves All?</div>
+                                                                <div>What are the benefits of using Afroservesall?</div>
                                                                 <i class="mdi mdi-minus accor-plus-icon"></i>
                                                             </a>
                                                             <div id="general-collapseTwo" class="collapse"
@@ -375,13 +375,13 @@
                                                                 class="accordion-list collapsed"
                                                                 data-bs-toggle="collapse" aria-expanded="false"
                                                                 aria-controls="general-collapseThree">
-                                                                <div>Where is Afroserves All available?</div>
+                                                                <div>Where is Afroservesall available?</div>
                                                                 <i class="mdi mdi-minus accor-plus-icon"></i>
                                                             </a>
                                                             <div id="general-collapseThree" class="collapse"
                                                                 data-bs-parent="#gen-ques-accordion">
                                                                 <div class="card-body">
-                                                                    <p class="mb-0">Afroserves All is currently available mainly online. We are constantly working on expanding our reach to have physical locations.</p>
+                                                                    <p class="mb-0">Afroservesall is currently available mainly online. We are constantly working on expanding our reach to have physical locations.</p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -391,13 +391,13 @@
                                                                 class="accordion-list collapsed"
                                                                 data-bs-toggle="collapse" aria-expanded="false"
                                                                 aria-controls="general-collapseFour">
-                                                                <div>How much does Afroserves All cost?</div>
+                                                                <div>How much does Afroservesall cost?</div>
                                                                 <i class="mdi mdi-minus accor-plus-icon"></i>
                                                             </a>
                                                             <div id="general-collapseFour" class="collapse"
                                                                 data-bs-parent="#gen-ques-accordion">
                                                                 <div class="card-body">
-                                                                    <p class="mb-0">Using the Afroserves All website is free. However, restaurant menu prices and salon service fees will vary depending on your selections..</p>
+                                                                    <p class="mb-0">Using the Afroservesall website is free. However, restaurant menu prices and salon service fees will vary depending on your selections..</p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -537,7 +537,7 @@
                                                             <div id="roadmap-collapseThree" class="collapse"
                                                                 data-bs-parent="#roadmap-accordion">
                                                                 <div class="card-body">
-                                                                    <p class="mb-0">Yes, you can cancel or reschedule your appointment within a reasonable timeframe (typically 24 hours) through the Afroserves All app.</p>
+                                                                    <p class="mb-0">Yes, you can cancel or reschedule your appointment within a reasonable timeframe (typically 24 hours) through the Afroservesall app.</p>
                                                                 </div>
                                                             </div>
                                                         </div>

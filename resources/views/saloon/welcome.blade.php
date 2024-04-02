@@ -64,7 +64,7 @@
                 <div class="row align-items-center mt-5 pt-5">
                     <div class="col-lg-8 mt-5 pt-5">
                         <div class="text-white-50 mt-5">
-                            <h1 class="text-white fw-semibold mb-3 hero-title">Upgrade Your Look & Feel - Book Your Salon Appointment with Afroserves all!</h1>
+                            <h1 class="text-white fw-semibold mb-3 hero-title">Upgrade your look & feel good</h1>
                             <p class="font-size-14">Schedule your appointment for haircuts, styling, massages, and more </p>
                             
                             <div class="d-flex flex-wrap gap-2 mt-4">

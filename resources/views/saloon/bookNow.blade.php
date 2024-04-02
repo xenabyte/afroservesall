@@ -146,8 +146,8 @@
                                         <h2></h2>
                                         <div class="card">
                                             <div class="card-header bg-muted">
-                                                <small class="text-danger">By increasing the quantity means
-                                                    you are booking for more than 1 person.</small>
+                                                <small class="text-danger">By increasing the quantity means you are booking for more than 1 person.</small> <br>
+                                                <small class="text-danger">The prices stated are minimum prices as prices differ according to volume and length of hair.</small>
                                             </div>
                                         </div>
 
@@ -258,10 +258,9 @@
                                             <hr>
                                             <textarea class="form-control mb-3" id="additionalInfo" placeholder="Additional information"></textarea>
                                             <div class="form-group">
-                                                <label for="deliveryDate">Booking Date</label>
-                                                <input class="form-control" type="date" id="bookingDate"
-                                                    name="bookingDate">
-                                            </div>
+                                                <label for="bookingDateTime">Booking Date and Time</label>
+                                                <input class="form-control" type="datetime-local" id="bookingDateTime" name="bookingDateTime">
+                                            </div>                                       
                                             <input type="hidden" name="delivery" id="deliveryType"
                                                 value="delivery">
                                             <hr>
@@ -480,6 +479,37 @@
                 });
         });
     </script>
+
+<script>
+    // Array of booked dates
+    const bookedDates = ["2024-04-06 16:00:00", "2024-04-06 17:00:00", "2024-04-07 08:00:00"];
+
+    disableBookedDates();
+
+    // Function to disable booked dates and times
+    function disableBookedDates() {
+        const inputDateTime = document.getElementById('bookingDateTime');
+        const options = inputDateTime.getElementsByTagName('option');
+        const selectedDate = inputDateTime.value.split('T')[0];
+
+        for (let i = 0; i < options.length; i++) {
+            const dateTime = options[i].value.split('T')[0] + ' ' + options[i].value.split('T')[1];
+            console.log('dateTime');
+
+            if (bookedDates.includes(dateTime)) {
+                options[i].disabled = true;
+            } else {
+                options[i].disabled = false;
+            }
+        }
+    }
+
+    // // Call the function to disable booked dates on page load
+    // window.addEventListener('DOMContentLoaded', disableBookedDates);
+
+    // // Event listener for changes in the booking date and time
+    // document.getElementById('bookingDateTime').addEventListener('change', disableBookedDates);
+</script>
 
 </body>
 

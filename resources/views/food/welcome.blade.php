@@ -44,7 +44,7 @@
                 <div class="collapse navbar-collapse" id="topnav-menu-content">
                     <ul class="navbar-nav ms-auto" id="topnav-menu" >
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/') }}">Afroserves all</a>
+                            <a class="nav-link" href="{{ url('/') }}">Afroservesall</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link active" href="{{ url('/foodOrder') }}">Home</a>
@@ -64,7 +64,7 @@
                 <div class="row align-items-center mt-5 pt-5">
                     <div class="col-lg-8 mt-5 pt-5">
                         <div class="text-white-50 mt-5">
-                            <h1 class="text-white fw-semibold mb-3 hero-title"> Craving Crushed. Food Delivered. Order Now with Afroserves All!</h1>
+                            <h1 class="text-white fw-semibold mb-3 hero-title">Food or cravings? Afroservesall will indulge you. We have got you covered!!</h1>
                             <p class="font-size-14"> Indulge in your culinary adventures with Afroserves, your's leading food delivery app. Explore a wide variety of menu, order your favorites with a few taps, and enjoy a hassle-free dining experience.</p>
                             
                             <div class="d-flex flex-wrap gap-2 mt-4">

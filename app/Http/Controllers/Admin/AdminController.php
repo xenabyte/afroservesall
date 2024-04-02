@@ -19,6 +19,8 @@ use App\Models\Product;
 use App\Models\ProductFeature;
 use App\Models\ProductType;
 use App\Models\Transaction;
+use App\Models\SiteInfo as Setting;
+use App\Models\ActiveHour;
 
 
 use SweetAlert;
@@ -346,5 +348,52 @@ class AdminController extends Controller
         ]);
     }
 
+    public function settings(){
+
+        $settings = Setting::first();
+        $activeHours = ActiveHours::all();
+
+
+        return view('admin.settings', [
+            'settings' => $settings,
+            'activeHours' => $activeHours
+        ]);
+    }
+
+
+    public function setSession(Request $request){
+        $validator = Validator::make($request->all(), [
+            'admission_session' => 'required',
+            'academic_session' => 'required',
+            'application_session' => 'required',
+        ]);
+
+
+        $sessionSetting = new SessionSetting;
+        if(!empty($request->sessionSetting_id) && !$sessionSetting = SessionSetting::find($request->sessionSetting_id)){
+            alert()->error('Oops', 'Invalid Session Setting Information')->persistent('Close');
+            return redirect()->back();
+        }
+
+        if(!empty($request->admission_session) &&  $request->admission_session != $sessionSetting->admission_session){
+            $sessionSetting->admission_session = $request->admission_session;
+        }
+
+        if(!empty($request->academic_session) &&  $request->academic_session != $sessionSetting->academic_session){
+            $sessionSetting->academic_session = $request->academic_session;
+        }
+
+        if(!empty($request->application_session) &&  $request->application_session != $sessionSetting->application_session){
+            $sessionSetting->application_session = $request->application_session;
+        }
+
+        if($sessionSetting->save()){
+            alert()->success('Changes Saved', 'Session changes saved successfully')->persistent('Close');
+            return redirect()->back();
+        }
+
+        alert()->error('Oops!', 'Something went wrong')->persistent('Close');
+        return redirect()->back();
+    }
 
 }

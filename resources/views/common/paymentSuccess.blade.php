@@ -30,7 +30,7 @@
                         <p class="text-center">Thank you for your payment. Your transaction has been successful.</p>
 
                         <div class="d-flex justify-content-center">
-                            <a href="{{ url('/') }}" class="btn btn-primary">Return to Afroserves All</a>
+                            <a href="{{ url('/') }}" class="btn btn-primary">Return to Afroservesall</a>
                         </div>
                     </div>
                 </div>

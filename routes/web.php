@@ -64,6 +64,10 @@ Route::group(['prefix' => 'admin'], function () {
   Route::post('/updateOrder', [App\Http\Controllers\Admin\AdminController::class, 'updateOrder'])->name('updateOrder')->middleware(['auth:admin']);
 
 
+  Route::get('/settings', [App\Http\Controllers\Admin\AdminController::class, 'settings'])->name('settings')->middleware(['auth:admin']);
+  Route::post('/updateSettings', [App\Http\Controllers\Admin\AdminController::class, 'updateSettings'])->name('updateSettings')->middleware(['auth:admin']);
+
+  
 
 
 

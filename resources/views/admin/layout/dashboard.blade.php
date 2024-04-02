@@ -143,6 +143,12 @@
                                 <span key="t-dashboard">Home</span>
                             </a>
                         </li>
+                        <li>
+                            <a href="{{ url('/admin/settings') }}" class="waves-effect">
+                                <i class="bx bx-home-circle"></i>
+                                <span key="t-dashboard">Application Settings</span>
+                            </a>
+                        </li>
                         <li class="menu-title" key="t-menu">Product</li>
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">

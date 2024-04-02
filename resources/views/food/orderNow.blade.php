@@ -255,6 +255,7 @@
                                             </div>
                                             <hr>
                                             <textarea class="form-control mb-3" id="additionalInfo" placeholder="Additional information"></textarea>
+                                            
                                             <div class="form-check mb-2">
                                                 <input class="form-check-input" type="radio" name="delivery"
                                                     id="pickup" value="pickup" checked>
@@ -265,6 +266,10 @@
                                                     id="delivery" value="delivery">
                                                 <label class="form-check-label" for="delivery">Delivery</label>
                                             </div>
+                                            <div class="form-group">
+                                                <label for="bookingDateTime">Delivery/Pickup Date and Time</label>
+                                                <input class="form-control" type="datetime-local" id="bookingDateTime" name="bookingDateTime">
+                                            </div>  
                                             <hr>
                                             <button type="button" class="btn btn-primary"
                                                 id="proceedToCheckoutBtn">Proceed to Checkout</button>
@@ -310,6 +315,7 @@
                         @endif
                     </div>
                     <input type="hidden" id="cartItemsInput" name="cartItems">
+                    
                     <div class="text-end mt-1">
                         <strong>Subtotal:</strong> £<span id="orderSubtotal">00.00</span>
                     </div>

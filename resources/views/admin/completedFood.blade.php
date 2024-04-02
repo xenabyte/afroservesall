@@ -34,6 +34,7 @@
                             <th scope="col">Customer Name</th>
                             <th scope="col">Customer Phone Number</th>
                             <th scope="col">Delivery Type</th>
+                            <th scope="col">Delivery Date and Time</th>
                             <th scope="col">Order Date</th>
                             <th scope="col">Status</th>
                             <th scope="col"></th>
@@ -49,6 +50,7 @@
                         <td>{{ ucwords($foodOrder->customer->lastname.' '.$foodOrder->customer->othernames) }}</td>
                         <td>{{ $foodOrder->customer->phone }}</td>
                         <td>{{ ucwords($foodOrder->delivery_type) }}</td>
+                        <td>{{ date('F d, Y', strtotime($foodOrder->booking_date)) }}</td>
                         <td>{{ date('F d, Y h:i:s A', strtotime($foodOrder->created_at)) }}</td>
                         <td>
                             @if($foodOrder->status == 'pending')
