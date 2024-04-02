@@ -15,6 +15,11 @@ class CreateSiteInfosTable extends Migration
     {
         Schema::create('site_infos', function (Blueprint $table) {
             $table->id();
+            $table->string('food_status')->nullable();
+            $table->string('saloon_status')->nullable();
+            $table->text('food_message')->nullable();
+            $table->text('saloon_message')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

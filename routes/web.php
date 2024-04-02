@@ -67,7 +67,9 @@ Route::group(['prefix' => 'admin'], function () {
   Route::get('/settings', [App\Http\Controllers\Admin\AdminController::class, 'settings'])->name('settings')->middleware(['auth:admin']);
   Route::post('/updateSettings', [App\Http\Controllers\Admin\AdminController::class, 'updateSettings'])->name('updateSettings')->middleware(['auth:admin']);
 
-  
+  Route::post('/addBusinessHours', [App\Http\Controllers\Admin\AdminController::class, 'addBusinessHours'])->name('addBusinessHours')->middleware(['auth:admin']);
+  Route::post('/updateBusinessHour', [App\Http\Controllers\Admin\AdminController::class, 'updateBusinessHour'])->name('updateBusinessHour')->middleware(['auth:admin']);
+  Route::post('/deleteBusinessHour', [App\Http\Controllers\Admin\AdminController::class, 'deleteBusinessHour'])->name('deleteBusinessHour')->middleware(['auth:admin']);
 
 
 

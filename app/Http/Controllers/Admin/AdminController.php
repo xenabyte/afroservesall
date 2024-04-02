@@ -351,12 +351,14 @@ class AdminController extends Controller
     public function settings(){
 
         $settings = Setting::first();
-        $activeHours = ActiveHours::all();
+        $activeHours = ActiveHour::all();
+        $productTypes = ProductType::all();
 
 
         return view('admin.settings', [
             'settings' => $settings,
-            'activeHours' => $activeHours
+            'activeHours' => $activeHours,
+            'productTypes' => $productTypes
         ]);
     }
 
@@ -389,6 +391,91 @@ class AdminController extends Controller
 
         if($sessionSetting->save()){
             alert()->success('Changes Saved', 'Session changes saved successfully')->persistent('Close');
+            return redirect()->back();
+        }
+
+        alert()->error('Oops!', 'Something went wrong')->persistent('Close');
+        return redirect()->back();
+    }
+
+    public function addBusinessHours(Request $request){
+        $validator = Validator::make($request->all(), [
+            'product_type_id' => 'required',
+            'week_days' => 'required',
+            'opening_hours' => 'required',
+            'closing_hours' => 'required',
+        ]);
+
+        if($validator->fails()) {
+            alert()->error('Error', $validator->messages()->all()[0])->persistent('Close');
+            return redirect()->back();
+        }
+
+        $productTypeId = $request->product_type_id;
+        $weekDays = $request->week_days;
+        $openingHours = $request->opening_hours;
+        $closingHours = $request->closing_hours;
+
+        
+        $newBusinessHour = [
+            'product_type_id' => $productTypeId,
+            'week_days' => $weekDays,
+            'opening_hours' => $openingHours,
+            'closing_hours' => $closingHours,
+        ];
+
+        if(ActiveHour::create($newBusinessHour)){
+            alert()->success('Changes Saved', 'Business hour added successfully')->persistent('Close');
+            return redirect()->back();        
+        }
+
+        alert()->error('Oops!', 'Something went wrong')->persistent('Close');
+        return redirect()->back();
+    }
+
+    public function deleteBusinessHour(Request $request){
+        $validator = Validator::make($request->all(), [
+            'active_hour_id' =>'required',
+        ]);
+
+        if(!$activeHour = ActiveHour::find($request->active_hour_id)){
+            alert()->error('Oops!', 'Business Hour not found')->persistent('Close');
+            return redirect()->back();
+        }
+
+        if($activeHour->delete()){
+            alert()->success('Changes Saved', 'Business hour deleted successfully')->persistent('Close');
+            return redirect()->back();
+        }
+
+        alert()->error('Oops!', 'Something went wrong')->persistent('Close');
+        return redirect()->back();
+    }
+
+    public function updateBusinessHour(Request $request){
+        $validator = Validator::make($request->all(), [
+            'active_hour_id' =>'required',
+        ]);
+
+        if(!$activeHour = ActiveHour::find($request->active_hour_id)){
+            alert()->error('Oops!', 'Business Hour not found')->persistent('Close');
+            return redirect()->back();
+        }
+
+        if(!empty($request->week_days) &&  $request->week_days != $activeHour->week_days){
+            $activeHour->week_days = $request->week_days;
+        }
+
+        if(!empty($request->opening_hours) &&  $request->opening_hours != $activeHour->opening_hours){
+            $activeHour->opening_hours = $request->opening_hours;
+        }
+
+        if(!empty($request->closing_hours) &&  $request->closing_hours != $activeHour->closing_hours){
+            $activeHour->closing_hours = $request->closing_hours;
+        }
+
+        if($activeHour->save()){
+            alert()->success('Changes Saved', 'Business hour updated successfully')->persistent('Close');
             return redirect()->back();
         }
 

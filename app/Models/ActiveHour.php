@@ -12,7 +12,7 @@ class ActiveHour extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'product_type',
+        'product_type_id',
         'week_days',
         'opening_hours',
         'closing_hours',

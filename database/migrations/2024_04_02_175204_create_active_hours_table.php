@@ -15,6 +15,11 @@ class CreateActiveHoursTable extends Migration
     {
         Schema::create('active_hours', function (Blueprint $table) {
             $table->id();
+            $table->string('product_type_id')->nullable();
+            $table->string('week_days')->nullable();
+            $table->time('opening_hours')->nullable();
+            $table->time('closing_hours')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
