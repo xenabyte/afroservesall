@@ -267,7 +267,13 @@
                                             <div class="form-group">
                                                 <label for="bookingDateTime">Booking Date and Time</label>
                                                 <input class="form-control" type="datetime-local" id="bookingDateTime" name="bookingDateTime">
-                                            </div>                                       
+                                            </div>
+
+                                            <div class="alert alert-danger fade mt-3" id="availabilityAlert" role="alert">
+                                                <i class="mdi mdi-block-helper me-2"></i>
+                                                <p id="availabilityMessage"></p>
+                                            </div>
+                                                                                                                            
                                             <input type="hidden" name="delivery" id="deliveryType"
                                                 value="delivery">
                                             <hr>
@@ -549,6 +555,34 @@
                     });
                 });
         });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById('bookingDateTime').addEventListener('change', function () {
+                const selectedDateTime = document.getElementById('bookingDateTime').value;
+                checkAvailability(selectedDateTime);
+            });
+        });
+
+        function checkAvailability(selectedDateTime) {
+            axios.post('/customer/checkAvailability', { dateTime: selectedDateTime, productType: 'Hair' })
+                .then(function (response) {
+                    const isAvailable = response.data.available;
+                    if (!isAvailable) {
+                        showAvailabilityAlert("Selected date and time is not available. Please choose another.");
+                        document.getElementById('bookingDateTime').value = ''; 
+                    }
+                })
+                .catch(function (error) {
+                    console.error('Error checking availability:', error);
+                });
+        }
+
+        function showAvailabilityAlert(message) {
+            const alertDiv = document.getElementById('availabilityAlert');
+            const messageParagraph = document.getElementById('availabilityMessage');
+            messageParagraph.textContent = message;
+            alertDiv.classList.add('show');
+        }
     </script>
 
 <script>

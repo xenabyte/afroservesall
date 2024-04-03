@@ -73,8 +73,6 @@ class BusinessController extends Controller
         $hairProducts = Product::where('product_type_id', ProductType::getProductTypeId(ProductType::PRODUCT_TYPE_HAIR))->get();
 
         $bookingDate = Order::where('status', '!=', 'completed')->pluck('booking_date');
-
-        log::info($bookingDate);
         
         session(['previous_url' => $request->url()]);
         return view('saloon.bookNow', [
@@ -588,6 +586,25 @@ class BusinessController extends Controller
     public function paymentFailed(){
 
         return view('common.paymentFailed');
+    }
+
+    public function checkAvailability(Request $request){
+        $selectedDateTime = $request->input('dateTime');
+        $productType = $request->input('productType');
+
+        Log::info($productType);
+
+
+        $bookingDate = Order::where('status', '!=', 'completed')
+                    ->where('product_type', $productType)
+                    ->whereBetween('booking_date', [
+                        Carbon::parse($selectedDateTime)->subHour(), // One hour before
+                        Carbon::parse($selectedDateTime)->addHour()  // One hour after
+                    ])
+                    ->exists();
+
+
+        return response()->json(['available' => !$bookingDate]);
     }
 }
 

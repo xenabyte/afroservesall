@@ -327,7 +327,7 @@
                                             <td>{{ $order->sku }}</td>
                                             <td>{{ $order->product_type }}</td>
                                             <td>{{ ucwords($order->delivery_type) }}</td>
-                                            <td>{{ date('F d, Y', strtotime($order->booking_date)) }}</td>
+                                            <td>{{ date('F d, Y h:i A', strtotime($order->booking_date)) }}</td>
                                             <td>
                                                 @if ($order->status == 'pending')
                                                     <span class="btn btn-primary waves-effect waves-light">

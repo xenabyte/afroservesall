@@ -113,6 +113,7 @@ Route::group(['prefix' => 'customer'], function () {
   Route::get('/profile', [App\Http\Controllers\Customer\CustomerController::class, 'profile'])->name('profile')->middleware(['auth:customer']);
   Route::post('/deleteAddress', [App\Http\Controllers\Customer\CustomerController::class, 'deleteAddress'])->name('deleteAddress')->middleware(['auth:customer']);
 
+  Route::post('/checkAvailability', [App\Http\Controllers\BusinessController::class, 'checkAvailability'])->name('checkAvailability');
 
 });
 
