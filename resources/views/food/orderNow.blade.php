@@ -16,6 +16,8 @@
     $isAuthenticated = !empty($customer) ? true : false;
     $name = !empty($customer) ? $customer->lastname . ' ' . $customer->othernames : null;
     $addresses = !empty($customer) ? $customer->addresses : null;
+
+    $storeStatus = !empty($pageGlobalData->setting)? $pageGlobalData->setting->food_status : null;
 @endphp
 <!doctype html>
 <html lang="en">
@@ -70,13 +72,13 @@
             <div class="collapse navbar-collapse" id="topnav-menu-content">
                 <ul class="navbar-nav ms-auto" id="topnav-menu">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/') }}">Afro serves all</a>
+                        <a class="nav-link" href="{{ url('/') }}">Afroservesall</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url('/foodOrder') }}#home">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/orderNow') }}">Order Now</a>
+                        <a class="nav-link active" href="{{ url('/orderNow') }}">Order Now</a>
                     </li>
                 </ul>
             </div>
@@ -112,6 +114,11 @@
                             style="display: none;">@csrf</form>
                     </div>
                 </div>
+            @else
+                <button type="button" class="btn header-item waves-effect bg-white" id="auth" style="margin-right: 5px;">
+                    <img class="rounded-circle header-profile-user"
+                        src="{{ asset('assets/images/users/avatar.png') }}" alt="Header Avatar">
+                </button>
             @endif
 
         </div>
@@ -235,7 +242,7 @@
                                     </div>
 
                                     <!-- Third Column: Cart  d-none d-md-block -->
-                                    <div class="col-md-4">
+                                    <div class="col-md-4" id="cart-session">
                                         <h2 class="text-light">Cart Items</h2>
                                         <div id="response"></div>
                                         <div id="error"></div>
@@ -271,8 +278,32 @@
                                                 <input class="form-control" type="datetime-local" id="bookingDateTime" name="bookingDateTime">
                                             </div>  
                                             <hr>
-                                            <button type="button" class="btn btn-primary"
+                                            <button type="button" @if($storeStatus == 'Closed') disabled @endif class="btn btn-primary"
                                                 id="proceedToCheckoutBtn">Proceed to Checkout</button>
+                                        </div>
+
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h4 class="card-title mb-4">Business Hours</h4>
+                                                <div class="mt-4">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-nowrap align-middle table-hover mb-0">
+                                                            <tbody>
+                                                                @if(!empty($pageGlobalData->foodActiveHours))
+                                                                    @foreach($pageGlobalData->foodActiveHours as $foodActiveHour)
+                                                                    <tr>
+                                                                        <td>
+                                                                            <h5 class="text-truncate font-size-14 mb-1"><a href="javascript: void(0);" class="text-dark">{{ $foodActiveHour->week_days }}</a></h5>
+                                                                            <p class="text-muted mb-0"> {{ date('h:i A', strtotime($foodActiveHour->opening_hours)) }} - {{ date('h:i A', strtotime($foodActiveHour->closing_hours)) }} </p>
+                                                                        </td>
+                                                                    </tr>
+                                                                    @endforeach
+                                                                @endif
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -326,6 +357,37 @@
         </div>
     </div>
 
+
+    <!-- storeClosModal -->
+    <div class="modal fade" id="storeClosModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="storeClosModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header border-bottom-0">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center mb-4">
+                        <div class="avatar-md mx-auto mb-4">
+                            <div class="avatar-title bg-danger rounded-circle text-primary h1">
+                                <i class="text-light mdi mdi-door-closed-lock"></i>
+                            </div>
+                        </div>
+
+                        <div class="row justify-content-center">
+                            <div class="col-xl-10">
+                                <h4 class="text-primary">Shop Closed</h4>
+                                <p class="text-muted font-size-14 mb-4">{{ !empty($pageGlobalData->setting)? $pageGlobalData->setting->food_message : null; }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end modal -->
 
 
     <!-- Footer start -->
@@ -402,6 +464,16 @@
         document.getElementById('makePaymentBtn').addEventListener('click', function() {
             $('#addressModal').modal('hide');
             $('#paymentModal').modal('show');
+        });
+
+        document.getElementById('auth').addEventListener('click', function() {
+            $('#loginModal').modal('show');
+        });
+
+        $(document).ready(function() {
+            if ("{{ $storeStatus }}" == 'Closed') {
+                $('#storeClosModal').modal('show');
+            }
         });
     </script>
 

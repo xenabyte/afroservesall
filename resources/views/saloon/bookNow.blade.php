@@ -16,6 +16,8 @@
     $isAuthenticated = !empty($customer) ? true : false;
     $name = !empty($customer) ? $customer->lastname . ' ' . $customer->othernames : null;
     $addresses = !empty($customer) ? $customer->addresses : null;
+    $storeStatus = !empty($pageGlobalData->setting)? $pageGlobalData->setting->saloon_status : null;
+
 @endphp
 <!doctype html>
 <html lang="en">
@@ -67,13 +69,13 @@
             <div class="collapse navbar-collapse" id="topnav-menu-content">
                 <ul class="navbar-nav ms-auto" id="topnav-menu">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/') }}">Afro serves all</a>
+                        <a class="nav-link" href="{{ url('/') }}">Afroservesall</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="{{ url('saloonBooking') }}#home">Home</a>
+                        <a class="nav-link" href="{{ url('saloonBooking') }}#home">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/bookNow') }}">Book Now</a>
+                        <a class="nav-link active" href="{{ url('/bookNow') }}">Book Now</a>
                     </li>
                 </ul>
             </div>
@@ -109,6 +111,11 @@
                             style="display: none;">@csrf</form>
                     </div>
                 </div>
+            @else
+            <button type="button" class="btn header-item waves-effect bg-white" id="auth" style="margin-right: 5px;">
+                <img class="rounded-circle header-profile-user"
+                    src="{{ asset('assets/images/users/avatar.png') }}" alt="Header Avatar">
+            </button>
             @endif
 
         </div>
@@ -264,8 +271,32 @@
                                             <input type="hidden" name="delivery" id="deliveryType"
                                                 value="delivery">
                                             <hr>
-                                            <button type="button" class="btn btn-primary"
+                                            <button type="button" @if($storeStatus == 'Closed') disabled @endif class="btn btn-primary"
                                                 id="proceedToCheckoutBtn">Proceed to Checkout</button>
+                                        </div>
+
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h4 class="card-title mb-4">Business Hours</h4>
+                                                <div class="mt-4">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-nowrap align-middle table-hover mb-0">
+                                                            <tbody>
+                                                                @if(!empty($pageGlobalData->hairActiveHours))
+                                                                    @foreach($pageGlobalData->hairActiveHours as $hairActiveHour)
+                                                                    <tr>
+                                                                        <td>
+                                                                            <h5 class="text-truncate font-size-14 mb-1"><a href="javascript: void(0);" class="text-dark">{{ $hairActiveHour->week_days }}</a></h5>
+                                                                            <p class="text-muted mb-0"> {{ date('h:i A', strtotime($hairActiveHour->opening_hours)) }} - {{ date('h:i A', strtotime($hairActiveHour->closing_hours)) }} </p>
+                                                                        </td>
+                                                                    </tr>
+                                                                    @endforeach
+                                                                @endif
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -318,6 +349,36 @@
         </div>
     </div>
 
+    <!-- storeClosModal -->
+    <div class="modal fade" id="storeClosModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="storeClosModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header border-bottom-0">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center mb-4">
+                        <div class="avatar-md mx-auto mb-4">
+                            <div class="avatar-title bg-danger rounded-circle text-primary h1">
+                                <i class="text-light mdi mdi-door-closed-lock"></i>
+                            </div>
+                        </div>
+
+                        <div class="row justify-content-center">
+                            <div class="col-xl-10">
+                                <h4 class="text-primary">Shop Closed</h4>
+                                <p class="text-muted font-size-14 mb-4">{{ !empty($pageGlobalData->setting)? $pageGlobalData->setting->saloon_message : null; }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end modal -->
 
 
     <!-- Footer start -->
@@ -390,6 +451,16 @@
         document.getElementById('makePaymentBtn').addEventListener('click', function() {
             $('#addressModal').modal('hide');
             $('#paymentModal').modal('show');
+        });
+
+        document.getElementById('auth').addEventListener('click', function() {
+            $('#loginModal').modal('show');
+        });
+
+        $(document).ready(function() {
+            if ("{{ $storeStatus }}" == 'Closed') {
+                $('#storeClosModal').modal('show');
+            }
         });
     </script>
     <script>

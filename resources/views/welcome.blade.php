@@ -133,7 +133,7 @@
 
                         <div class="d-flex flex-wrap gap-2">
                             <a href="#features" class="btn btn-success">Read more on our services</a>
-                            <a href="javascript: void(0);" class="btn btn-outline-primary">How It work</a>
+                            {{-- <a href="javascript: void(0);" class="btn btn-outline-primary">How It work</a> --}}
                         </div>
 
                     </div>
