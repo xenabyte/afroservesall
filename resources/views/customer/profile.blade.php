@@ -323,164 +323,208 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($orders as $order)
-                                            <th scope="row">{{ $loop->iteration }}</th>
-                                            <td>{{ $order->sku }}</td>
-                                            <td>{{ $order->product_type }}</td>
-                                            <td>{{ ucwords($order->delivery_type) }}</td>
-                                            <td>{{ date('F d, Y h:i A', strtotime($order->booking_date)) }}</td>
-                                            <td>
-                                                @if ($order->status == 'pending')
-                                                    <span class="btn btn-primary waves-effect waves-light">
-                                                        Pending
-                                                    </span>
-                                                @elseif($order->status == 'completed')
-                                                    <span class="btn btn-success waves-effect waves-light">
-                                                        Completed
-                                                    </span>
-                                                @else
-                                                    <span class="btn btn-warning waves-effect waves-light">
-                                                        {{ $order->status }}
-                                                    </span>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                <a class="btn btn-outline-secondary btn-sm edit"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#viewOrder{{ $order->id }}" title="view">
-                                                    <i class="fas fa-eye"></i>
-                                                </a>
+                                            <tr>
+                                                <th scope="row">{{ $loop->iteration }}</th>
+                                                <td>{{ $order->sku }}</td>
+                                                <td>{{ $order->product_type }}</td>
+                                                <td>{{ ucwords($order->delivery_type) }}</td>
+                                                <td>{{ date('F d, Y h:i A', strtotime($order->booking_date)) }}</td>
+                                                <td>
+                                                    @if ($order->status == 'pending')
+                                                        <span class="btn btn-primary waves-effect waves-light">
+                                                            Pending
+                                                        </span>
+                                                    @elseif($order->status == 'completed')
+                                                        <span class="btn btn-success waves-effect waves-light">
+                                                            Completed
+                                                        </span>
+                                                    @else
+                                                        <span class="btn btn-warning waves-effect waves-light">
+                                                            {{ $order->status }}
+                                                        </span>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    <div class="hstack gap-3 fs-15">
+                                                        <a class="btn btn-outline-secondary btn-sm edit"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#viewOrder{{ $order->id }}" title="view">
+                                                            <i class="fas fa-eye"></i>
+                                                        </a>
 
-                                                <!-- Static Backdrop Modal -->
-                                                <div class="modal fade" id="viewOrder{{ $order->id }}"
-                                                    data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-                                                    role="dialog" aria-labelledby="staticBackdropLabel"
-                                                    aria-hidden="true">
-                                                    <div class="modal-dialog .modal-dialog-scrollable modal-xl modal-dialog-centered"
-                                                        role="document">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title" id="staticBackdropLabel">Order
-                                                                    Information</h5>
-                                                                <button type="button" class="btn-close"
-                                                                    data-bs-dismiss="modal"
-                                                                    aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body row">
-                                                                <div class="col-xl-8">
-                                                                    <div class="card">
-                                                                        <div class="card-body">
-                                                                            <div class="table-responsive">
-                                                                                <table
-                                                                                    class="table align-middle mb-0 table-nowrap">
-                                                                                    <thead class="table-light">
-                                                                                        <tr>
-                                                                                            <th>#</th>
-                                                                                            <th>Product</th>
-                                                                                            <th>Quantity</th>
-                                                                                            <th>Price</th>
-                                                                                            <th colspan="2">Total
-                                                                                            </th>
-                                                                                        </tr>
-                                                                                    </thead>
-                                                                                    <tbody>
-                                                                                        @foreach ($order->cartItems as $cartItem)
-                                                                                            <tr class="product">
-                                                                                                <td>{{ $loop->iteration }}
-                                                                                                </td>
-                                                                                                <td>
-                                                                                                    <h5
-                                                                                                        class="font-size-14 text-truncate">
-                                                                                                        <a href="#"
-                                                                                                            class="text-dark">{{ $cartItem->name }}</a>
-                                                                                                    </h5>
-                                                                                                    <p class="mb-0">
-                                                                                                        {{ $cartItem->description }}
-                                                                                                    </p>
-                                                                                                </td>
-                                                                                                <td><span
-                                                                                                        class="product-price">{{ $cartItem->quantity }}</span>
-                                                                                                </td>
-                                                                                                <td>$<span
-                                                                                                        class="product-line-price">{{ $cartItem->price / number_format($cartItem->quantity) }}</span>
-                                                                                                </td>
-                                                                                                <td>$<span
-                                                                                                        class="product-line-price">{{ $cartItem->price }}</span>
+                                                        @if($order->status == 'pending')
+                                                        <a class="btn btn-outline-primary btn-sm edit" data-bs-toggle="modal" data-bs-target="#edit{{ $order->id }}" title="view">
+                                                            <i class="fas fa-pencil-alt"></i>
+                                                        </a>
+                                                        @endif
+                                                    </div>
+
+                                                    <div class="modal fade" id="viewOrder{{ $order->id }}"
+                                                        data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                                                        role="dialog" aria-labelledby="staticBackdropLabel"
+                                                        aria-hidden="true">
+                                                        <div class="modal-dialog .modal-dialog-scrollable modal-xl modal-dialog-centered"
+                                                            role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="staticBackdropLabel">Order
+                                                                        Information</h5>
+                                                                    <button type="button" class="btn-close"
+                                                                        data-bs-dismiss="modal"
+                                                                        aria-label="Close"></button>
+                                                                </div>
+                                                                <div class="modal-body row">
+                                                                    <div class="col-xl-8">
+                                                                        <div class="card">
+                                                                            <div class="card-body">
+                                                                                <div class="table-responsive">
+                                                                                    <table
+                                                                                        class="table align-middle mb-0 table-nowrap">
+                                                                                        <thead class="table-light">
+                                                                                            <tr>
+                                                                                                <th>#</th>
+                                                                                                <th>Product</th>
+                                                                                                <th>Quantity</th>
+                                                                                                <th>Price</th>
+                                                                                                <th colspan="2">Total
+                                                                                                </th>
+                                                                                            </tr>
+                                                                                        </thead>
+                                                                                        <tbody>
+                                                                                            @foreach ($order->cartItems as $cartItem)
+                                                                                                <tr class="product">
+                                                                                                    <td>{{ $loop->iteration }}
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        <h5
+                                                                                                            class="font-size-14 text-truncate">
+                                                                                                            <a href="#"
+                                                                                                                class="text-dark">{{ $cartItem->name }}</a>
+                                                                                                        </h5>
+                                                                                                        <p class="mb-0">
+                                                                                                            {{ $cartItem->description }}
+                                                                                                        </p>
+                                                                                                    </td>
+                                                                                                    <td><span
+                                                                                                            class="product-price">{{ $cartItem->quantity }}</span>
+                                                                                                    </td>
+                                                                                                    <td>$<span
+                                                                                                            class="product-line-price">{{ $cartItem->price / number_format($cartItem->quantity) }}</span>
+                                                                                                    </td>
+                                                                                                    <td>$<span
+                                                                                                            class="product-line-price">{{ $cartItem->price }}</span>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                            @endforeach
+
+                                                                                        </tbody>
+                                                                                    </table>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="card-body">
+                                                                                @if ($order->address)
+                                                                                    <p class="mb-0">Address : <span
+                                                                                            class="fw-medium">{{ $order->address->address_1 . ' ' . $order->address->address_2 }}</span>
+                                                                                    </p>
+                                                                                    <p class="mb-0">Phone Number : <span
+                                                                                            class="fw-medium">{{ $order->address->phone_number }}</span>
+                                                                                    </p>
+                                                                                @endif
+                                                                                <p class="mb-0">Additional Information :
+                                                                                    <span
+                                                                                        class="fw-medium">{{ $order->additional_infomation }}</span>
+                                                                                </p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-xl-4">
+                                                                        <div class="card">
+                                                                            <div class="card-body">
+                                                                                <h4 class="card-title mb-3">Order Summary
+                                                                                </h4>
+                                                                                <hr>
+                                                                                <div class="table-responsive">
+                                                                                    <table class="table mb-0">
+                                                                                        <tbody>
+                                                                                            <tr>
+                                                                                                <td>Grand Total :</td>
+                                                                                                <td id="cart-subtotal">
+                                                                                                    ${{ number_format($order->amount_paid / 100, 2) }}
                                                                                                 </td>
                                                                                             </tr>
-                                                                                        @endforeach
-
-                                                                                    </tbody>
-                                                                                </table>
+                                                                                            <tr>
+                                                                                                <td>Discount : </td>
+                                                                                                <td id="cart-discount">- $
+                                                                                                    0.00</td>
+                                                                                            </tr>
+                                                                                            {{-- <tr>
+                                                                                                <td>Shipping Charge :</td>
+                                                                                                <td id="cart-shipping">$ 25</td>
+                                                                                            </tr> --}}
+                                                                                            {{-- <tr>
+                                                                                                <td>Estimated Tax (12.5%) :</td>
+                                                                                                <td id="cart-tax">$ 19.22</td>
+                                                                                            </tr> --}}
+                                                                                            <tr class="bg-light">
+                                                                                                <th>Total :</th>
+                                                                                                <th id="cart-total">
+                                                                                                    ${{ number_format($order->amount_paid / 100, 2) }}
+                                                                                                </th>
+                                                                                            </tr>
+                                                                                        </tbody>
+                                                                                    </table>
+                                                                                </div>
+                                                                                <!-- end table-responsive -->
                                                                             </div>
                                                                         </div>
-                                                                        <div class="card-body">
-                                                                            @if ($order->address)
-                                                                                <p class="mb-0">Address : <span
-                                                                                        class="fw-medium">{{ $order->address->address_1 . ' ' . $order->address->address_2 }}</span>
-                                                                                </p>
-                                                                                <p class="mb-0">Phone Number : <span
-                                                                                        class="fw-medium">{{ $order->address->phone_number }}</span>
-                                                                                </p>
-                                                                            @endif
-                                                                            <p class="mb-0">Additional Information :
-                                                                                <span
-                                                                                    class="fw-medium">{{ $order->additional_infomation }}</span>
-                                                                            </p>
-                                                                        </div>
+                                                                        <!-- end card -->
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-xl-4">
-                                                                    <div class="card">
-                                                                        <div class="card-body">
-                                                                            <h4 class="card-title mb-3">Order Summary
-                                                                            </h4>
-                                                                            <hr>
-                                                                            <div class="table-responsive">
-                                                                                <table class="table mb-0">
-                                                                                    <tbody>
-                                                                                        <tr>
-                                                                                            <td>Grand Total :</td>
-                                                                                            <td id="cart-subtotal">
-                                                                                                ${{ number_format($order->amount_paid / 100, 2) }}
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <td>Discount : </td>
-                                                                                            <td id="cart-discount">- $
-                                                                                                0.00</td>
-                                                                                        </tr>
-                                                                                        {{-- <tr>
-                                                                                            <td>Shipping Charge :</td>
-                                                                                            <td id="cart-shipping">$ 25</td>
-                                                                                        </tr> --}}
-                                                                                        {{-- <tr>
-                                                                                            <td>Estimated Tax (12.5%) :</td>
-                                                                                            <td id="cart-tax">$ 19.22</td>
-                                                                                        </tr> --}}
-                                                                                        <tr class="bg-light">
-                                                                                            <th>Total :</th>
-                                                                                            <th id="cart-total">
-                                                                                                ${{ number_format($order->amount_paid / 100, 2) }}
-                                                                                            </th>
-                                                                                        </tr>
-                                                                                    </tbody>
-                                                                                </table>
-                                                                            </div>
-                                                                            <!-- end table-responsive -->
-                                                                        </div>
-                                                                    </div>
-                                                                    <!-- end card -->
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-danger"
+                                                                        data-bs-dismiss="modal">Close</button>
                                                                 </div>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-danger"
-                                                                    data-bs-dismiss="modal">Close</button>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
 
-                                            </td>
+                                                    <div id="edit{{$order->id}}" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none;">
+                                                        <div class="modal-dialog modal-dialog-centered">
+                                                            <div class="modal-content border-0 overflow-hidden">
+                                                                <div class="modal-header p-3">
+                                                                    <h4 class="card-title mb-0">Update Booking/Delivery Date</h4>
+                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                </div>
+                                        
+                                                                <div class="modal-body">
+                                                                    <form action="{{ url('/customer/updateOrder') }}" method="post" enctype="multipart/form-data">
+                                                                        @csrf
+    
+                                                                        <input name="order_id" type="hidden" value="{{$order->id}}">
+                                                                        <input value="{{ $order->product_type }}" type="hidden" id="productType">
+
+                                                                        
+                                                                        <div class="form-group">
+                                                                            <label for="bookingDateTime">Booking Date and Time</label>
+                                                                            <input class="form-control" type="datetime-local" id="bookingDateTime" name="bookingDateTime">
+                                                                        </div>
+                            
+                                                                        <div class="alert alert-danger fade mt-3" id="availabilityAlert" role="alert">
+                                                                            <i class="mdi mdi-block-helper me-2"></i>
+                                                                            <p id="availabilityMessage"></p>
+                                                                        </div>
+                                                                    
+                                                                        <hr>
+                                                                        <div class="text-end">
+                                                                            <button type="submit" id="submit-button" class="btn btn-primary">Save Changes</button>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                            </div><!-- /.modal-content -->
+                                                        </div><!-- /.modal-dialog -->
+                                                    </div><!-- /.modal -->
+
+                                                </td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -660,6 +704,8 @@
     <script src="{{ asset('assets/js/pages/ico-landing.init.js') }}"></script>
 
     <script src="{{ asset('assets/js/app.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         sessionStorage.clear();
     </script>
@@ -718,6 +764,36 @@
             });
         });
     </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById('bookingDateTime').addEventListener('change', function () {
+                const selectedDateTime = document.getElementById('bookingDateTime').value;
+                checkAvailability(selectedDateTime);
+            });
+        });
+
+        function checkAvailability(selectedDateTime) {
+            axios.post('/customer/checkAvailability', { dateTime: selectedDateTime, productType: 'Hair' })
+                .then(function (response) {
+                    const isAvailable = response.data.available;
+                    if (!isAvailable) {
+                        showAvailabilityAlert("Selected date and time is not available. Please choose another.");
+                        document.getElementById('bookingDateTime').value = ''; 
+                    }
+                })
+                .catch(function (error) {
+                    console.error('Error checking availability:', error);
+                });
+        }
+
+        function showAvailabilityAlert(message) {
+            const alertDiv = document.getElementById('availabilityAlert');
+            const messageParagraph = document.getElementById('availabilityMessage');
+            messageParagraph.textContent = message;
+            alertDiv.classList.add('show');
+        }
+    </script>
+
 
 </body>
 

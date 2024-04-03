@@ -273,7 +273,7 @@
                                                 <i class="mdi mdi-block-helper me-2"></i>
                                                 <p id="availabilityMessage"></p>
                                             </div>
-                                                                                                                            
+
                                             <input type="hidden" name="delivery" id="deliveryType"
                                                 value="delivery">
                                             <hr>
@@ -584,38 +584,6 @@
             alertDiv.classList.add('show');
         }
     </script>
-
-<script>
-    // Array of booked dates
-    const bookedDates = ["2024-04-06 16:00:00", "2024-04-06 17:00:00", "2024-04-07 08:00:00"];
-
-    disableBookedDates();
-
-    // Function to disable booked dates and times
-    function disableBookedDates() {
-        const inputDateTime = document.getElementById('bookingDateTime');
-        const options = inputDateTime.getElementsByTagName('option');
-        const selectedDate = inputDateTime.value.split('T')[0];
-
-        for (let i = 0; i < options.length; i++) {
-            const dateTime = options[i].value.split('T')[0] + ' ' + options[i].value.split('T')[1];
-            console.log('dateTime');
-
-            if (bookedDates.includes(dateTime)) {
-                options[i].disabled = true;
-            } else {
-                options[i].disabled = false;
-            }
-        }
-    }
-
-    // // Call the function to disable booked dates on page load
-    // window.addEventListener('DOMContentLoaded', disableBookedDates);
-
-    // // Event listener for changes in the booking date and time
-    // document.getElementById('bookingDateTime').addEventListener('change', disableBookedDates);
-</script>
-
 </body>
 
 </html>
