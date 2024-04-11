@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\CustomerActivity;
 use App\Notifications\PaymentCheckout;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -156,6 +157,9 @@ class BusinessController extends Controller
             'message' => 'Product added to cart successfully',
             'cart' => $cart,
         ];
+
+        // event(new CustomerActivity($customer, $customer->name." add ".$cart-id." to cart" ));
+       
 
         return response()->json($cartData);
     }

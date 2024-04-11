@@ -17,7 +17,7 @@
     <meta charset="utf-8" />
     <title>{{ env('APP_NAME') }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content={{ env('APP_DESCRIPTION') }}" name="description" />
+    <meta content="{{ env('APP_DESCRIPTION') }}" name="description" />
     <meta content="KoderiaNg" name="author" />
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}">
@@ -348,26 +348,31 @@
                                                     <div class="hstack gap-3 fs-15">
                                                         <a class="btn btn-outline-secondary btn-sm edit"
                                                             data-bs-toggle="modal"
-                                                            data-bs-target="#viewOrder{{ $order->id }}" title="view">
+                                                            data-bs-target="#viewOrder{{ $order->id }}"
+                                                            title="view">
                                                             <i class="fas fa-eye"></i>
                                                         </a>
 
-                                                        @if($order->status == 'pending')
-                                                        <a class="btn btn-outline-primary btn-sm edit" data-bs-toggle="modal" data-bs-target="#edit{{ $order->id }}" title="view">
-                                                            <i class="fas fa-pencil-alt"></i>
-                                                        </a>
+                                                        @if ($order->status == 'pending')
+                                                            <a class="btn btn-outline-primary btn-sm edit"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#edit{{ $order->id }}"
+                                                                title="view">
+                                                                <i class="fas fa-pencil-alt"></i>
+                                                            </a>
                                                         @endif
                                                     </div>
 
                                                     <div class="modal fade" id="viewOrder{{ $order->id }}"
-                                                        data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-                                                        role="dialog" aria-labelledby="staticBackdropLabel"
-                                                        aria-hidden="true">
+                                                        data-bs-backdrop="static" data-bs-keyboard="false"
+                                                        tabindex="-1" role="dialog"
+                                                        aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                                         <div class="modal-dialog .modal-dialog-scrollable modal-xl modal-dialog-centered"
                                                             role="document">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <h5 class="modal-title" id="staticBackdropLabel">Order
+                                                                    <h5 class="modal-title" id="staticBackdropLabel">
+                                                                        Order
                                                                         Information</h5>
                                                                     <button type="button" class="btn-close"
                                                                         data-bs-dismiss="modal"
@@ -386,7 +391,8 @@
                                                                                                 <th>Product</th>
                                                                                                 <th>Quantity</th>
                                                                                                 <th>Price</th>
-                                                                                                <th colspan="2">Total
+                                                                                                <th colspan="2">
+                                                                                                    Total
                                                                                                 </th>
                                                                                             </tr>
                                                                                         </thead>
@@ -401,7 +407,8 @@
                                                                                                             <a href="#"
                                                                                                                 class="text-dark">{{ $cartItem->name }}</a>
                                                                                                         </h5>
-                                                                                                        <p class="mb-0">
+                                                                                                        <p
+                                                                                                            class="mb-0">
                                                                                                             {{ $cartItem->description }}
                                                                                                         </p>
                                                                                                     </td>
@@ -426,11 +433,13 @@
                                                                                     <p class="mb-0">Address : <span
                                                                                             class="fw-medium">{{ $order->address->address_1 . ' ' . $order->address->address_2 }}</span>
                                                                                     </p>
-                                                                                    <p class="mb-0">Phone Number : <span
+                                                                                    <p class="mb-0">Phone Number :
+                                                                                        <span
                                                                                             class="fw-medium">{{ $order->address->phone_number }}</span>
                                                                                     </p>
                                                                                 @endif
-                                                                                <p class="mb-0">Additional Information :
+                                                                                <p class="mb-0">Additional
+                                                                                    Information :
                                                                                     <span
                                                                                         class="fw-medium">{{ $order->additional_infomation }}</span>
                                                                                 </p>
@@ -440,7 +449,8 @@
                                                                     <div class="col-xl-4">
                                                                         <div class="card">
                                                                             <div class="card-body">
-                                                                                <h4 class="card-title mb-3">Order Summary
+                                                                                <h4 class="card-title mb-3">Order
+                                                                                    Summary
                                                                                 </h4>
                                                                                 <hr>
                                                                                 <div class="table-responsive">
@@ -454,7 +464,8 @@
                                                                                             </tr>
                                                                                             <tr>
                                                                                                 <td>Discount : </td>
-                                                                                                <td id="cart-discount">- $
+                                                                                                <td id="cart-discount">
+                                                                                                    - $
                                                                                                     0.00</td>
                                                                                             </tr>
                                                                                             {{-- <tr>
@@ -488,35 +499,49 @@
                                                         </div>
                                                     </div>
 
-                                                    <div id="edit{{$order->id}}" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none;">
+                                                    <div id="edit{{ $order->id }}" class="modal fade"
+                                                        tabindex="-1" aria-hidden="true" style="display: none;">
                                                         <div class="modal-dialog modal-dialog-centered">
                                                             <div class="modal-content border-0 overflow-hidden">
                                                                 <div class="modal-header p-3">
-                                                                    <h4 class="card-title mb-0">Update Booking/Delivery Date</h4>
-                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                    <h4 class="card-title mb-0">Update Booking/Delivery
+                                                                        Date</h4>
+                                                                    <button type="button" class="btn-close"
+                                                                        data-bs-dismiss="modal"
+                                                                        aria-label="Close"></button>
                                                                 </div>
-                                        
-                                                                <div class="modal-body">
-                                                                    <form action="{{ url('/customer/updateOrder') }}" method="post" enctype="multipart/form-data">
-                                                                        @csrf
-    
-                                                                        <input name="order_id" type="hidden" value="{{$order->id}}">
-                                                                        <input value="{{ $order->product_type }}" type="hidden" id="productType">
 
-                                                                        
+                                                                <div class="modal-body">
+                                                                    <form action="{{ url('/customer/updateOrder') }}"
+                                                                        method="post" enctype="multipart/form-data">
+                                                                        @csrf
+
+                                                                        <input name="order_id" type="hidden"
+                                                                            value="{{ $order->id }}">
+                                                                        <input value="{{ $order->product_type }}"
+                                                                            type="hidden" id="productType">
+
+
                                                                         <div class="form-group">
-                                                                            <label for="bookingDateTime">Booking Date and Time</label>
-                                                                            <input class="form-control" type="datetime-local" id="bookingDateTime" name="bookingDateTime">
+                                                                            <label for="bookingDateTime">Booking Date
+                                                                                and Time</label>
+                                                                            <input class="form-control"
+                                                                                type="datetime-local"
+                                                                                id="bookingDateTime"
+                                                                                name="bookingDateTime">
                                                                         </div>
-                            
-                                                                        <div class="alert alert-danger fade mt-3" id="availabilityAlert" role="alert">
+
+                                                                        <div class="alert alert-danger fade mt-3"
+                                                                            id="availabilityAlert" role="alert">
                                                                             <i class="mdi mdi-block-helper me-2"></i>
                                                                             <p id="availabilityMessage"></p>
                                                                         </div>
-                                                                    
+
                                                                         <hr>
                                                                         <div class="text-end">
-                                                                            <button type="submit" id="submit-button" class="btn btn-primary">Save Changes</button>
+                                                                            <button type="submit" id="submit-button"
+                                                                                class="btn btn-primary">Save
+                                                                                Changes</button>
                                                                         </div>
                                                                     </form>
                                                                 </div>
@@ -765,23 +790,26 @@
         });
     </script>
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            document.getElementById('bookingDateTime').addEventListener('change', function () {
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById('bookingDateTime').addEventListener('change', function() {
                 const selectedDateTime = document.getElementById('bookingDateTime').value;
                 checkAvailability(selectedDateTime);
             });
         });
 
         function checkAvailability(selectedDateTime) {
-            axios.post('/customer/checkAvailability', { dateTime: selectedDateTime, productType: 'Hair' })
-                .then(function (response) {
+            axios.post('/customer/checkAvailability', {
+                    dateTime: selectedDateTime,
+                    productType: 'Hair'
+                })
+                .then(function(response) {
                     const isAvailable = response.data.available;
                     if (!isAvailable) {
                         showAvailabilityAlert("Selected date and time is not available. Please choose another.");
-                        document.getElementById('bookingDateTime').value = ''; 
+                        document.getElementById('bookingDateTime').value = '';
                     }
                 })
-                .catch(function (error) {
+                .catch(function(error) {
                     console.error('Error checking availability:', error);
                 });
         }

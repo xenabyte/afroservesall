@@ -16,7 +16,7 @@
     $isAuthenticated = !empty($customer) ? true : false;
     $name = !empty($customer) ? $customer->lastname . ' ' . $customer->othernames : null;
     $addresses = !empty($customer) ? $customer->addresses : null;
-    $storeStatus = !empty($pageGlobalData->setting)? $pageGlobalData->setting->saloon_status : null;
+    $storeStatus = !empty($pageGlobalData->setting) ? $pageGlobalData->setting->saloon_status : null;
 
 @endphp
 <!doctype html>
@@ -112,10 +112,11 @@
                     </div>
                 </div>
             @else
-            <button type="button" class="btn header-item waves-effect bg-white" id="auth" style="margin-right: 5px;">
-                <img class="rounded-circle header-profile-user"
-                    src="{{ asset('assets/images/users/avatar.png') }}" alt="Header Avatar">
-            </button>
+                <button type="button" class="btn header-item waves-effect bg-white" id="auth"
+                    style="margin-right: 5px;">
+                    <img class="rounded-circle header-profile-user"
+                        src="{{ asset('assets/images/users/avatar.png') }}" alt="Header Avatar">
+                </button>
             @endif
 
         </div>
@@ -153,8 +154,10 @@
                                         <h2></h2>
                                         <div class="card">
                                             <div class="card-header bg-muted">
-                                                <small class="text-danger">By increasing the quantity means you are booking for more than 1 person.</small> <br>
-                                                <small class="text-danger">The prices stated are minimum prices as prices differ according to volume and length of hair.</small>
+                                                <small class="text-danger">By increasing the quantity means you are
+                                                    booking for more than 1 person.</small> <br>
+                                                <small class="text-danger">The prices stated are minimum prices as
+                                                    prices differ according to volume and length of hair.</small>
                                             </div>
                                         </div>
 
@@ -266,10 +269,12 @@
                                             <textarea class="form-control mb-3" id="additionalInfo" placeholder="Additional information"></textarea>
                                             <div class="form-group">
                                                 <label for="bookingDateTime">Booking Date and Time</label>
-                                                <input class="form-control" type="datetime-local" id="bookingDateTime" name="bookingDateTime">
+                                                <input class="form-control" type="datetime-local"
+                                                    id="bookingDateTime" name="bookingDateTime">
                                             </div>
 
-                                            <div class="alert alert-danger fade mt-3" id="availabilityAlert" role="alert">
+                                            <div class="alert alert-danger fade mt-3" id="availabilityAlert"
+                                                role="alert">
                                                 <i class="mdi mdi-block-helper me-2"></i>
                                                 <p id="availabilityMessage"></p>
                                             </div>
@@ -277,8 +282,9 @@
                                             <input type="hidden" name="delivery" id="deliveryType"
                                                 value="delivery">
                                             <hr>
-                                            <button type="button" @if($storeStatus == 'Closed') disabled @endif class="btn btn-primary"
-                                                id="proceedToCheckoutBtn">Proceed to Checkout</button>
+                                            <button type="button" @if ($storeStatus == 'Closed') disabled @endif
+                                                class="btn btn-primary" id="proceedToCheckoutBtn">Proceed to
+                                                Checkout</button>
                                         </div>
 
                                         <div class="card">
@@ -286,16 +292,25 @@
                                                 <h4 class="card-title mb-4">Business Hours</h4>
                                                 <div class="mt-4">
                                                     <div class="table-responsive">
-                                                        <table class="table table-nowrap align-middle table-hover mb-0">
+                                                        <table
+                                                            class="table table-nowrap align-middle table-hover mb-0">
                                                             <tbody>
-                                                                @if(!empty($pageGlobalData->hairActiveHours))
-                                                                    @foreach($pageGlobalData->hairActiveHours as $hairActiveHour)
-                                                                    <tr>
-                                                                        <td>
-                                                                            <h5 class="text-truncate font-size-14 mb-1"><a href="javascript: void(0);" class="text-dark">{{ $hairActiveHour->week_days }}</a></h5>
-                                                                            <p class="text-muted mb-0"> {{ date('h:i A', strtotime($hairActiveHour->opening_hours)) }} - {{ date('h:i A', strtotime($hairActiveHour->closing_hours)) }} </p>
-                                                                        </td>
-                                                                    </tr>
+                                                                @if (!empty($pageGlobalData->hairActiveHours))
+                                                                    @foreach ($pageGlobalData->hairActiveHours as $hairActiveHour)
+                                                                        <tr>
+                                                                            <td>
+                                                                                <h5
+                                                                                    class="text-truncate font-size-14 mb-1">
+                                                                                    <a href="javascript: void(0);"
+                                                                                        class="text-dark">{{ $hairActiveHour->week_days }}</a>
+                                                                                </h5>
+                                                                                <p class="text-muted mb-0">
+                                                                                    {{ date('h:i A', strtotime($hairActiveHour->opening_hours)) }}
+                                                                                    -
+                                                                                    {{ date('h:i A', strtotime($hairActiveHour->closing_hours)) }}
+                                                                                </p>
+                                                                            </td>
+                                                                        </tr>
                                                                     @endforeach
                                                                 @endif
                                                             </tbody>
@@ -356,7 +371,8 @@
     </div>
 
     <!-- storeClosModal -->
-    <div class="modal fade" id="storeClosModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="storeClosModalLabel" aria-hidden="true">
+    <div class="modal fade" id="storeClosModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="storeClosModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header border-bottom-0">
@@ -373,7 +389,9 @@
                         <div class="row justify-content-center">
                             <div class="col-xl-10">
                                 <h4 class="text-primary">Shop Closed</h4>
-                                <p class="text-muted font-size-14 mb-4">{{ !empty($pageGlobalData->setting)? $pageGlobalData->setting->saloon_message : null; }}</p>
+                                <p class="text-muted font-size-14 mb-4">
+                                    {{ !empty($pageGlobalData->setting) ? $pageGlobalData->setting->saloon_message : null }}
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -556,23 +574,26 @@
                 });
         });
 
-        document.addEventListener("DOMContentLoaded", function () {
-            document.getElementById('bookingDateTime').addEventListener('change', function () {
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById('bookingDateTime').addEventListener('change', function() {
                 const selectedDateTime = document.getElementById('bookingDateTime').value;
                 checkAvailability(selectedDateTime);
             });
         });
 
         function checkAvailability(selectedDateTime) {
-            axios.post('/customer/checkAvailability', { dateTime: selectedDateTime, productType: 'Hair' })
-                .then(function (response) {
+            axios.post('/customer/checkAvailability', {
+                    dateTime: selectedDateTime,
+                    productType: 'Hair'
+                })
+                .then(function(response) {
                     const isAvailable = response.data.available;
                     if (!isAvailable) {
                         showAvailabilityAlert("Selected date and time is not available. Please choose another.");
-                        document.getElementById('bookingDateTime').value = ''; 
+                        document.getElementById('bookingDateTime').value = '';
                     }
                 })
-                .catch(function (error) {
+                .catch(function(error) {
                     console.error('Error checking availability:', error);
                 });
         }
