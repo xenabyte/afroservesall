@@ -398,7 +398,7 @@
                         <div class="row justify-content-center">
                             <div class="col-xl-10">
                                 <h4 class="text-primary">Shop Closed</h4>
-                                <p class="text-muted font-size-14 mb-4">{{ !empty($pageGlobalData->setting)? $pageGlobalData->setting->food_message : null; }}</p>
+                                <p class="text-muted font-size-14 mb-4">{{ !empty($pageGlobalData->setting)? $pageGlobalData->setting->food_message : null }}</p>
                             </div>
                         </div>
                     </div>
