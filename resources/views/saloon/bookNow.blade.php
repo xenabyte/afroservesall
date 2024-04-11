@@ -126,8 +126,8 @@
     <section class="section hero-section bg-ico-hero" id="home"
         style="background-image:url({{ asset('assets/images/services/s4.jpg') }});background-size:cover;background-position:top">
         <div class="bg-overlay bg-darke"></div>
-        <div class="container">
-            <div class="row align-items-center mt-5 pt-5">
+        <div class="container"  style="height:700px;overflow-x:hidden;">
+            <div class="row align-items-center">
                 <div class="col-lg-12 col-md-12 col-sm-12 ms-lg-auto">
                     <div class="card overflow-hidden mb-0 mt-5 mt-lg-0"
                         style="background-color: rgba(255, 255, 255, 0.1);">
@@ -583,6 +583,40 @@
             messageParagraph.textContent = message;
             alertDiv.classList.add('show');
         }
+    </script>
+     <script>
+        $(document).ready(function(){
+            var imageUrls = [
+                "{{ asset('assets/images/services/s5.jpg') }}",
+                "{{ asset('assets/images/services/s3.jpg') }}",
+                "{{ asset('assets/images/services/s1.jpg') }}",
+                // Add more image URLs as needed
+            ];
+
+            var heroSection = $('.hero-section');
+            var overlay = $('.bg-overlay');
+
+            var index = 0;
+            var img = new Image();
+            img.onload = function() {
+                overlay.fadeOut(50, function() {
+                    heroSection.css('background-image', 'url(' + imageUrls[index] + ')');
+                    overlay.show();
+                });
+            };
+            img.src = imageUrls[index];
+
+            setInterval(function(){
+                index = (index + 1) % imageUrls.length;
+                overlay.fadeIn(500, function() {
+                    var nextImg = new Image();
+                    nextImg.onload = function() {
+                        heroSection.css('background-image', 'url(' + imageUrls[index] + ')');
+                    };
+                    nextImg.src = imageUrls[index];
+                });
+            }, 5000); // Change image every 5 seconds
+        });
     </script>
 </body>
 

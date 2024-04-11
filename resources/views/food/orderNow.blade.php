@@ -124,13 +124,29 @@
         </div>
     </nav>
 
+    {{-- <style>
+        @media (min-width: 992px) {
+            /* Ensure correct alignment of columns when screen width is at least 992px */
+            .row {
+                display: flex;
+            }
+            .col-md-2, .col-md-4 {
+                flex: 0 0 auto;
+            }
+            .col-md-6 {
+                flex: 1 1 auto;
+            }
+        }
+    </style> --}}
+
 
     <!-- hero section start -->
+
     <section class="section hero-section bg-ico-hero" id="home"
         style="background-image:url({{ asset('assets/images/services/f2.jpg') }});background-size:cover;background-position:top">
         <div class="bg-overlay bg-darke"></div>
-        <div class="container">
-            <div class="row align-items-center mt-5 pt-5">
+        <div class="container" style="height:700px;overflow-x:hidden;">
+            <div class="row align-items-center">
                 <div class="col-lg-12 col-md-12 col-sm-12 ms-lg-auto">
                     <div class="card overflow-hidden mb-0 mt-5 mt-lg-0"
                         style="background-color: rgba(255, 255, 255, 0.1);">
@@ -588,6 +604,46 @@
             alertDiv.classList.add('show');
         }
         
+    </script>
+
+    <script>
+        $(document).ready(function(){
+        var imageUrls = [
+            "{{ asset('assets/images/services/f1.jpg') }}",
+            "{{ asset('assets/images/services/food1.png') }}",
+            "{{ asset('assets/images/services/food2.png') }}",
+            "{{ asset('assets/images/services/f2.jpg') }}",
+            "{{ asset('assets/images/services/food4.png') }}",
+            "{{ asset('assets/images/services/f3.jpg') }}",
+            "{{ asset('assets/images/services/food5.png') }}",
+            "{{ asset('assets/images/services/food3.png') }}",
+            // Add more image URLs as needed
+        ];
+
+        var heroSection = $('.hero-section');
+        var overlay = $('.bg-overlay');
+
+        var index = 0;
+        var img = new Image();
+        img.onload = function() {
+            overlay.fadeOut(50, function() {
+                heroSection.css('background-image', 'url(' + imageUrls[index] + ')');
+                overlay.show();
+            });
+        };
+        img.src = imageUrls[index];
+
+        setInterval(function(){
+            index = (index + 1) % imageUrls.length;
+            overlay.fadeIn(500, function() {
+                var nextImg = new Image();
+                nextImg.onload = function() {
+                    heroSection.css('background-image', 'url(' + imageUrls[index] + ')');
+                };
+                nextImg.src = imageUrls[index];
+            });
+        }, 5000); // Change image every 5 seconds
+    });
     </script>
 
     {{--

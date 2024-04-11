@@ -124,7 +124,7 @@
                 </div>
             </div>
             <div class="row align-items-center">
-                <div class="col-lg-5">
+                <div class="col-lg-4">
 
                     <div class="text-muted">
                         <h4>Afroservesall: Your One-Stop Shop for Food & Beauty</h4>
@@ -139,7 +139,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg-6 ms-auto">
+                <div class="col-lg-7 ms-auto">
                     <div class="mt-4 mt-lg-0">
                         <div class="row">
                             <div class="col-sm-6">
@@ -223,12 +223,12 @@
     <!-- about section end -->
 
     <!-- Features start -->
-    <section class="section bg-dark text-white" id="features">
+    <section class="section text-white" id="features" style="background:#09473c">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="text-center mb-5">
-                        <div class="small-title">Our Services</div>
+                        <h5 class="title">Our Services</h5>
                         <h4>At Afroserves, we understand that a busy life shouldn't mean sacrificing delicious meals or well-deserved pampering. That's why we offer two amazing services.</h4>
                     </div>
                 </div>
@@ -236,22 +236,41 @@
             <!-- end row -->
 
             <div class="row align-items-center pt-4">
-                <div class="col-md-6 col-sm-8">
-                    <div>
-                        <img src="{{ asset('assets/images/services/s5.jpg') }}" alt=""
-                            class="rounded img-fluid mx-auto d-block">
+
+                <div class="col-md-8 col-sm-8">
+                    <div id="carouselExampleInterval" class="carousel slide" data-bs-touch="true" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active" data-bs-interval="5000">
+                                <img src="{{ asset('assets/images/services/s1.jpg') }}" class="d-block w-100" alt="First slide">
+                            </div>
+                            <div class="carousel-item" data-bs-interval="5000">
+                                <img src="{{ asset('assets/images/services/s4.jpg') }}" class="d-block w-100" alt="Second slide">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="{{ asset('assets/images/services/s5.jpg') }}" class="d-block w-100" alt="Third slide">
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
                     </div>
                 </div>
-                <div class="col-md-5 ms-auto">
+
+                <div class="col-md-4 ms-auto">
                     <div class="mt-4 mt-md-auto">
                         <div class="d-flex align-items-center mb-2">
-                            <div class="features-number fw-semibold display-4 me-3">01</div>
+                            <div class="fw-semibold display-4 me-3" style="color: #e37514">01</div>
                             <h4 class="mb-0">Saloon Appointment Services</h4>
                         </div>
-                        <p class="text-white">Pamper yourself, it's time!</p>
+                        <p class="text-white">It’s time to give yourself a pamper that you deserve!</p>
                         <div class="text-white mt-4">
-                            <p class="mb-2"><i class="mdi mdi-circle-medium text-success me-1"></i>Schedule appointments at a convenient date and time that fits your busy schedule. No more waiting on hold or inconvenient salon hours.</p>
-                            <p><i class="mdi mdi-circle-medium text-success me-1"></i>Afroservesall allows you to book appointments effortlessly anytime, anywhere.</p>
+                            <p class="mb-2"><i class="mdi mdi-circle-medium text-success me-1"></i> Book your appointments at your convenience - No more long waits at the salon as Afroserves all is ready you aid your desire.</p>
+                            <p><i class="mdi mdi-circle-medium text-success me-1"></i>Afroservesall is ready to give you the best.</p>
                         </div>
                     </div>
                 </div>
@@ -259,23 +278,60 @@
             <!-- end row -->
 
             <div class="row align-items-center mt-5 pt-md-5">
-                <div class="col-md-5">
+                <div class="col-md-4">
                     <div class="mt-4 mt-md-0">
                         <div class="d-flex align-items-center mb-2">
-                            <div class="features-number fw-semibold display-4 me-3">02</div>
+                            <div class="fw-semibold display-4 me-3" style="color: #e37514">02</div>
                             <h4 class="mb-0">Food Ordering Services</h4>
                         </div>
-                        <p class="text-white">Browse menus, explore mouthwatering pictures, and add your selections to your cart with just a few taps. Customize your order with special requests and dietary needs.</p>
+                        <p class="text-white">Our menus are cultural as well as continental. We will meet your needs expecially how you want them.</p>
                         <div class="text-white mt-4">
                             <p class="mb-2"><i class="mdi mdi-circle-medium text-success me-1"></i>Enjoy a diverse range of cuisines to suit every taste bud.</p>
                             <p><i class="mdi mdi-circle-medium text-success me-1"></i>Our delivery partners ensure your food arrives fresh, hot, and on time.</p>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6  col-sm-8 ms-md-auto">
+                <div class="col-md-8 col-sm-8 ms-md-auto">
                     <div class="mt-4 me-md-0">
-                        <img src="{{ asset('assets/images/services/f4.jpg') }}" alt=""
-                            class="rounded img-fluid mx-auto d-block">
+                        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-indicators">
+                                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button>
+                                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="4" aria-label="Slide 5"></button>
+                                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="5" aria-label="Slide 6"></button>
+                            </div>
+                            <div class="carousel-inner" role="listbox">
+                                <div class="carousel-item active">
+                                    <img class="d-block img-fluid rounded" src="{{ asset('assets/images/services/food8.png') }}" alt="First slide">
+                                </div>
+                                <div class="carousel-item">
+                                    <img class="d-block img-fluid rounded" src="{{ asset('assets/images/services/food7.png') }}" alt="Second slide">
+                                </div>
+                                <div class="carousel-item">
+                                    <img class="d-block img-fluid rounded" src="{{ asset('assets/images/services/food6.png') }}" alt="Third slide">
+                                </div>
+                                <div class="carousel-item">
+                                    <img class="d-block img-fluid rounded" src="{{ asset('assets/images/services/food1.png') }}" alt="Third slide">
+                                </div>
+                                <div class="carousel-item">
+                                    <img class="d-block img-fluid rounded" src="{{ asset('assets/images/services/food2.png') }}" alt="Third slide">
+                                </div>
+                                <div class="carousel-item">
+                                    <img class="d-block img-fluid rounded" src="{{ asset('assets/images/services/food3.png') }}" alt="Third slide">
+                                </div>
+                            </div>
+                            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </div>
+                    </div>
                     </div>
                 </div>
 
@@ -346,7 +402,8 @@
                                                             <div id="general-collapseOne" class="collapse show"
                                                                 data-bs-parent="#gen-ques-accordion">
                                                                 <div class="card-body">
-                                                                    <p class="mb-0">Afroservesall is a convenient app offering two amazing services in one: food ordering and salon service booking.</p>
+                                                                    <p class="mb-0">Afroservesall is a fusion of two distinct businesses that is managed and supervised by personnels with wealth of experiences and expertise. 
+                                                                        The services rendered by Afroservesall are topnotch</p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -628,14 +685,28 @@
     <script>
          $(document).ready(function(){
             var imageUrls = [
-                "{{ asset('assets/images/bg_img_1.jpg') }}",
-                "{{ asset('assets/images/services/s2.jpg') }}",
-                "{{ asset('assets/images/services/f2.jpg') }}",
+                "{{ asset('assets/images/services/f1.jpg') }}",
                 "{{ asset('assets/images/services/s1.jpg') }}",
+                "{{ asset('assets/images/services/food1.png') }}",
+                "{{ asset('assets/images/services/s4.jpg') }}",
+                "{{ asset('assets/images/services/food2.png') }}",
+                "{{ asset('assets/images/services/f2.jpg') }}",
+                "{{ asset('assets/images/services/food4.png') }}",
+                "{{ asset('assets/images/services/f3.jpg') }}",
+                "{{ asset('assets/images/services/food5.png') }}",
+                "{{ asset('assets/images/services/food3.png') }}",
+                "{{ asset('assets/images/services/f2.jpg') }}",
                 "{{ asset('assets/images/services/f3.jpg') }}",
                 "{{ asset('assets/images/services/s3.jpg') }}",
                 "{{ asset('assets/images/services/f4.jpg') }}",
-                "{{ asset('assets/images/services/s4.jpg') }}",
+                "{{ asset('assets/images/services/food6.png') }}",
+                "{{ asset('assets/images/services/food7.png') }}",
+                "{{ asset('assets/images/services/food8.png') }}",
+                "{{ asset('assets/images/services/food9.png') }}",
+                "{{ asset('assets/images/services/food10.png') }}",
+                "{{ asset('assets/images/services/food11.png') }}",
+                "{{ asset('assets/images/services/food12.png') }}",
+                "{{ asset('assets/images/services/food13.png') }}",
                 // Add more image URLs as needed
             ];
 
@@ -661,9 +732,10 @@
                     };
                     nextImg.src = imageUrls[index];
                 });
-            }, 5000); // Change image every 5 seconds
+            }, 3000); // Change image every 5 seconds
         });
     </script>
+
 
 </body>
 

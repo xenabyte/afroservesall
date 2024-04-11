@@ -58,7 +58,7 @@
         </nav>
 
         <!-- hero section start -->
-        <section class="section hero-section bg-ico-hero" id="home" style="background-image:url({{ asset('assets/images/services/s1.jpg') }});background-size:cover;background-position:top">
+        <section class="section hero-section bg-ico-hero" id="home" style="background-image:url({{ asset('assets/images/services/s5.jpg') }});background-size:cover;background-position:top">
             <div class="bg-overlay bg-darke"></div>
             <div class="container">
                 <div class="row align-items-center mt-5 pt-5">
@@ -81,7 +81,6 @@
             <!-- end container -->
         </section>
         <!-- hero section end -->
-       
 
         <!-- Features start -->
         {{-- <section class="section" id="features">
@@ -186,6 +185,41 @@
         <script src="{{ asset('assets/js/pages/ico-landing.init.js') }}"></script>
 
         <script src="{{ asset('assets/js/app.js') }}"></script>
+        <script>
+            $(document).ready(function(){
+                var imageUrls = [
+                    "{{ asset('assets/images/services/s1.jpg') }}",
+                    "{{ asset('assets/images/services/s2.jpg') }}",
+                    "{{ asset('assets/images/services/s4.jpg') }}",
+                    "{{ asset('assets/images/services/s5.jpg') }}",
+                    // Add more image URLs as needed
+                ];
+        
+                var heroSection = $('.hero-section');
+                var overlay = $('.bg-overlay');
+        
+                var index = 0;
+                var img = new Image();
+                img.onload = function() {
+                    overlay.fadeOut(50, function() {
+                        heroSection.css('background-image', 'url(' + imageUrls[index] + ')');
+                        overlay.show();
+                    });
+                };
+                img.src = imageUrls[index];
+        
+                setInterval(function(){
+                    index = (index + 1) % imageUrls.length;
+                    overlay.fadeIn(500, function() {
+                        var nextImg = new Image();
+                        nextImg.onload = function() {
+                            heroSection.css('background-image', 'url(' + imageUrls[index] + ')');
+                        };
+                        nextImg.src = imageUrls[index];
+                    });
+                }, 5000); // Change image every 5 seconds
+            });
+        </script>
 
     </body>
 

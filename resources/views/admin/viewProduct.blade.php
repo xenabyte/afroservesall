@@ -133,74 +133,74 @@
                                                             <i class="fas fa-trash"></i>
                                                         </a>
                                                     </div>
-                            
-                                                    <!-- Static Backdrop Modal -->
-                                                    <div class="modal fade" id="deleteFeature{{ $feature->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="deleteFeature" aria-hidden="true">
-                                                        <div class="modal-dialog modal-md modal-dialog-centered" role="document">
-                                                            <div class="modal-content">
-                                                            
-                                                                <form action="{{ url('/admin/deleteProductFeature') }}" method="POST">
-                                                                    @csrf
-                                                                    <div class="modal-body">
-                                                                        <p class="text-center"> Are you sure you want to delete {{ $feature->feature }}</p>
-                                                                        <input type="hidden" name="product_feature_id" value="{{ $feature->id }}">
-                                                                    </div>
-                                                                    
-                                                                    <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-                                                                        <button type="submit" class="btn btn-danger">Yes, Delete</button>
-                                                                    </div>
-                                                                </form>
-                                                                
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                            
-                                                    <!-- Static Backdrop Modal -->
-                                                    <div class="modal fade" id="editFeature{{ $feature->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="editFeature" aria-hidden="true">
-                                                        <div class="modal-dialog modal-md modal-dialog-centered" role="document">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title">Update Product Option</h5>
-                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                </div>
-                            
-                                                                <form action="{{ url("/admin/editProductFeature") }}" method="post">
-                                                                    @csrf
-                                                                    <input type="hidden" name="product_feature_id" value="{{ $feature->id }}">
-                            
-                                                                    <div class="modal-body">
-                                                                        <div class="form-floating mb-3">
-                                                                            <input type="text" class="form-control" id="name" name="feature" value="{{ $feature->feature }}">
-                                                                            <label for="name">Product Option Name</label>
-                                                                        </div>
-
-                                                                        <div class="mb-3">
-                                                                            <label for="price">Price</label>
-                                                                            <div class="input-group">
-                                                                                <span class="input-group-text">£</span> <!-- Dollar sign prefix -->
-                                                                                <input id="price" name="price" type="number" step="0.01" class="form-control" value="{{ $feature->price }}" required>
-                                                                            </div>
-                                                                        </div>
-                                            
-                                                                        <div class="mb-12">
-                                                                            <label for="productdesc">Product Option Description</label>
-                                                                            <textarea class="form-control" id="description" name="description" rows="5" placeholder="Product Description">{{ $feature->description }}</textarea>
-                                                                            <hr>
-                                                                        </div>
-                                                                        
-                                                                    </div>
-                                                                    
-                                                                    <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                                                                        <button type="submit" class="btn btn-primary">Save Changes</button>
-                                                                    </div>
-                                                                </form>
-                                                                
-                                                            </div>
-                                                        </div>
-                                                    </div>
                                                 </td>
+
+                                                <!-- Static Backdrop Modal -->
+                                                <div class="modal fade" id="deleteFeature{{ $feature->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="deleteFeature" aria-hidden="true">
+                                                    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+                                                        <div class="modal-content">
+                                                        
+                                                            <form action="{{ url('/admin/deleteProductFeature') }}" method="POST">
+                                                                @csrf
+                                                                <div class="modal-body">
+                                                                    <p class="text-center"> Are you sure you want to delete {{ $feature->feature }}</p>
+                                                                    <input type="hidden" name="product_feature_id" value="{{ $feature->id }}">
+                                                                </div>
+                                                                
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                                                                    <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                                                                </div>
+                                                            </form>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+                        
+                                                <!-- Static Backdrop Modal -->
+                                                <div class="modal fade" id="editFeature{{ $feature->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="editFeature" aria-hidden="true">
+                                                    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">Update Product Option</h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                        
+                                                            <form action="{{ url("/admin/editProductFeature") }}" method="post">
+                                                                @csrf
+                                                                <input type="hidden" name="product_feature_id" value="{{ $feature->id }}">
+                        
+                                                                <div class="modal-body">
+                                                                    <div class="form-floating mb-3">
+                                                                        <input type="text" class="form-control" id="name" name="feature" value="{{ $feature->feature }}">
+                                                                        <label for="name">Product Option Name</label>
+                                                                    </div>
+
+                                                                    <div class="mb-3">
+                                                                        <label for="price">Price</label>
+                                                                        <div class="input-group">
+                                                                            <span class="input-group-text">£</span> <!-- Dollar sign prefix -->
+                                                                            <input id="price" name="price" type="number" step="0.01" class="form-control" value="{{ $feature->price }}" required>
+                                                                        </div>
+                                                                    </div>
+                                        
+                                                                    <div class="mb-12">
+                                                                        <label for="productdesc">Product Option Description</label>
+                                                                        <textarea class="form-control" id="description" name="description" rows="5" placeholder="Product Description">{{ $feature->description }}</textarea>
+                                                                        <hr>
+                                                                    </div>
+                                                                    
+                                                                </div>
+                                                                
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                                                                </div>
+                                                            </form>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </tr>
                                             @endforeach
                                             </tbody>

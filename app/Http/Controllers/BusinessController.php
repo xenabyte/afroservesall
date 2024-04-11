@@ -398,6 +398,10 @@ class BusinessController extends Controller
             $subTotal += $cartItem->price;
         }
 
+        if($productType = 'Hair'){
+            $subTotal = 30;
+        }
+
         $productname = rtrim('Afroservesall - '.$productname, ', ');
 
 
@@ -556,10 +560,10 @@ class BusinessController extends Controller
 
             //send notification mail
             $orderData = Order::with('cartItems', 'transaction')->where('id', $orderId)->first();
-            $mail = new PaymentSuccess($customer, $orderData);
-            Mail::to($customer->email)->send($mail);
+            // $mail = new PaymentSuccess($customer, $orderData);
+            // Mail::to($customer->email)->send($mail);
 
-            Mail::to(env('SUPPORT_EMAIL'))->send(new SupportMail('New Order'));
+            // Mail::to(env('SUPPORT_EMAIL'))->send(new SupportMail('New Order'));
 
             return true;
         }
