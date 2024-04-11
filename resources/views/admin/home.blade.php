@@ -61,7 +61,7 @@
     $keys = $earningsPerMonth->keys();
     $currentMonth = $keys->last();
     $previousMonth = $keys->slice(-2, 1)->first();
-    $currentMonthEarnings = $earningsPerMonth[$currentMonth];
+    $currentMonthEarnings = $earningsPerMonth[$currentMonth]??0;
     $previousMonthEarnings = $earningsPerMonth[$previousMonth] ?? 0;
 
     $percentageChange =
@@ -164,7 +164,7 @@
                                 <div class="col-sm-6">
                                     <p class="text-muted">This month</p>
                                     <h3>
-                                        ${{ number_format($currentMonthEarnings, 2) }}
+                                        £{{ number_format($currentMonthEarnings, 2) }}
 
 
                                     </h3>
@@ -221,7 +221,7 @@
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
                                             <p class="text-muted fw-medium">Revenue</p>
-                                            <h4 class="mb-0">${{ $totalRevenue }}</h4>
+                                            <h4 class="mb-0">£{{ $totalRevenue }}</h4>
                                         </div>
 
                                         <div class="flex-shrink-0 align-self-center ">
@@ -241,7 +241,7 @@
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
                                             <p class="text-muted fw-medium">Average Price</p>
-                                            <h4 class="mb-0">${{ $averagePrice }}</h4>
+                                            <h4 class="mb-0">£{{ $averagePrice }}</h4>
                                         </div>
 
                                         <div class="flex-shrink-0 align-self-center">
