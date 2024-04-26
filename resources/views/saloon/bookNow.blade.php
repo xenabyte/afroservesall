@@ -474,6 +474,7 @@
     @include('common.food')
 
     <script type="text/javascript">
+        const isAuthenticated = "<?php echo $isAuthenticated; ?>";
 
         document.addEventListener('DOMContentLoaded', function() {
             var button = document.getElementById('page-header-notifications-dropdown');
@@ -506,9 +507,11 @@
             $('#paymentModal').modal('show');
         });
 
-        document.getElementById('auth').addEventListener('click', function() {
-            $('#loginModal').modal('show');
-        });
+        if (isAuthenticated != ''){
+            document.getElementById('auth').addEventListener('click', function() {
+                $('#loginModal').modal('show');
+            });
+        }
 
         $(document).ready(function() {
             if ("{{ $storeStatus }}" == 'Closed') {
