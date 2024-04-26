@@ -21,15 +21,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Event delegation for delete buttons
-    document.addEventListener('click', function(event) {
-        if (event.target.classList.contains('cart-delete-button')) {
-            removeFromCart(event.target, 'delete');
-        }
-    });
-
-
-
     const minusButtons = document.querySelectorAll('.minus-button');
     minusButtons.forEach(function(minusButton) {
         minusButton.addEventListener('click', function() {
@@ -178,14 +169,13 @@ function updateCartSection(cartItems) {
     orderSubtotalElement.textContent = subtotal.toFixed(2);
 }
 
-function removeFromCart(button, action) {
+function removeFromCart(button) {
     const productId = button.parentElement.querySelector('.cart-product-id').value;
     const featureId = button.parentElement.querySelector('.cart-feature-id').value;
 
     axios.post('/customer/removeFromCart', {
             productId: productId,
             featureId: featureId,
-            action: action
         })
         .then(function(response) {
             fetchCartItems();
