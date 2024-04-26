@@ -213,4 +213,11 @@ function attachEventListeners() {
             updateCartQuantity(this, 'increase');
         });
     });
+
+    const deleteButtons = document.querySelectorAll('.cart-delete-button');
+    deleteButtons.forEach(function(deleteButton) {
+        deleteButton.addEventListener('click', function() {
+            removeFromCart(this);
+        });
+    });
 }
