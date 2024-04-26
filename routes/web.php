@@ -86,7 +86,7 @@ Route::group(['prefix' => 'customer'], function () {
 
   Route::post('/addToCart', [App\Http\Controllers\BusinessController::class, 'addToCart'])->name('addToCart');
   Route::post('/updateQuantity', [App\Http\Controllers\BusinessController::class, 'updateQuantity'])->name('updateQuantity');
-  Route::get('/getCartItems', [App\Http\Controllers\BusinessController::class, 'getCartItems'])->name('getCartItems');
+  Route::get('/getCartItems/{type}', [App\Http\Controllers\BusinessController::class, 'getCartItems'])->name('getCartItems');
   Route::post('/removeFromCart', [App\Http\Controllers\BusinessController::class, 'removeFromCart'])->name('removeFromCart');
 
 

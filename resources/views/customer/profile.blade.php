@@ -93,7 +93,7 @@
                     </button>
                     <div class="dropdown-menu dropdown-menu-end">
                         <!-- item-->
-                        <span class="dropdown-item d-none d-xl-inline-block ms-2 nav-link" key="t-henry">Welcome</span>
+                        <span class="dropdown-item d-none d-xl-inline-block ms-2 nav-link" key="t-henry">Welcome <br> {{ $name }}</span>
                         <hr>
                         <a class="dropdown-item" href="{{ url('customer/profile') }}"><i
                                 class="bx bx-user font-size-16 align-middle me-1"></i> <span

@@ -113,7 +113,6 @@ class RegisterController extends Controller
 
     public function register(Request $request)
     {
-        // Validate incoming data
         $validator = $this->validator($request->all());
 
         if ($validator->fails()) {
@@ -121,12 +120,9 @@ class RegisterController extends Controller
             return redirect()->back()->withInput();
         }
 
-        // If validation passes, create the new customer record
         $customer = $this->create($request->all());
 
-        // Check if the customer was created successfully
         if ($customer) {
-            // Optionally, you can log in the user automatically after registration
             auth()->login($customer);
 
             if ($request->session()->has('previous_url')) {
@@ -134,10 +130,8 @@ class RegisterController extends Controller
                 return redirect()->intended($previousUrl);
             }
 
-            // Redirect the user to the desired page
-            return redirect()->intended('/orderNow'); // Replace '/dashboard' with the desired URL
+            return redirect()->intended('/orderNow'); 
         } else {
-            // If there was an error creating the customer, show an error message
             alert()->error('Error', 'Failed to register. Please try again.')->persistent('Close');
             return redirect()->back()->withInput();
         }

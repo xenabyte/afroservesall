@@ -82,4 +82,9 @@ class LoginController extends Controller
         
         return redirect()->intended('/home');
     }
+
+    protected function sendFailedLoginResponse(Request $request){
+        Alert::error('Error', 'Invalid credentials. Please try again.')->persistent('Close');
+        return redirect()->back()->withInput($request->only($this->username(), 'remember'));
+    }
 }

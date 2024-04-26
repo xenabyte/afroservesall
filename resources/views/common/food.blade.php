@@ -92,7 +92,7 @@
     }
 
     function fetchCartItems() {
-        axios.get('/customer/getCartItems')
+        axios.get('/customer/getCartItems/<?php echo $type; ?>')
             .then(function(response) {
                 const cart = response.data.cart;
                 updateCartSection(cart);
@@ -124,6 +124,7 @@
                         <div class="col-12">
                             <span>${cartItem.name}</span>
                         </div>
+                        <p></p>
                         <div class="col-auto">
                             <div class="input-group input-group-sm flex-nowrap">
                                 <input type="hidden" class="cart-product-id" value="${cartItem.product_id}">

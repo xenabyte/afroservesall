@@ -26,6 +26,7 @@ class Cart extends Model
         'status',
         'name',
         'order_id',
+        'product_type'
     ];
 
 

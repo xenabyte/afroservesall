@@ -120,7 +120,8 @@ class BusinessController extends Controller
                     'product_id' => $productId,
                     'feature_id' => $featureId,
                     'quantity' => $quantity,
-                    'price' => $quantity * $itemPrice
+                    'price' => $quantity * $itemPrice,
+                    'product_type' => $product->type->type,
                 ]);
                 Cart::create($cartItem);
             }
@@ -143,7 +144,8 @@ class BusinessController extends Controller
                     'product_id' => $productId,
                     'feature_id' => $featureId,
                     'quantity' => $quantity,
-                    'price' => $quantity * $itemPrice
+                    'price' => $quantity * $itemPrice,
+                    'product_type' => $product->type->type,
                 ];
                 $cart[] = $cartItem;
             }
@@ -288,14 +290,14 @@ class BusinessController extends Controller
     }
     
 
-    public function getCartItems() {
+    public function getCartItems($type) {
         $customer = Auth::guard('customer')->user();
         $customerId = $customer ? $customer->id : null;
 
-        $sessionCart = session('cart');
+        $sessionCart = session()->has('cart') ? collect(session('cart'))->where('product_type', $type) : collect();
 
         if ($customer) {
-            $dbCart = Cart::where('customer_id', $customerId)->whereNull('status')->get();
+            $dbCart = Cart::where('customer_id', $customerId)->where('product_type', $type)->whereNull('status')->get();
 
             if(!empty($sessionCart)){
                 foreach ($sessionCart as $item) {
@@ -303,6 +305,7 @@ class BusinessController extends Controller
                                         ->where('feature_id', $item['feature_id'])
                                         ->first();
                     if (!$existingItem) {
+                        $product = Product::find($item['product_id']);
                         Cart::create([
                             'name' => $item['name'],
                             'customer_id' => $customerId,
@@ -311,6 +314,7 @@ class BusinessController extends Controller
                             'quantity' => $item['quantity'],
                             'price' => $item['price'],
                             'description' => $item['description'],
+                            'product_type' => $product->type->type,
                         ]);
                     } else {
                         $existingItem->update([
@@ -321,7 +325,7 @@ class BusinessController extends Controller
                 }
             }
 
-            $cart = Cart::where('customer_id', $customerId)->whereNull('status')->get();
+            $cart = Cart::where('customer_id', $customerId)->where('product_type', $type)->whereNull('status')->get();
         } else {
             $cart = $sessionCart;
         }
@@ -338,12 +342,6 @@ class BusinessController extends Controller
 
     public function placeOrder(Request $request){
         $validator = Validator::make($request->all(), [
-            'delivery_type' => 'nullable',
-            'address_id' => $request->get('delivery_type') === 'delivery' ? 'required_if:delivery_type,delivery' : 'nullable',
-            'address_1' => empty($request->get('address_id')) ? 'required_if:delivery_type,delivery' : 'nullable',
-            'address_2' => 'nullable',
-            'additional_information' => 'nullable',
-            'phone' => 'nullable',
             'cart_items' => 'required',
         ]);
 
@@ -352,6 +350,15 @@ class BusinessController extends Controller
             $cartData = [
                 'status' => 'error',
                 'message' => $validator->messages()->all()[0],
+            ];
+
+            return response()->json($cartData);
+        }
+
+        if(empty($request->address_id) && empty($request->address_1) && $request->delivery_type == 'delivery'){
+            $cartData = [
+                'status' => 'error',
+                'message' => 'address is required',
             ];
 
             return response()->json($cartData);
@@ -402,9 +409,19 @@ class BusinessController extends Controller
             $subTotal += $cartItem->price;
         }
 
-        if($productType = 'Hair'){
+        $fieldsToRemove = ['created_at', 'updated_at', 'deleted_at', 'description', 'status', 'feature_id', 'name', 'order_id', 'customer_id', 'product_id', 'feature_id', 'quantity', 'price'];
+
+        $modifiedCartItems = array_map(function ($cartItem) use ($fieldsToRemove) {
+            foreach ($fieldsToRemove as $field) {
+                unset($cartItem->{$field});
+            }
+            return $cartItem;
+        }, $cartItems);
+
+        if($productType == 'Hair'){
             $subTotal = 30;
         }
+
 
         $productname = rtrim('Afroservesall - '.$productname, ', ');
 
@@ -586,7 +603,7 @@ class BusinessController extends Controller
         $details["quantity"] = "Please enter your details";
         $details["transaction_id"] = "Please enter your details";
 
-        $customer->notify(new PaymentCheckout($details));
+        // $customer->notify(new PaymentCheckout($details));
 
         return view('common.paymentSuccess', ['transactionData' => $transactionData]);
     }
@@ -600,14 +617,11 @@ class BusinessController extends Controller
         $selectedDateTime = $request->input('dateTime');
         $productType = $request->input('productType');
 
-        Log::info($productType);
-
-
         $bookingDate = Order::where('status', '!=', 'completed')
                     ->where('product_type', $productType)
                     ->whereBetween('booking_date', [
-                        Carbon::parse($selectedDateTime)->subHour(), // One hour before
-                        Carbon::parse($selectedDateTime)->addHour()  // One hour after
+                        Carbon::parse($selectedDateTime)->subHour(),
+                        Carbon::parse($selectedDateTime)->addHour()  
                     ])
                     ->exists();
 

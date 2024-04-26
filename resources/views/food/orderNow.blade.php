@@ -1,6 +1,8 @@
 @php
     // Get the cart items from the session
     $cartItems = session('cart');
+    session()->put('type', 'Food');
+    $type =  session('type');
 
     // Initialize subtotal variable
     $subtotal = 0;
@@ -83,8 +85,7 @@
                 </ul>
             </div>
             <button type="button" class="btn header-item noti-icon waves-effect bg-white"
-                id="page-header-notifications-dropdown" data-bs-toggle="dropdown" aria-haspopup="true"
-                aria-expanded="false">
+                id="page-header-notifications-dropdown">
                 <i class="bx bx-cart bx-tada"></i>
                 <span class="badge bg-danger rounded-pill" id="cart-items-badge">0</span>
             </button>
@@ -124,9 +125,9 @@
         </div>
     </nav>
 
-    {{-- <style>
-        @media (min-width: 992px) {
-            /* Ensure correct alignment of columns when screen width is at least 992px */
+    <style>
+         /* @media (min-width: 992px) {
+            Ensure correct alignment of columns when screen width is at least 992px 
             .row {
                 display: flex;
             }
@@ -136,8 +137,19 @@
             .col-md-6 {
                 flex: 1 1 auto;
             }
+        } */
+
+        .container-wrapper {
+            position: relative;
         }
-    </style> --}}
+
+        #overflow-button {
+            position: absolute;
+            top: 10px; /* Adjust top position as needed */
+            right: 10px; /* Adjust right position as needed */
+            z-index: 2; /* Ensure it's above the overlay */
+        }
+    </style>
 
 
     <!-- hero section start -->
@@ -145,184 +157,186 @@
     <section class="section hero-section bg-ico-hero" id="home"
         style="background-image:url({{ asset('assets/images/services/f2.jpg') }});background-size:cover;background-position:top">
         <div class="bg-overlay bg-darke"></div>
-        <div class="container" style="height:700px;overflow-x:hidden;">
-            <div class="row align-items-center">
-                <div class="col-lg-12 col-md-12 col-sm-12 ms-lg-auto">
-                    <div class="card overflow-hidden mb-0 mt-5 mt-lg-0"
-                        style="background-color: rgba(255, 255, 255, 0.1);">
-                        <div class="card-header text-center">
-                            <h5 class="mt-4 mb-4">Place your Order Now</h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="container">
-                                <div class="row">
-                                    <!-- First Column: Products (Hidden on Small Screens) -->
-                                    <div class="col-md-2 d-none d-md-block">
-                                        <h2 class="text-light">Menu Items</h2>
-                                        <div class="list-group" id="productList">
-                                            @foreach ($foodProducts as $product)
-                                                <a href="#collapse{{ $product->id }}"
-                                                    class="list-group-item product-link">{{ $product->name }}</a>
-                                            @endforeach
+        <div class="container-wrapper">
+            <div class="container" style="height:700px;overflow-x:hidden;">
+                <div class="row align-items-center">
+                    <div class="col-lg-12 col-md-12 col-sm-12 ms-lg-auto">
+                        <div class="card overflow-hidden mb-0 mt-5 mt-lg-0"
+                            style="background-color: rgba(255, 255, 255, 0.1);">
+                            <div class="card-header text-center">
+                                <h5 class="mt-4 mb-4">Place your Order Now</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="container">
+                                    <div class="row">
+                                        <!-- First Column: Products (Hidden on Small Screens) -->
+                                        <div class="col-md-2 d-none d-md-block">
+                                            <h2 class="text-light">Menu Items</h2>
+                                            <div class="list-group" id="productList">
+                                                @foreach ($foodProducts as $product)
+                                                    <a href="#collapse{{ $product->id }}"
+                                                        class="list-group-item product-link">{{ $product->name }}</a>
+                                                @endforeach
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <!-- Second Column: Features (Accordion) -->
-                                    <div class="col-md-6">
-                                        <h2></h2>
-                                        <div id="accordion">
-                                            @foreach ($foodProducts as $product)
-                                                <div class="accordion-item">
-                                                    <div class="card">
-                                                        <div class="card-header bg-muted"
-                                                            id="heading_{{ $product->id }}">
-                                                            <h2 class="accordion-header"
-                                                                id="heading{{ $product->id }}">
-                                                                <button class="accordion-button fw-medium collapsed"
-                                                                    type="button" data-bs-toggle="collapse"
-                                                                    data-bs-target="#collapse{{ $product->id }}"
-                                                                    aria-expanded="false"
-                                                                    aria-controls="collapse{{ $product->id }}">
-                                                                    {{ $product->name }} <br>
-                                                                </button>
-                                                            </h2>
-                                                            <small>{{ $product->description }}</small>
-                                                        </div>
+                                        <!-- Second Column: Features (Accordion) -->
+                                        <div class="col-md-6">
+                                            <h2></h2>
+                                            <div id="accordion">
+                                                @foreach ($foodProducts as $product)
+                                                    <div class="accordion-item">
+                                                        <div class="card">
+                                                            <div class="card-header bg-muted"
+                                                                id="heading_{{ $product->id }}">
+                                                                <h2 class="accordion-header"
+                                                                    id="heading{{ $product->id }}">
+                                                                    <button class="accordion-button fw-medium collapsed"
+                                                                        type="button" data-bs-toggle="collapse"
+                                                                        data-bs-target="#collapse{{ $product->id }}"
+                                                                        aria-expanded="false"
+                                                                        aria-controls="collapse{{ $product->id }}">
+                                                                        {{ $product->name }} <br>
+                                                                    </button>
+                                                                </h2>
+                                                                <small>{{ $product->description }}</small>
+                                                            </div>
 
-                                                        <div id="collapse{{ $product->id }}"
-                                                            class="accordion-collapse"
-                                                            aria-labelledby="heading{{ $product->id }}"
-                                                            data-bs-parent="#accordion">
-                                                            <div class="accordion-body">
-                                                                @foreach ($product->features as $feature)
-                                                                    <div class="px-3 mb-3">
-                                                                        <div
-                                                                            class="row row-cols-lg-auto g-3 d-flex justify-content-between align-items-center flex-column flex-lg-row">
-                                                                            <div class="col-12">
-                                                                                <!-- Feature name -->
-                                                                                <span>{{ $feature->feature }}</span>
-                                                                            </div>
+                                                            <div id="collapse{{ $product->id }}"
+                                                                class="accordion-collapse"
+                                                                aria-labelledby="heading{{ $product->id }}"
+                                                                data-bs-parent="#accordion">
+                                                                <div class="accordion-body">
+                                                                    @foreach ($product->features as $feature)
+                                                                        <div class="px-3 mb-3">
+                                                                            <div
+                                                                                class="row row-cols-lg-auto g-3 d-flex justify-content-between align-items-center flex-column flex-lg-row">
+                                                                                <div class="col-12">
+                                                                                    <!-- Feature name -->
+                                                                                    <span>{{ $feature->feature }}</span>
+                                                                                </div>
 
-                                                                            <div class="col-auto">
-                                                                                <div
-                                                                                    class="input-group input-group-sm flex-nowrap">
-                                                                                    <!-- Price button -->
-                                                                                    <button type="button"
-                                                                                        class="btn btn-outline-secondary input-group-text">
-                                                                                        <strong><span
-                                                                                                class="text-danger">£{{ $feature->price }}</span></strong>
-                                                                                    </button>
-                                                                                    <!-- Quantity buttons -->
-                                                                                    <button type="button"
-                                                                                        class="btn btn-outline-secondary input-group-text minus-button">
-                                                                                        <i class="mdi mdi-minus"></i>
-                                                                                    </button>
-                                                                                    <input type="hidden"
-                                                                                        class="product-id"
-                                                                                        value="{{ $product->id }}">
-                                                                                    <input type="hidden"
-                                                                                        class="feature-id"
-                                                                                        value="{{ $feature->id }}">
-                                                                                    <!-- Input field for quantity -->
-                                                                                    <input
-                                                                                        class="form-control quantity-input"
-                                                                                        type="number" value="1"
-                                                                                        min="1"
-                                                                                        style="max-width: 60px;">
-                                                                                    <!-- Increase button -->
-                                                                                    <button type="button"
-                                                                                        class="btn btn-outline-secondary input-group-text plus-button">
-                                                                                        <i class="mdi mdi-plus"></i>
-                                                                                    </button>
-                                                                                    <!-- Add to cart button -->
-                                                                                    <button type="button"
-                                                                                        class="btn btn-sm btn-primary add-to-cart-button"><i
-                                                                                            class="mdi mdi-cart-outline"></i></button>
+                                                                                <div class="col-auto">
+                                                                                    <div
+                                                                                        class="input-group input-group-sm flex-nowrap">
+                                                                                        <!-- Price button -->
+                                                                                        <button type="button"
+                                                                                            class="btn btn-outline-secondary input-group-text">
+                                                                                            <strong><span
+                                                                                                    class="text-danger">£{{ $feature->price }}</span></strong>
+                                                                                        </button>
+                                                                                        <!-- Quantity buttons -->
+                                                                                        <button type="button"
+                                                                                            class="btn btn-outline-secondary input-group-text minus-button">
+                                                                                            <i class="mdi mdi-minus"></i>
+                                                                                        </button>
+                                                                                        <input type="hidden"
+                                                                                            class="product-id"
+                                                                                            value="{{ $product->id }}">
+                                                                                        <input type="hidden"
+                                                                                            class="feature-id"
+                                                                                            value="{{ $feature->id }}">
+                                                                                        <!-- Input field for quantity -->
+                                                                                        <input
+                                                                                            class="form-control quantity-input"
+                                                                                            type="number" value="1"
+                                                                                            min="1"
+                                                                                            style="max-width: 60px;">
+                                                                                        <!-- Increase button -->
+                                                                                        <button type="button"
+                                                                                            class="btn btn-outline-secondary input-group-text plus-button">
+                                                                                            <i class="mdi mdi-plus"></i>
+                                                                                        </button>
+                                                                                        <!-- Add to cart button -->
+                                                                                        <button type="button"
+                                                                                            class="btn btn-sm btn-primary add-to-cart-button"><i
+                                                                                                class="mdi mdi-cart-outline"></i></button>
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
+
+                                                                            <!-- Description -->
+                                                                            <p><small>{{ $feature->description }}</small>
+                                                                            </p>
+                                                                            <hr>
                                                                         </div>
+                                                                    @endforeach
 
-                                                                        <!-- Description -->
-                                                                        <p><small>{{ $feature->description }}</small>
-                                                                        </p>
-                                                                        <hr>
-                                                                    </div>
-                                                                @endforeach
-
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+
+                                        <!-- Third Column: Cart  d-none d-md-block -->
+                                        <div class="col-md-4" id="cart-session">
+                                            <h2 class="text-light">Cart Items</h2>
+                                            <div id="response"></div>
+                                            <div id="error"></div>
+                                            @if (!empty($name))
+                                                <div class="card p-3">
+                                                    <p> {{ $name . '!,' }} Welcome back</p>
                                                 </div>
-                                            @endforeach
-                                        </div>
-                                    </div>
+                                            @endif
+                                            <div class="card p-3" id="cart-items-container">
+                                                <!-- Cart items will be dynamically added here by JavaScript -->
+                                            </div>
 
-                                    <!-- Third Column: Cart  d-none d-md-block -->
-                                    <div class="col-md-4" id="cart-session">
-                                        <h2 class="text-light">Cart Items</h2>
-                                        <div id="response"></div>
-                                        <div id="error"></div>
-                                        @if (!empty($name))
+                                            <!-- Subtotal -->
                                             <div class="card p-3">
-                                                <p> {{ $name . '!,' }} Welcome back</p>
-                                            </div>
-                                        @endif
-                                        <div class="card p-3" id="cart-items-container">
-                                            <!-- Cart items will be dynamically added here by JavaScript -->
-                                        </div>
+                                                <div class="text-end mt-1">
+                                                    <strong>Subtotal:</strong> £<span id="subtotal">00.00</span>
+                                                </div>
+                                                <hr>
+                                                <textarea class="form-control mb-3" id="additionalInfo" placeholder="Additional information"></textarea>
+                                                
+                                                <div class="form-check mb-2">
+                                                    <input class="form-check-input" type="radio" name="delivery"
+                                                        id="pickup" value="pickup" checked>
+                                                    <label class="form-check-label" for="pickup">Pickup</label>
+                                                </div>
+                                                <div class="form-check mb-2">
+                                                    <input class="form-check-input" type="radio" name="delivery"
+                                                        id="delivery" value="delivery">
+                                                    <label class="form-check-label" for="delivery">Delivery</label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="bookingDateTime">Delivery/Pickup Date and Time</label>
+                                                    <input class="form-control" type="datetime-local" id="bookingDateTime" name="bookingDateTime">
+                                                </div>  
 
-                                        <!-- Subtotal -->
-                                        <div class="card p-3">
-                                            <div class="text-end mt-1">
-                                                <strong>Subtotal:</strong> £<span id="subtotal">00.00</span>
-                                            </div>
-                                            <hr>
-                                            <textarea class="form-control mb-3" id="additionalInfo" placeholder="Additional information"></textarea>
-                                            
-                                            <div class="form-check mb-2">
-                                                <input class="form-check-input" type="radio" name="delivery"
-                                                    id="pickup" value="pickup" checked>
-                                                <label class="form-check-label" for="pickup">Pickup</label>
-                                            </div>
-                                            <div class="form-check mb-2">
-                                                <input class="form-check-input" type="radio" name="delivery"
-                                                    id="delivery" value="delivery">
-                                                <label class="form-check-label" for="delivery">Delivery</label>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="bookingDateTime">Delivery/Pickup Date and Time</label>
-                                                <input class="form-control" type="datetime-local" id="bookingDateTime" name="bookingDateTime">
-                                            </div>  
+                                                <div class="alert alert-danger fade mt-3" id="availabilityAlert" role="alert">
+                                                    <i class="mdi mdi-block-helper me-2"></i>
+                                                    <p id="availabilityMessage"></p>
+                                                </div>
 
-                                            <div class="alert alert-danger fade mt-3" id="availabilityAlert" role="alert">
-                                                <i class="mdi mdi-block-helper me-2"></i>
-                                                <p id="availabilityMessage"></p>
+                                                <hr>
+                                                <button type="button" @if($storeStatus == 'Closed') disabled @endif class="btn btn-primary"
+                                                    id="proceedToCheckoutBtn">Proceed to Checkout</button>
                                             </div>
 
-                                            <hr>
-                                            <button type="button" @if($storeStatus == 'Closed') disabled @endif class="btn btn-primary"
-                                                id="proceedToCheckoutBtn">Proceed to Checkout</button>
-                                        </div>
-
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <h4 class="card-title mb-4">Business Hours</h4>
-                                                <div class="mt-4">
-                                                    <div class="table-responsive">
-                                                        <table class="table table-nowrap align-middle table-hover mb-0">
-                                                            <tbody>
-                                                                @if(!empty($pageGlobalData->foodActiveHours))
-                                                                    @foreach($pageGlobalData->foodActiveHours as $foodActiveHour)
-                                                                    <tr>
-                                                                        <td>
-                                                                            <h5 class="text-truncate font-size-14 mb-1"><a href="javascript: void(0);" class="text-dark">{{ $foodActiveHour->week_days }}</a></h5>
-                                                                            <p class="text-muted mb-0"> {{ date('h:i A', strtotime($foodActiveHour->opening_hours)) }} - {{ date('h:i A', strtotime($foodActiveHour->closing_hours)) }} </p>
-                                                                        </td>
-                                                                    </tr>
-                                                                    @endforeach
-                                                                @endif
-                                                            </tbody>
-                                                        </table>
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h4 class="card-title mb-4">Business Hours</h4>
+                                                    <div class="mt-4">
+                                                        <div class="table-responsive">
+                                                            <table class="table table-nowrap align-middle table-hover mb-0">
+                                                                <tbody>
+                                                                    @if(!empty($pageGlobalData->foodActiveHours))
+                                                                        @foreach($pageGlobalData->foodActiveHours as $foodActiveHour)
+                                                                        <tr>
+                                                                            <td>
+                                                                                <h5 class="text-truncate font-size-14 mb-1"><a href="javascript: void(0);" class="text-dark">{{ $foodActiveHour->week_days }}</a></h5>
+                                                                                <p class="text-muted mb-0"> {{ date('h:i A', strtotime($foodActiveHour->opening_hours)) }} - {{ date('h:i A', strtotime($foodActiveHour->closing_hours)) }} </p>
+                                                                            </td>
+                                                                        </tr>
+                                                                        @endforeach
+                                                                    @endif
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -330,12 +344,13 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
+                        </div>
                     </div>
                 </div>
+                <!-- end row -->
             </div>
-            <!-- end row -->
+            <span id="overflow-button"></span>
         </div>
         <!-- end container -->
     </section>
@@ -466,6 +481,16 @@
     @include('common.food')
 
     <script type="text/javascript">
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var button = document.getElementById('page-header-notifications-dropdown');
+            var cartSection = document.getElementById('cart-session');
+
+            button.addEventListener('click', function() {
+                cartSection.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
         document.getElementById('proceedToCheckoutBtn').addEventListener('click', function() {
             const isAuthenticated = "<?php echo $isAuthenticated; ?>";
             const deliveryType = document.querySelector('input[name="delivery"]:checked').value;
@@ -549,7 +574,6 @@
             axios.post('/customer/placeOrder', data)
                 .then(function(response) {
 
-                    console.log(response);
                     const redirectUrl = response.data.redirectUrl;
                     const status = response.data.status;
                     const message = response.data.message;
@@ -567,13 +591,12 @@
                     }
                 })
                 .catch(function(error) {
-                    console.error(error);
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
                         text: 'An error occurred while processing your request.',
                     });
-                });
+            });
         });
 
         document.addEventListener("DOMContentLoaded", function () {

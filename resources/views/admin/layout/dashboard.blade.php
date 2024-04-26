@@ -100,7 +100,7 @@
                         </button>
                         <div class="dropdown-menu dropdown-menu-end">
                             <!-- item-->
-                            <a class="dropdown-item" href="#"><i
+                            {{-- <a class="dropdown-item" href="#"><i
                                     class="bx bx-user font-size-16 align-middle me-1"></i> <span
                                     key="t-profile">Profile</span></a>
                             <a class="dropdown-item" href="#"><i
@@ -112,7 +112,7 @@
                                     key="t-settings">Settings</span></a>
                             <a class="dropdown-item" href="#"><i
                                     class="bx bx-lock-open font-size-16 align-middle me-1"></i> <span
-                                    key="t-lock-screen">Lock screen</span></a>
+                                    key="t-lock-screen">Lock screen</span></a> --}}
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item text-danger" href="{{ url('/admin/logout') }}"
                                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i
