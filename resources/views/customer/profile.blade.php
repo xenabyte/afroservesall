@@ -353,7 +353,7 @@
                                                             <i class="fas fa-eye"></i>
                                                         </a>
 
-                                                        @if ($order->status == 'pending')
+                                                        @if ($order->status == 'pending' && ucwords($order->delivery_type) != 'Pickup')
                                                             <a class="btn btn-outline-primary btn-sm edit"
                                                                 data-bs-toggle="modal"
                                                                 data-bs-target="#edit{{ $order->id }}"
@@ -415,10 +415,10 @@
                                                                                                     <td><span
                                                                                                             class="product-price">{{ $cartItem->quantity }}</span>
                                                                                                     </td>
-                                                                                                    <td>$<span
+                                                                                                    <td>£<span
                                                                                                             class="product-line-price">{{ $cartItem->price / number_format($cartItem->quantity) }}</span>
                                                                                                     </td>
-                                                                                                    <td>$<span
+                                                                                                    <td>£<span
                                                                                                             class="product-line-price">{{ $cartItem->price }}</span>
                                                                                                     </td>
                                                                                                 </tr>
@@ -459,15 +459,15 @@
                                                                                             <tr>
                                                                                                 <td>Grand Total :</td>
                                                                                                 <td id="cart-subtotal">
-                                                                                                    ${{ number_format($order->amount_paid / 100, 2) }}
+                                                                                                    £{{ number_format($order->amount_paid / 100, 2) }}
                                                                                                 </td>
                                                                                             </tr>
-                                                                                            <tr>
+                                                                                            {{-- <tr>
                                                                                                 <td>Discount : </td>
                                                                                                 <td id="cart-discount">
-                                                                                                    - $
+                                                                                                    - £
                                                                                                     0.00</td>
-                                                                                            </tr>
+                                                                                            </tr> --}}
                                                                                             {{-- <tr>
                                                                                                 <td>Shipping Charge :</td>
                                                                                                 <td id="cart-shipping">$ 25</td>
@@ -479,7 +479,7 @@
                                                                                             <tr class="bg-light">
                                                                                                 <th>Total :</th>
                                                                                                 <th id="cart-total">
-                                                                                                    ${{ number_format($order->amount_paid / 100, 2) }}
+                                                                                                    £{{ number_format($order->amount_paid / 100, 2) }}
                                                                                                 </th>
                                                                                             </tr>
                                                                                         </tbody>
