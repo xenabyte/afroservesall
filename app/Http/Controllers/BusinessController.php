@@ -409,7 +409,7 @@ class BusinessController extends Controller
             $subTotal += $cartItem->price;
         }
 
-        $fieldsToRemove = ['created_at', 'updated_at', 'deleted_at', 'description', 'status', 'feature_id', 'name', 'order_id', 'customer_id', 'product_id', 'feature_id', 'quantity', 'price'];
+        $fieldsToRemove = ['created_at', 'updated_at', 'deleted_at', 'description', 'status', 'feature_id', 'name', 'order_id', 'customer_id', 'product_id', 'feature_id', 'quantity', 'price', 'product_type'];
 
         $modifiedCartItems = array_map(function ($cartItem) use ($fieldsToRemove) {
             foreach ($fieldsToRemove as $field) {
@@ -523,11 +523,12 @@ class BusinessController extends Controller
     }
 
     public function handleWebhook(Request $request){
-        $payload = $request->all();
+        $allRequest = $request->all();
+        $payload = $allRequest['data']['object'];
 
         if ($payload['object'] == 'checkout.session') {
             $customerId = $payload['metadata']['customerId'];
-            $addressId = $payload['metadata']['addressId'];
+            $addressId = isset($payload['metadata']['addressId'])? $payload['metadata']['addressId'] : null;
             $additionalInformation = isset($payload['metadata']['additionalInfomation']) ? $payload['metadata']['additionalInfomation'] : null;
             $bookingDate = isset($payload['metadata']['bookingDate']) ? $payload['metadata']['bookingDate'] : null;
             $deliveryType = $payload['metadata']['deliveryType'];
