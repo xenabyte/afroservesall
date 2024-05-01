@@ -262,13 +262,13 @@ class BusinessController extends Controller
         } else {
             $sessionCart = session('cart');
             $cartItemKey = $this->findCartItemKey($sessionCart, $productId, $featureId);
-    
-            if ($cartItemKey !== false) {
-                unset($sessionCart[$cartItemKey]);
-                session(['cart' => $sessionCart]);
+
+            if (isset($sessionCart[$cartItemKey])) {
+                session()->forget('cart.' . $cartItemKey);
+                $sessionCart = array_values(session('cart'));
+                session()->put('cart', $sessionCart);
             }
     
-            $cart = session('cart');
 
             // Return the updated cart data
             $cartData = [

@@ -4,6 +4,8 @@
     session()->put('type', 'Hair');
     $type =  session('type');
 
+    // session()->flush();
+
 
     // Initialize subtotal variable
     $subtotal = 0;
