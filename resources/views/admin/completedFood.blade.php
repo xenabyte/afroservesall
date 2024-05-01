@@ -50,7 +50,7 @@
                         <td>{{ ucwords($foodOrder->customer->lastname.' '.$foodOrder->customer->othernames) }}</td>
                         <td>{{ $foodOrder->customer->phone }}</td>
                         <td>{{ ucwords($foodOrder->delivery_type) }}</td>
-                        <td>{{ date('F d, Y', strtotime($foodOrder->booking_date)) }}</td>
+                        <td>{{ date('F d, Y h:i:s A', strtotime($foodOrder->booking_date)) }}</td>
                         <td>{{ date('F d, Y h:i:s A', strtotime($foodOrder->created_at)) }}</td>
                         <td>
                             @if($foodOrder->status == 'pending')
@@ -118,7 +118,7 @@
                                                         <p class="mb-0">Address : <span class="fw-medium">{{ $foodOrder->address->address_1.' '.$foodOrder->address->address_2 }}</span></p>
                                                         <p class="mb-0">Phone Number : <span class="fw-medium">{{ $foodOrder->address->phone_number }}</span></p>
                                                         @endif
-                                                        <p class="mb-0">Additional Information : <span class="fw-medium">{{ $foodOrder->additional_infomation }}</span></p>
+                                                        <p class="mb-0">Additional Information : <span class="fw-medium">{{ $foodOrder->additional_information }}</span></p>
                                                     </div>
                                                 </div>
                                             </div>

@@ -6,6 +6,8 @@
     $addresses = !empty($customer) ? $customer->addresses : null;
     $orders = !empty($customer) ? $customer->orders : null;
     $transactions = !empty($customer) ? $customer->transactions : null;
+
+    $previousUrl = session('previous_url');
 @endphp
 
 <!doctype html>
@@ -68,10 +70,10 @@
                         <a class="nav-link" href="{{ url('/') }}">Afroservesall</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="{{ url('saloonBooking') }}#home">Home</a>
+                        <a class="nav-link active" href="{{ $previousUrl == url('/orderNow') ? url('foodOrder') : url('saloonBooking') }}#home">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/bookNow') }}">Book Now</a>
+                        <a class="nav-link" href="{{ $previousUrl }}">{{ $previousUrl == url('/orderNow') ? 'Order Now' : 'Book Now' }}</a>
                     </li>
                 </ul>
             </div>
@@ -441,7 +443,7 @@
                                                                                 <p class="mb-0">Additional
                                                                                     Information :
                                                                                     <span
-                                                                                        class="fw-medium">{{ $order->additional_infomation }}</span>
+                                                                                        class="fw-medium">{{ $order->additional_information }}</span>
                                                                                 </p>
                                                                             </div>
                                                                         </div>

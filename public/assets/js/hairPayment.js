@@ -95,7 +95,7 @@ document.getElementById('proceedToPayment').addEventListener('click', function()
         address_1: address1,
         address_2: address2,
         phone: phone,
-        additional_infomation: additionalInfo,
+        additional_information: additionalInfo,
         cart_items: cartItems,
         booking_date: bookingDate,
         product_type: productType,

@@ -51,7 +51,7 @@
                                     </td>
                                     <td>{{ $hairOrder->customer->phone }}</td>
                                     <td>{{ ucwords($hairOrder->delivery_type) }}</td>
-                                    <td>{{ date('F d, Y', strtotime($hairOrder->booking_date)) }}</td>
+                                    <td>{{ date('F d, Y h:i:s A', strtotime($hairOrder->booking_date)) }}</td>
                                     <td>{{ date('F d, Y h:i:s A', strtotime($hairOrder->created_at)) }}</td>
                                     <td>
                                         @if ($hairOrder->status == 'pending')
@@ -142,7 +142,7 @@
                                                                         </p>
                                                                     @endif
                                                                     <p class="mb-0">Additional Information : <span
-                                                                            class="fw-medium">{{ $hairOrder->additional_infomation }}</span>
+                                                                            class="fw-medium">{{ $hairOrder->additional_information }}</span>
                                                                     </p>
                                                                 </div>
                                                             </div>

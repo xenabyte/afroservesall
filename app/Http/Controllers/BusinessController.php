@@ -375,7 +375,7 @@ class BusinessController extends Controller
         $addressId = $request->address_id;
         $addressLine1 = $request->address_1;
         $addressLine2 = $request->address_2;
-        $additionalInfomation = $request->additional_infomation;
+        $additionalInformation = $request->additional_information;
         $phone = $request->phone;
         $bookingDate = $request->booking_date;
         $cart = $request->cart_items;
@@ -446,7 +446,7 @@ class BusinessController extends Controller
             'metadata' => [
                 'customerId' => $customerId,
                 'addressId' => $addressId,
-                'additionalInfomation' => $additionalInfomation,
+                'additionalInformation' => $additionalInformation,
                 'bookingDate' => $bookingDate,
                 'deliveryType' => $deliveryType,
                 'productType' => $productType,
@@ -529,7 +529,7 @@ class BusinessController extends Controller
         if ($payload['object'] == 'checkout.session') {
             $customerId = $payload['metadata']['customerId'];
             $addressId = isset($payload['metadata']['addressId'])? $payload['metadata']['addressId'] : null;
-            $additionalInformation = isset($payload['metadata']['additionalInfomation']) ? $payload['metadata']['additionalInfomation'] : null;
+            $additionalInformation = isset($payload['metadata']['additionalInformation']) ? $payload['metadata']['additionalInformation'] : null;
             $bookingDate = isset($payload['metadata']['bookingDate']) ? $payload['metadata']['bookingDate'] : null;
             $deliveryType = $payload['metadata']['deliveryType'];
             $productType = $payload['metadata']['productType'];

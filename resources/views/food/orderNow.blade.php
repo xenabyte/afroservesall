@@ -317,7 +317,7 @@
                                                 </div>
 
                                                 <hr>
-                                                <button type="button" @if($storeStatus == 'Closed') disabled @endif class="btn btn-primary"
+                                                <button type="button" class="btn btn-primary"
                                                     id="proceedToCheckoutBtn">Proceed to Checkout</button>
                                             </div>
 

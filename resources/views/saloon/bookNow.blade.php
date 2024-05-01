@@ -301,7 +301,7 @@
                                                 <input type="hidden" name="delivery" id="deliveryType"
                                                     value="delivery">
                                                 <hr>
-                                                <button type="button" @if ($storeStatus == 'Closed') disabled @endif
+                                                <button type="button"
                                                     class="btn btn-primary" id="proceedToCheckoutBtn">Proceed to
                                                     Checkout</button>
                                             </div>
