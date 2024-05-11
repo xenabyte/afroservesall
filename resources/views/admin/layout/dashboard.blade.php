@@ -163,14 +163,14 @@
                             </ul>
                         </li>
                         <br>
-                        <li class="menu-title" key="t-menu">Order</li>
+                        <li class="menu-title" key="t-menu">Order </li>
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="mdi mdi-food"></i>
-                                <span key="t-dashboards">Food</span>
+                                <span key="t-dashboards">Food <span class="badge badge-pill bg-danger" data-key="t-hot">{{ !empty($pageGlobalData->pendingFoodOrder) ? $pageGlobalData->pendingFoodOrder : 0 }}</span></span>
                             </a>
                             <ul class="sub-menu" aria-expanded="false">
-                                <li><a href="{{ url('/admin/pendingFood') }}" key="t-default">Pending</a></li>
+                                <li><a href="{{ url('/admin/pendingFood') }}" key="t-default">Pending <span class="badge badge-pill bg-danger" data-key="t-hot">{{ !empty($pageGlobalData->pendingFoodOrder) ? $pageGlobalData->pendingFoodOrder : 0 }}</span></a></li>
                                 <li><a href="{{ url('/admin/completedFood') }}" key="t-saas">Completed</a></li>
                             </ul>
                         </li>
@@ -178,10 +178,10 @@
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="mdi mdi-hair-dryer"></i>
-                                <span key="t-dashboards">Hair</span>
+                                <span key="t-dashboards">Hair <span class="badge badge-pill bg-danger" data-key="t-hot">{{ !empty($pageGlobalData->pendingHairOrder) ? $pageGlobalData->pendingHairOrder : 0 }}</span></span>
                             </a>
                             <ul class="sub-menu" aria-expanded="false">
-                                <li><a href="{{ url('/admin/pendingHair') }}" key="t-default">Pending</a></li>
+                                <li><a href="{{ url('/admin/pendingHair') }}" key="t-default">Pending <span class="badge badge-pill bg-danger" data-key="t-hot">{{ !empty($pageGlobalData->pendingHairOrder) ? $pageGlobalData->pendingHairOrder : 0 }}</span></a></li>
                                 <li><a href="{{ url('/admin/completedHair') }}" key="t-saas">Completed</a></li>
                             </ul>
                         </li>

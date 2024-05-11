@@ -7,8 +7,8 @@
     $name = !empty($admin) ? $admin->lastname . ' ' . $admin->othernames : null;
     $email = !empty($admin) ? $admin->email : null;
     $addresses = !empty($admin) ? $admin->addresses : null;
-    $orders = !empty($admin) ? $admin->orders : null;
     $transactions = !empty($admin) ? $admin->transactions : null;
+    $orders = \App\Models\Order::with('customer', 'cartItems', 'customer')->where('status', '!=', 'completed')->orderBy('id', 'desc')->get();
 
     $transactions_order = \App\Models\Transaction::with('order')->get();
     $totalOrders = \App\Models\Order::all()->count();
@@ -108,7 +108,7 @@
                                 <div class="col-7">
                                     <div class="text-primary p-3">
                                         <h5 class="text-primary">Welcome Back !</h5>
-                                        <p>Skote Dashboard</p>
+                                        <p>{{ env('APP_NAME') }} Dashboard</p>
                                     </div>
                                 </div>
                                 <div class="col-5 align-self-end">
@@ -135,23 +135,14 @@
                                         <div class="row">
                                             <div class="col-6">
                                                 <h5 class="font-size-15">
-
                                                     {{ $totalOrders }}
-
-
-
                                                 </h5>
                                                 <p class="text-muted mb-0">Order</p>
                                             </div>
                                             <div class="col-6">
-                                                <h5 class="font-size-15">$1245</h5>
+                                                <h5 class="font-size-15">£{{ number_format($totalRevenue/100, 2) }}</h5>
                                                 <p class="text-muted mb-0">Revenue</p>
                                             </div>
-                                        </div>
-                                        <div class="mt-4">
-                                            <a href="/customer/profile"
-                                                class="btn btn-primary waves-effect waves-light btn-sm">View Profile <i
-                                                    class="mdi mdi-arrow-right ms-1"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -165,7 +156,7 @@
                                 <div class="col-sm-6">
                                     <p class="text-muted">This month</p>
                                     <h3>
-                                        ${{ number_format($currentMonthEarnings, 2) }}
+                                        £{{ number_format($currentMonthEarnings, 2) }}
                                     </h3>
                                     <p class="text-muted">
                                         <span class="{{ $percentageChange >= 0 ? 'text-success' : 'text-danger' }} me-2">
@@ -188,7 +179,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <p class="text-muted mb-0">We craft digital, graphic and dimensional thinking.</p>
                         </div>
                     </div>
                 </div>
@@ -220,7 +210,7 @@
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
                                             <p class="text-muted fw-medium">Revenue</p>
-                                            <h4 class="mb-0">${{ $totalRevenue }}</h4>
+                                            <h4 class="mb-0">£{{ number_format($totalRevenue/100, 2) }}</h4>
                                         </div>
 
                                         <div class="flex-shrink-0 align-self-center ">
@@ -240,7 +230,7 @@
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
                                             <p class="text-muted fw-medium">Average Price</p>
-                                            <h4 class="mb-0">${{ $averagePrice }}</h4>
+                                            <h4 class="mb-0">£{{ number_format($averagePrice/100, 2) }}</h4>
                                         </div>
 
                                         <div class="flex-shrink-0 align-self-center">
@@ -258,23 +248,194 @@
                     <!-- end row -->
 
                     <div class="card">
+                        <h4 class="card-title m-4">Pending Order(s)/Booking(s)</h4>
+                        <hr style="color:brown">
                         <div class="card-body">
-                            <div class="d-sm-flex flex-wrap">
-                                <h4 class="card-title mb-4">Email Sent</h4>
-                                <div class="ms-auto">
-                                    <ul class="nav nav-pills">
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#">Week</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#">Month</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link active" href="#">Year</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
+                            <table class="table table-bordered dt-responsive  nowrap w-100">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col" class="bg-primary text-white">SKU</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Phone</th>
+                                        <th scope="col">Delivery Type</th>
+                                        <th scope="col">Order Type</th>
+                                        <th scope="col">Delivery Date</th>
+                                        <th scope="col">Order Date</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+            
+            
+                                <tbody>
+                                @foreach($orders as $order)
+                                <tr>
+                                    <th scope="row">{{ $loop->iteration }}</th>
+                                    <td class="bg-primary-subtle">{{ $order->sku }}</td>
+                                    <td>{{ ucwords($order->customer->lastname.' '.$order->customer->othernames) }}</td>
+                                    <td>{{ $order->customer->phone }}</td>
+                                    <td>{{ ucwords($order->delivery_type) }}</td>
+                                    <td>{{ ucwords($order->product_type) }}</td>
+                                    <td>{{ date('F d, Y h:i:s A', strtotime($order->booking_date)) }}</td>
+                                    <td>{{ date('F d, Y h:i:s A', strtotime($order->created_at)) }}</td>
+                                    <td>
+                                        @if($order->status == 'pending')
+                                        <span class="btn btn-primary waves-effect waves-light">
+                                            Pending
+                                        </span>
+                                        @elseif($order->status == 'completed')
+                                        <span class="btn btn-success waves-effect waves-light">
+                                            Completed
+                                        </span>
+                                        @else
+                                        <span class="btn btn-warning waves-effect waves-light">
+                                            {{ $order->status }}
+                                        </span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-outline-secondary btn-sm edit" data-bs-toggle="modal" data-bs-target="#viewOrder{{ $order->id }}" title="view">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+            
+                                        <!-- Static Backdrop Modal -->
+                                        <div class="modal fade" id="viewOrder{{ $order->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                            <div class="modal-dialog .modal-dialog-scrollable modal-xl modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="staticBackdropLabel">Order Information</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body row">
+                                                        <div class="col-xl-8">
+                                                            <div class="card">
+                                                                <div class="card-body">
+                                                                    <div class="table-responsive">
+                                                                        <table class="table align-middle mb-0 table-nowrap">
+                                                                            <thead class="table-light">
+                                                                                <tr>
+                                                                                    <th>#</th>
+                                                                                    <th>Product</th>
+                                                                                    <th>Quantity</th>
+                                                                                    <th>Price</th>
+                                                                                    <th colspan="2">Total</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                @foreach($order->cartItems as $cartItem)
+                                                                                <tr class="product">
+                                                                                    <td>{{ $loop->iteration }}</td>
+                                                                                    <td>
+                                                                                        <h5 class="font-size-14 text-truncate"><a href="#" class="text-dark">{{ $cartItem->name }}</a></h5>
+                                                                                        <p class="mb-0">{{ $cartItem->description }}</p>
+                                                                                    </td>
+                                                                                    <td><span class="product-price">{{ $cartItem->quantity }}</span></td>
+                                                                                    <td>£<span class="product-line-price">{{ $cartItem->price/number_format($cartItem->quantity) }}</span></td>
+                                                                                    <td>£<span class="product-line-price">{{ $cartItem->price }}</span> </td>
+                                                                                </tr>
+                                                                                @endforeach
+                                                                            
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="card-body">
+                                                                    @if($order->address)
+                                                                    <p class="mb-0">Address : <span class="fw-medium">{{ $order->address->address_1.' '.$order->address->address_2 }}</span></p>
+                                                                    <p class="mb-0">Phone Number : <span class="fw-medium">{{ $order->address->phone_number }}</span></p>
+                                                                    @endif
+                                                                    <p class="mb-0">Additional Information : <span class="fw-medium">{{ $order->additional_information }}</span></p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xl-4">
+                                                            <div class="card">
+                                                                <div class="card-body">
+                                                                    <h4 class="card-title mb-3">Order Summary</h4>
+                                                                    <hr>
+                                                                    <div class="table-responsive">
+                                                                        <table class="table mb-0">
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <td>Grand Total :</td>
+                                                                                    <td id="cart-subtotal">£{{ number_format($order->amount_paid/100, 2) }}</td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>Service Charge : </td>
+                                                                                    <td id="cart-discount">£0.50</td>
+                                                                                </tr>
+                                                                                @if($order->product_type == 'Food')
+                                                                                <tr>
+                                                                                    <td>Shipping Charge :</td>
+                                                                                    <td id="cart-shipping">£3.0</td>
+                                                                                </tr>
+                                                                                @endif
+                                                                                {{-- <tr>
+                                                                                    <td>Estimated Tax (12.5%) :</td>
+                                                                                    <td id="cart-tax">$ 19.22</td>
+                                                                                </tr> --}}
+                                                                                <tr class="bg-light">
+                                                                                    <th>Total :</th>
+                                                                                    <th id="cart-total">£{{ number_format($order->amount_paid/100, 2) }}</th>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                    <!-- end table-responsive -->
+                                                                </div>
+                                                            </div>
+                                                            <!-- end card -->
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <a class="btn btn-outline-primary btn-sm edit" data-bs-toggle="modal" data-bs-target="#updateOrder{{ $order->id }}" title="Edit">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </a>
+            
+                                        <!-- Static Backdrop Modal -->
+                                        <div class="modal fade" id="updateOrder{{ $order->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="staticBackdropLabel">Update Order</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <form method="POST" action="{{ url('/admin/updateOrder') }}">
+                                                        @csrf
+                                                        <div class="modal-body">
+            
+                                                            <input type="hidden" name="order_id" value="{{ $order->id }}">
+            
+                                                            <div class="mb-3 form-floating">
+                                                                <select class="form-select" name="status">
+                                                                    <option @if($order->status == 'pending') selected @endif value="pending">Pending</option>
+                                                                    <option @if($order->status == 'delivery ongoing') selected @endif value="delivery ongoing">Delivery Ongoing</option>
+                                                                    <option @if($order->status == 'completed') selected @endif value="completed">Completed</option>
+                                                                </select> 
+                                                                <label class="col-form-label">Please Current state of Order</label>
+                                                            </div>
+            
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
 
                             <div id="stacked-column-chart" class="apex-charts"
                                 data-colors='["--bs-primary", "--bs-warning", "--bs-success"]' dir="ltr"></div>
@@ -307,7 +468,6 @@
                                             <th class="align-middle">Total</th>
                                             <th class="align-middle">Payment Status</th>
                                             <th class="align-middle">Payment Method</th>
-                                            <th class="align-middle">View Details</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -329,7 +489,7 @@
                                                     {{ $transaction->created_at->format('j F, Y') }}
                                                 </td>
                                                 <td>
-                                                    {{ $transaction->amount_paid }}
+                                                    £{{ number_format($transaction->amount_paid/100, 2) }}
                                                 </td>
                                                 <td>
                                                     <span
@@ -339,15 +499,7 @@
                                                     <i class="fab fa-cc-mastercard me-1"></i>
                                                     {{ $transaction->payment_method }}
                                                 </td>
-                                                <td>
-                                                    <!-- Button trigger modal -->
-                                                    <button type="button"
-                                                        class="btn btn-primary btn-sm btn-rounded waves-effect waves-light view-details-button"
-                                                        data-bs-toggle="modal"
-                                                        data-bs-target=".transaction-detailModal{{ $transaction->id }}">
-                                                        View Details
-                                                    </button>
-                                                </td>
+                                                
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -359,95 +511,6 @@
                 </div>
             </div>
             {{-- End latest transaction row --}}
-            <!-- Transaction Modal -->
-            @foreach ($totalTransactions as $transaction)
-                <div class="modal fade transaction-detailModal{{ $transaction->id }}" tabindex="-1" role="dialog"
-                    aria-labelledby="transaction-detailModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="transaction-detailModalLabel">Order Details</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-
-                                <p class="mb-2">Product id: <span class="text-primary">{{ $transaction->id }}</span>
-                                </p>
-                                <p class="mb-4">Billing Name: <span class="text-primary">{{ $transaction->id }}</span>
-                                </p>
-
-                                <div class="table-responsive">
-                                    <table class="table align-middle table-nowrap">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Product</th>
-                                                <th scope="col">Product Name</th>
-                                                <th scope="col">Price</th>
-                                            </tr>
-                                        </thead>
-
-                                        <tbody>
-                                            <tr>
-
-                                                <th scope="row">
-                                                    <div>
-                                                        <img src="assets/images/product/img-4.png" alt=""
-                                                            class="avatar-sm">
-                                                    </div>
-                                                </th>
-                                                <td>
-                                                    <div>
-                                                        <h5 class="text-truncate font-size-14">Phone patterned
-                                                            cases
-                                                        </h5>
-                                                        <p class="text-muted mb-0">$ {{ $transaction->amount_paid }} x
-                                                            1
-                                                        </p>
-                                                    </div>
-                                                </td>
-                                                <td>$ {{ $transaction->amount_paid }}
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="2">
-                                                    <h6 class="m-0 text-right">Sub Total:</h6>
-                                                </td>
-                                                <td>
-                                                    $ {{ $transaction->amount_paid }}
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="2">
-                                                    <h6 class="m-0 text-right">Shipping:</h6>
-                                                </td>
-                                                <td>
-                                                    Free
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="2">
-                                                    <h6 class="m-0 text-right">Total:</h6>
-                                                </td>
-                                                <td>
-                                                    $ {{ $transaction->amount_paid }}
-                                                </td>
-                                            </tr>
-
-                                        </tbody>
-
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            @endforeach
-
-            <!-- end modal -->
         </div>
 
 

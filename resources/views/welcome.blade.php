@@ -96,8 +96,8 @@
             <div class="row align-items-center mt-5 pt-5">
                 <div class="col-lg-7 mt-5 pt-5">
                     <div class="text-white-50 mt-5">
-                        <h1 class="text-white fw-semibold mb-3 hero-title">Food or Craving Pampering? Afroservesall Has You Covered!</h1>
-                        <p class="font-size-14">Order delicious meals from us and book appointments with us - all in one convenient shop!</p>
+                        <h1 class="text-white fw-semibold mb-3 hero-title">Good food, Craving or pamper?</h1>
+                        <p class="font-size-14">Order delicious culture infused meals from us and also book salon appointments with us - all in one convenient shop!</p>
     
                         <div class="d-flex flex-wrap gap-2 mt-4">
                             <a href="#about" class="btn btn-light">What we do</a>
