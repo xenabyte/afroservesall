@@ -3,8 +3,8 @@
     $isAuthenticated = !empty($customer) ? true : false;
     $name = !empty($customer) ? $customer->lastname . ' ' . $customer->othernames : null;
     $email = !empty($customer) ? $customer->email : null;
-    $addresses = !empty($customer) ? $customer->addresses : null;
-    $orders = !empty($customer) ? $customer->orders : null;
+    $addresses = !empty($customer) ? $customer->addresses()->orderBy('id', 'desc')->get() : null;
+    $orders = !empty($customer) ? $customer->orders()->orderBy('id', 'desc')->get() : null;
     $transactions = !empty($customer) ? $customer->transactions : null;
 
     $previousUrl = session('previous_url');
@@ -233,7 +233,7 @@
                         <div class="card-body">
                             <h4 class="card-title mb-4">Address</h4>
                             <hr>
-                            <table id="datatable" class="table table-bordered">
+                            <table class="table table-bordered">
                                 <thead>
                                     <tr>
                                         <th>#</th>
@@ -311,7 +311,7 @@
                             <h4 class="card-title mb-4">Your Booking(s)/Order(s)</h4>
                             <hr>
                             <div class="table-responsive">
-                                <table id="buttons-datatables1" class="table table-bordered">
+                                <table class="table table-bordered">
                                     <thead>
                                         <tr>
                                             <th scope="col">#</th>
@@ -464,20 +464,16 @@
                                                                                                     £{{ number_format($order->amount_paid / 100, 2) }}
                                                                                                 </td>
                                                                                             </tr>
-                                                                                            {{-- <tr>
-                                                                                                <td>Discount : </td>
-                                                                                                <td id="cart-discount">
-                                                                                                    - £
-                                                                                                    0.00</td>
-                                                                                            </tr> --}}
-                                                                                            {{-- <tr>
+                                                                                            <tr>
+                                                                                                <td>Service Charge : </td>
+                                                                                                <td id="cart-discount">£0.50</td>
+                                                                                            </tr>
+                                                                                            @if($order->product_type == 'Food')
+                                                                                            <tr>
                                                                                                 <td>Shipping Charge :</td>
-                                                                                                <td id="cart-shipping">$ 25</td>
-                                                                                            </tr> --}}
-                                                                                            {{-- <tr>
-                                                                                                <td>Estimated Tax (12.5%) :</td>
-                                                                                                <td id="cart-tax">$ 19.22</td>
-                                                                                            </tr> --}}
+                                                                                                <td id="cart-shipping">£3.00</td>
+                                                                                            </tr>
+                                                                                            @endif
                                                                                             <tr class="bg-light">
                                                                                                 <th>Total :</th>
                                                                                                 <th id="cart-total">

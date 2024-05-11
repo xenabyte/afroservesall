@@ -110,6 +110,7 @@ function updateCartSection(cartItems) {
     const orderSubtotalElement = document.getElementById('orderSubtotal');
     const cartItemsBadge = document.getElementById('cart-items-badge');
     let subtotal = 0;
+    let additionalFee = 3.50;
 
     // Clear existing cart items
     cartContainer.innerHTML = '';
@@ -152,6 +153,11 @@ function updateCartSection(cartItems) {
 
             cartContainer.appendChild(itemElement.cloneNode(true));
             orderContainer.appendChild(itemElement);
+            if(dataType == 'Hair'){
+                additionalFee -= 3.0;
+            }
+
+            subtotal += additionalFee;
 
             subtotal += parseFloat(cartItem.price);
         });

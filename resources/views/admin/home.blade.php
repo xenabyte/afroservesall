@@ -367,8 +367,8 @@
                                                                                 </tr>
                                                                                 @if($order->product_type == 'Food')
                                                                                 <tr>
-                                                                                    <td>Shipping Charge :</td>
-                                                                                    <td id="cart-shipping">£3.0</td>
+                                                                                    <td>Delivery Charge :</td>
+                                                                                    <td id="cart-shipping">£3.00</td>
                                                                                 </tr>
                                                                                 @endif
                                                                                 {{-- <tr>

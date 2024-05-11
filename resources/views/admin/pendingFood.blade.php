@@ -26,7 +26,7 @@
                 <h4 class="card-title">Pending/Ongoing Food Orders</h4>
                 <hr>
 
-                <table id="datatable" class="table table-bfoodOrdered dt-responsive  nowrap w-100">
+                <table id="datatable" class="table table-bordered dt-responsive  nowrap w-100">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -135,13 +135,15 @@
                                                                         <td id="cart-subtotal">£{{ number_format($foodOrder->amount_paid/100, 2) }}</td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>Discount : </td>
-                                                                        <td id="cart-discount">- £0.00</td>
+                                                                        <td>Service Charge : </td>
+                                                                        <td id="cart-discount">£0.50</td>
                                                                     </tr>
-                                                                    {{-- <tr>
-                                                                        <td>Shipping Charge :</td>
-                                                                        <td id="cart-shipping">$ 25</td>
-                                                                    </tr> --}}
+                                                                    @if($foodOrder->product_type == 'Food')
+                                                                    <tr>
+                                                                        <td>Delivery Charge :</td>
+                                                                        <td id="cart-shipping">£3.00</td>
+                                                                    </tr>
+                                                                    @endif
                                                                     {{-- <tr>
                                                                         <td>Estimated Tax (12.5%) :</td>
                                                                         <td id="cart-tax">$ 19.22</td>

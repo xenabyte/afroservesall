@@ -418,8 +418,18 @@ class BusinessController extends Controller
             return $cartItem;
         }, $cartItems);
 
+        $serviceCharge = 0.50 * 100;
+        $deliveryCharge = 3.0 * 100;
+
+        if($productType == 'Food'){
+            $additionalFee = $deliveryCharge+$serviceCharge;
+            $subTotal += $additionalFee;
+        }
+
         if($productType == 'Hair'){
             $subTotal = 30;
+            $additionalFee = $serviceCharge;
+            $subTotal += $additionalFee;
         }
 
 
@@ -582,10 +592,10 @@ class BusinessController extends Controller
 
             //send notification mail
             $orderData = Order::with('cartItems', 'transaction')->where('id', $orderId)->first();
-            // $mail = new PaymentSuccess($customer, $orderData);
-            // Mail::to($customer->email)->send($mail);
+            $mail = new PaymentSuccess($customer, $orderData);
+            Mail::to($customer->email)->send($mail);
 
-            // Mail::to(env('SUPPORT_EMAIL'))->send(new SupportMail('New Order'));
+            Mail::to(env('SUPPORT_EMAIL'))->send(new SupportMail('New Order'));
 
             return true;
         }

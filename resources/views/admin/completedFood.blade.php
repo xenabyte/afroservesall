@@ -135,17 +135,15 @@
                                                                         <td id="cart-subtotal">£{{ number_format($foodOrder->amount_paid/100, 2) }}</td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>Discount : </td>
-                                                                        <td id="cart-discount">- £0.00</td>
+                                                                        <td>Service Charge : </td>
+                                                                        <td id="cart-discount">£0.50</td>
                                                                     </tr>
-                                                                    {{-- <tr>
-                                                                        <td>Shipping Charge :</td>
-                                                                        <td id="cart-shipping">$ 25</td>
-                                                                    </tr> --}}
-                                                                    {{-- <tr>
-                                                                        <td>Estimated Tax (12.5%) :</td>
-                                                                        <td id="cart-tax">$ 19.22</td>
-                                                                    </tr> --}}
+                                                                    @if($foodOrder->product_type == 'Food')
+                                                                    <tr>
+                                                                        <td>Delivery Charge :</td>
+                                                                        <td id="cart-shipping">£3.00</td>
+                                                                    </tr>
+                                                                    @endif
                                                                     <tr class="bg-light">
                                                                         <th>Total :</th>
                                                                         <th id="cart-total">£{{ number_format($foodOrder->amount_paid/100, 2) }}</th>

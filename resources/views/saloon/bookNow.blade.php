@@ -283,8 +283,11 @@
                                             <!-- Subtotal -->
                                             <div class="card p-3">
                                                 <div class="text-end mt-1">
+                                                    <strong>Service Charge:</strong> £<span>0.50</span>
+                                                </div>
+                                                <div class="text-end mt-1">
                                                     <span>Pay non-refundable booking fee</span><br>
-                                                    <strong>Subtotal:</strong> £<span id="subtotal"  style="text-decoration: line-through;">00.00</span> £<span>30.00</span> 
+                                                    <strong>Subtotal:</strong> £<span id="subtotal"  style="text-decoration: line-through;">00.00</span> £<span>30.50</span> 
                                                 </div>
                                                 <hr>
                                                 <textarea class="form-control mb-3" id="additionalInfo" placeholder="Additional information"></textarea>
@@ -384,8 +387,11 @@
                     </div>
                     <input type="hidden" id="cartItemsInput" name="cartItems">
                     <div class="text-end mt-1">
+                        <strong>Service Charge:</strong> £<span>0.50</span>
+                    </div>
+                    <div class="text-end mt-1">
                         <span>Pay non-refundable booking fee</span><br>
-                        <strong>Subtotal:</strong> £<span id="orderSubtotal" style="text-decoration: line-through;">00.00</span> £<span>30.00</span> 
+                        <strong>Subtotal:</strong> £<span id="orderSubtotal" style="text-decoration: line-through;">00.00</span> £<span>30.50</span> 
                     </div>
                     <hr>
                     <button type="button" class="btn btn-primary" id="proceedToPayment">Proceed to Payment</button>

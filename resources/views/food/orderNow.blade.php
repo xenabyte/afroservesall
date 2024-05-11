@@ -291,6 +291,12 @@
                                             <!-- Subtotal -->
                                             <div class="card p-3">
                                                 <div class="text-end mt-1">
+                                                    <strong>Service Charge:</strong> £<span>0.50</span>
+                                                </div>
+                                                <div class="text-end mt-1">
+                                                    <strong>Delivery Charge:</strong> £<span>3.00</span>
+                                                </div>
+                                                <div class="text-end mt-1">
                                                     <strong>Subtotal:</strong> £<span id="subtotal">00.00</span>
                                                 </div>
                                                 <hr>
@@ -387,7 +393,12 @@
                         @endif
                     </div>
                     <input type="hidden" id="cartItemsInput" name="cartItems">
-                    
+                    <div class="text-end mt-1">
+                        <strong>Service Charge:</strong> £<span>0.50</span>
+                    </div>
+                    <div class="text-end mt-1">
+                        <strong>Delivery Charge:</strong> £<span>3.00</span>
+                    </div>
                     <div class="text-end mt-1">
                         <strong>Subtotal:</strong> £<span id="orderSubtotal">00.00</span>
                     </div>

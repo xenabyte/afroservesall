@@ -29,6 +29,8 @@ use Alert;
 use Log;
 use Carbon\Carbon;
 
+use App\Mail\NotificationMail;
+
 class AdminController extends Controller
 {
     //
@@ -331,6 +333,14 @@ class AdminController extends Controller
         }
 
         if($order->save()){
+            
+            $data = new \stdClass();
+            $data->status = $request->status;
+            $data->booking_date = $order->booking_date;
+            $data->order_id = $order->id;
+
+            Mail::to($order->customer->email)->send(new NotificationMail('Message', $data));
+
             alert()->success('Changes Saved', 'Order status changes saved successfully')->persistent('Close');
             return redirect()->back();
         }
