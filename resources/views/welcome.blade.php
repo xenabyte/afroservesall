@@ -244,10 +244,22 @@
                                 <img src="{{ asset('assets/images/services/s1.jpg') }}" class="d-block w-100" alt="First slide">
                             </div>
                             <div class="carousel-item" data-bs-interval="5000">
-                                <img src="{{ asset('assets/images/services/s4.jpg') }}" class="d-block w-100" alt="Second slide">
+                                <img src="{{ asset('assets/images/services/s8.jpg') }}" class="d-block w-100" alt="Second slide">
                             </div>
                             <div class="carousel-item">
                                 <img src="{{ asset('assets/images/services/s5.jpg') }}" class="d-block w-100" alt="Third slide">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="{{ asset('assets/images/services/s7.jpg') }}" class="d-block w-100" alt="Third slide">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="{{ asset('assets/images/services/s6.jpg') }}" class="d-block w-100" alt="Third slide">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="{{ asset('assets/images/services/s9.jpg') }}" class="d-block w-100" alt="Third slide">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="{{ asset('assets/images/services/s4.jpg') }}" class="d-block w-100" alt="Third slide">
                             </div>
                         </div>
                         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
@@ -310,7 +322,7 @@
                                     <img class="d-block img-fluid rounded" src="{{ asset('assets/images/services/food7.png') }}" alt="Second slide">
                                 </div>
                                 <div class="carousel-item">
-                                    <img class="d-block img-fluid rounded" src="{{ asset('assets/images/services/food6.png') }}" alt="Third slide">
+                                    <img class="d-block img-fluid rounded" src="{{ asset('assets/images/services/food5.png') }}" alt="Third slide">
                                 </div>
                                 <div class="carousel-item">
                                     <img class="d-block img-fluid rounded" src="{{ asset('assets/images/services/food1.png') }}" alt="Third slide">
@@ -687,13 +699,20 @@
             var imageUrls = [
                 "{{ asset('assets/images/services/f1.jpg') }}",
                 "{{ asset('assets/images/services/s1.jpg') }}",
+                "{{ asset('assets/images/services/s2.jpg') }}",
                 "{{ asset('assets/images/services/food1.png') }}",
                 "{{ asset('assets/images/services/s4.jpg') }}",
+                "{{ asset('assets/images/services/s3.jpg') }}",
                 "{{ asset('assets/images/services/food2.png') }}",
+                "{{ asset('assets/images/services/s5.jpg') }}",
                 "{{ asset('assets/images/services/f2.jpg') }}",
+                "{{ asset('assets/images/services/s6.jpg') }}",
                 "{{ asset('assets/images/services/food4.png') }}",
+                "{{ asset('assets/images/services/s7.jpg') }}",
                 "{{ asset('assets/images/services/f3.jpg') }}",
+                "{{ asset('assets/images/services/s8.jpg') }}",
                 "{{ asset('assets/images/services/food5.png') }}",
+                "{{ asset('assets/images/services/s9.jpg') }}",
                 "{{ asset('assets/images/services/food3.png') }}",
                 "{{ asset('assets/images/services/f2.jpg') }}",
                 "{{ asset('assets/images/services/f3.jpg') }}",

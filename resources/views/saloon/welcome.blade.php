@@ -64,8 +64,8 @@
                 <div class="row align-items-center mt-5 pt-5">
                     <div class="col-lg-8 mt-5 pt-5">
                         <div class="text-white-50 mt-5">
-                            <h1 class="text-white fw-semibold mb-3 hero-title">Upgrade your look & feel good</h1>
-                            <p class="font-size-14">Schedule your appointment for haircuts, styling, massages, and more </p>
+                            <h1 class="text-white fw-semibold mb-3 hero-title">Good looks, Uniqueness? We know how!</h1>
+                            <p class="font-size-14">Schedule your appointment for various hairstyles and general hair maintenance </p>
                             
                             <div class="d-flex flex-wrap gap-2 mt-4">
                                 <a href="{{ url('/bookNow') }}" class="btn btn-light">Book Now</a>
@@ -188,10 +188,14 @@
         <script>
             $(document).ready(function(){
                 var imageUrls = [
-                    "{{ asset('assets/images/services/s1.jpg') }}",
-                    "{{ asset('assets/images/services/s2.jpg') }}",
-                    "{{ asset('assets/images/services/s4.jpg') }}",
-                    "{{ asset('assets/images/services/s5.jpg') }}",
+                    "../assets/images/services/s5.jpg",
+                    "../assets/images/services/s3.jpg",
+                    "../assets/images/services/s8.jpg",
+                    "../assets/images/services/s1.jpg",
+                    "../assets/images/services/s2.jpg",
+                    "../assets/images/services/s4.jpg",
+                    "../assets/images/services/s6.jpg",
+                    "../assets/images/services/s7.jpg",
                     // Add more image URLs as needed
                 ];
         

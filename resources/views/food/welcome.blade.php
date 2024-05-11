@@ -65,7 +65,9 @@
                     <div class="col-lg-8 mt-5 pt-5">
                         <div class="text-white-50 mt-5">
                             <h1 class="text-white fw-semibold mb-3 hero-title">Food or cravings? Afroservesall will indulge you. We have got you covered!!</h1>
-                            <p class="font-size-14"> Indulge in your culinary adventures with Afroserves, your's leading food delivery app. Explore a wide variety of menu, order your favorites with a few taps, and enjoy a hassle-free dining experience.</p>
+                            <p class="font-size-14">Indulge your Culinary taste with AFROSERVEALL, YOUR leading food delivery app.
+                                Explore a wide variety of culture infused food menu, order your favourite Afro-Caribbean, intercontinental and home taste food with just few taps. <br>
+                                Enjoy hassle free dining experiences</p>
                             
                             <div class="d-flex flex-wrap gap-2 mt-4">
                                 <a href="{{ url('/orderNow') }}" class="btn btn-lg btn-light">Order Now</a>

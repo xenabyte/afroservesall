@@ -2,7 +2,12 @@ $(document).ready(function(){
     var imageUrls = [
         "../assets/images/services/s5.jpg",
         "../assets/images/services/s3.jpg",
+        "../assets/images/services/s8.jpg",
         "../assets/images/services/s1.jpg",
+        "../assets/images/services/s2.jpg",
+        "../assets/images/services/s4.jpg",
+        "../assets/images/services/s6.jpg",
+        "../assets/images/services/s7.jpg",
         // Add more image URLs as needed
     ];
 
