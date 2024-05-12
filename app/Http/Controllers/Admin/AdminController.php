@@ -333,13 +333,23 @@ class AdminController extends Controller
         }
 
         if($order->save()){
+
+            $productname = '';
+            $subTotal  = 0;
+            foreach ($order->cartItems as $cartItem) {
+                $productname .= $cartItem->name . ', ';
+            }
+
             
             $data = new \stdClass();
+            $data->customer_name = $order->customer->lastname. ' ' . $order->customer->othernames;
+            $data->order_name = $productname;
+            $data->product_type = $order->product_type;
             $data->status = $request->status;
             $data->booking_date = $order->booking_date;
             $data->order_id = $order->id;
 
-            Mail::to($order->customer->email)->send(new NotificationMail('Message', $data));
+            Mail::to($order->customer->email)->send(new NotificationMail('Notification', $data));
 
             alert()->success('Changes Saved', 'Order status changes saved successfully')->persistent('Close');
             return redirect()->back();

@@ -14,8 +14,7 @@
                             <table width="100%" cellpadding="0" cellspacing="0" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
                                 <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
                                     <td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
-                                        You have <strong style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"><span style="background-color: #f46a6a;color: #ffffff;padding: 5px 8px; font-size: 12px; border-radius: 4px">1
-                                            {{ $notificationType }}</span></strong>.
+                                        Dear {{ $data->customer_name }}.
                                     </td>
                                 </tr>
                                 <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
@@ -32,7 +31,10 @@
                                         Here are the details: <br>
 
                                         <strong>Order Number:</strong> #{{ sprintf("%06d", $data->order_id) }} <br>
-                                        <strong>Order Date:</strong> {{ date('F d, Y h:i A', strtotime($data->booking_date)) }} <br>                                     
+                                        <strong>Order Name:</strong> {{ $data->order_name }} <br>
+                                        <strong>Product Type:</strong> {{ $data->product_type }} <br>
+                                        <strong>Order Date:</strong> {{ date('F d, Y h:i A', strtotime($data->booking_date)) }} <br>  
+                                        <strong>Status:</strong> {{ $data->status }} <br>                                   
                                     </td>
                                 </tr>
 
