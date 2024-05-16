@@ -1,3 +1,6 @@
+@php
+    $pageName = "welcome";
+@endphp
 <!doctype html>
 <html lang="en">
 
@@ -7,7 +10,7 @@
     <meta charset="utf-8" />
     <title>{{ env('APP_NAME') }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content={{ env('APP_DESCRIPTION') }}" name="description" />
+    <meta content="{{ env('APP_DESCRIPTION') }}" name="description" />
     <meta content="KoderiaNg" name="author" />
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}">
@@ -46,6 +49,8 @@
 </head>
 
 <body data-bs-spy="scroll" data-bs-target="#topnav-menu" data-bs-offset="60">
+
+    @include('common.social')
 
     <nav class="navbar navbar-expand-lg navigation fixed-top sticky">
         <div class="container">
@@ -647,6 +652,8 @@
     </section>
     <!-- Faqs end -->
 
+
+    
 
     <!-- Footer start -->
     <footer class="landing-footer">

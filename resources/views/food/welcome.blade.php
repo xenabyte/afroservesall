@@ -1,3 +1,6 @@
+@php
+    $pageName = "food";  
+@endphp
 <!doctype html>
 <html lang="en">
 
@@ -29,7 +32,7 @@
     </head>
 
     <body data-bs-spy="scroll" data-bs-target="#topnav-menu" data-bs-offset="60">
-
+        @include('common.social')
         <nav class="navbar navbar-expand-lg navigation fixed-top sticky">
             <div class="container">
                 <a class="navbar-logo" href="{{ url('/') }}">

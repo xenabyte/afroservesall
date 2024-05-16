@@ -20,6 +20,8 @@
     $addresses = !empty($customer) ? $customer->addresses : null;
 
     $storeStatus = !empty($pageGlobalData->setting)? $pageGlobalData->setting->food_status : null;
+    $pageName = "food";
+
 @endphp
 <!doctype html>
 <html lang="en">
@@ -60,7 +62,7 @@
     <div id="storeStatus" data-status="<?php echo $storeStatus; ?>"></div>
     <div id="dataType" data-type="<?php echo $type; ?>"></div>
 
-
+    @include('common.social')
     <nav class="navbar navbar-expand-lg navigation fixed-top sticky">
         <div class="container">
             <button type="button" class="btn btn-sm px-3 font-size-16 d-lg-none header-item waves-effect waves-light"

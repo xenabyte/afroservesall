@@ -22,6 +22,7 @@
     $name = !empty($customer) ? $customer->lastname . ' ' . $customer->othernames : null;
     $addresses = !empty($customer) ? $customer->addresses : null;
     $storeStatus = !empty($pageGlobalData->setting) ? $pageGlobalData->setting->saloon_status : null;
+    $pageName = "hair";
 
 @endphp
 <!doctype html>
@@ -59,6 +60,7 @@
     <div id="isAuthenticated" data-authenticated="<?php echo $isAuthenticated; ?>"></div>
     <div id="storeStatus" data-status="<?php echo $storeStatus; ?>"></div>
     <div id="dataType" data-type="<?php echo $type; ?>"></div>
+    @include('common.social')
 
     <nav class="navbar navbar-expand-lg navigation fixed-top sticky">
         <div class="container">

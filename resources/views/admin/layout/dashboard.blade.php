@@ -151,6 +151,13 @@
                         </li>
                         <li class="menu-title" key="t-menu">Product</li>
                         <li>
+                            <a href="{{ url('/admin/customers') }}" class="waves-effect">
+                                <i class="bx bx-home-circle"></i>
+                                <span key="t-dashboard">Customers</span>
+                            </a>
+                        </li>
+                        <li class="menu-title" key="t-menu">Product</li>
+                        <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fas fa-boxes"></i>
                                 <span key="t-dashboards">Products</span>

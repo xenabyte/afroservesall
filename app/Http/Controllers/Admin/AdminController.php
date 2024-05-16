@@ -48,6 +48,15 @@ class AdminController extends Controller
         ]);
     }
 
+    public function customers(){
+
+        $customers = Customer::all();
+
+        return view('admin.customers', [
+            'customers' => $customers
+        ]);
+    }
+
 
     public function foodProducts(){
         $foodProducts = Product::where('product_type_id', ProductType::getProductTypeId(ProductType::PRODUCT_TYPE_FOOD))->get();

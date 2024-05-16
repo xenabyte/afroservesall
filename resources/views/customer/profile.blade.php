@@ -8,6 +8,7 @@
     $transactions = !empty($customer) ? $customer->transactions : null;
 
     $previousUrl = session('previous_url');
+    $pageName = "profile";
 @endphp
 
 <!doctype html>
@@ -50,6 +51,7 @@
 
 <body data-bs-spy="scroll" data-bs-target="#topnav-menu" data-bs-offset="60">
     @include('sweetalert::alert')
+    @include('common.social')
     <nav class="navbar navbar-expand-lg navigation fixed-top sticky">
         <div class="container">
             <a class="navbar-logo" href="{{ url('/') }}">

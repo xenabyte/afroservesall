@@ -34,7 +34,7 @@ Route::group(['prefix' => 'admin'], function () {
 
 
   Route::get('/home', [App\Http\Controllers\Admin\AdminController::class, 'index'])->name('home')->middleware(['auth:admin']);
-
+  Route::get('/customers', [App\Http\Controllers\Admin\AdminController::class, 'customers'])->name('customers')->middleware(['auth:admin']);
 
   Route::get('/addProduct', [App\Http\Controllers\Admin\AdminController::class, 'product'])->name('product')->middleware(['auth:admin']);
   Route::get('/viewProduct/{slug}', [App\Http\Controllers\Admin\AdminController::class, 'viewProduct'])->name('viewProduct')->middleware(['auth:admin']);
