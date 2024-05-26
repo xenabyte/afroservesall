@@ -134,7 +134,7 @@
                     <div class="text-muted">
                         <h4>Afroservesall: Your One-Stop Shop for Food & Beauty</h4>
                         <p>Afroservesall takes the hassle out of your day by offering two essential services in one user-friendly app:</p>
-                        <p>Life gets busy, but that doesn't mean you have to sacrifice delicious food or self-care. Afroserves is here to simplify your life by offering two amazing services in one user-friendly app:</p>
+                        <p>Life gets busy, but that doesn't mean you have to sacrifice delicious food or self-care. Afroservesall is here to simplify your life by offering two amazing services in one user-friendly app:</p>
 
                         <div class="d-flex flex-wrap gap-2">
                             <a href="#features" class="btn btn-success">Read more on our services</a>
@@ -234,7 +234,7 @@
                 <div class="col-lg-12">
                     <div class="text-center mb-5">
                         <h5 class="title">Our Services</h5>
-                        <h4>At Afroserves, we understand that a busy life shouldn't mean sacrificing delicious meals or well-deserved pampering. That's why we offer two amazing services.</h4>
+                        <h4>At Afroservesall, we understand that a busy life shouldn't mean sacrificing delicious meals or well-deserved pampering. That's why we offer two amazing services.</h4>
                     </div>
                 </div>
             </div>
@@ -286,7 +286,7 @@
                         </div>
                         <p class="text-white">It’s time to give yourself a pamper that you deserve!</p>
                         <div class="text-white mt-4">
-                            <p class="mb-2"><i class="mdi mdi-circle-medium text-success me-1"></i> Book your appointments at your convenience - No more long waits at the salon as Afroserves all is ready you aid your desire.</p>
+                            <p class="mb-2"><i class="mdi mdi-circle-medium text-success me-1"></i> Book your appointments at your convenience - No more long waits at the salon as Afroservesall is ready you aid your desire.</p>
                             <p><i class="mdi mdi-circle-medium text-success me-1"></i>Afroservesall is ready to give you the best.</p>
                         </div>
                     </div>
@@ -303,7 +303,7 @@
                         </div>
                         <p class="text-white">Our menus are cultural as well as continental. We will meet your needs expecially how you want them.</p>
                         <div class="text-white mt-4">
-                            <p class="mb-2"><i class="mdi mdi-circle-medium text-success me-1"></i>Enjoy a diverse range of cuisines to suit every taste bud.</p>
+                            <p class="mb-2"><i class="mdi mdi-circle-medium text-success me-1"></i>Enjoy diverse range of cuisines to suit every taste bud.</p>
                             <p><i class="mdi mdi-circle-medium text-success me-1"></i>Our delivery partners ensure your food arrives fresh, hot, and on time.</p>
                         </div>
                     </div>
