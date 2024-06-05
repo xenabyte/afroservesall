@@ -10,7 +10,7 @@
         <meta content="{{ env('APP_DESCRIPTION') }}" name="description" />
         <meta content="KoderiaNg(+2348162957065)" name="author" />
         <!-- App favicon -->
-        <link rel="shortcut icon" href="">
+        <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}">
 
 
         <!-- Bootstrap Css -->

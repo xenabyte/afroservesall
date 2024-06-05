@@ -22,7 +22,7 @@
     $name = !empty($customer) ? $customer->lastname . ' ' . $customer->othernames : null;
     $addresses = !empty($customer) ? $customer->addresses : null;
     $storeStatus = !empty($pageGlobalData->setting) ? $pageGlobalData->setting->saloon_status : null;
-    $pageName = "hair";
+    $pageName = "hairOrder";
 
 @endphp
 <!doctype html>
@@ -70,9 +70,9 @@
             </button>
 
             <a class="navbar-logo" href="{{ url('/') }}">
-                <img src="{{ asset('assets/images/logo-dark.png') }}" alt="" height="19"
+                <img src="{{ asset('assets/images/logo-dark.png') }}" alt="" height="70"
                     class="logo logo-dark">
-                <img src="{{ asset('assets/images/logo-light.png') }}" alt="" height="19"
+                <img src="{{ asset('assets/images/logo-light.png') }}" alt="" height="70"
                     class="logo logo-light">
             </a>
 
@@ -445,7 +445,7 @@
             <div class="row">
                 <div class="col-lg-8">
                     <div class="mb-4">
-                        <img src="assets/images/logo-light.png" alt="" height="20">
+                        <img src="{{ asset('assets/images/logo-light.png') }}" alt="" height="70">
                     </div>
 
                     <p class="mb-2">
@@ -453,7 +453,7 @@
                             document.write(new Date().getFullYear())
                         </script> © {{ env('APP_NAME') }}. Design & Develop by KoderiaNG
                     </p>
-                    <p{{ env('APP_DESCRIPTION') }}< /p>
+                    <p>{{ env('APP_DESCRIPTION') }}</p>
                 </div>
 
             </div>

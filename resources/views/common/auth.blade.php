@@ -28,7 +28,7 @@
                             <div class="mb-3">
                                 <label class="form-label">Password</label>
                                 <div class="float-end">
-                                    <a href="auth-recoverpw-2.html" class="text-muted">Forgot password?</a>
+                                    <a href="{{ ('/customer/password/reset') }}" class="text-muted">Forgot password?</a>
                                 </div>
                                 <div class="input-group auth-pass-inputgroup">
                                     <input type="password" name="password" class="form-control" placeholder="Enter password" aria-label="Password" aria-describedby="password-addon">
@@ -40,7 +40,7 @@
 
                        <div class="col-md-12">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="remember-check">
+                            <input class="form-check-input"  name="remember" type="checkbox" id="remember-check">
                             <label class="form-check-label" for="remember-check">
                                 Remember me
                             </label>

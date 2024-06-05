@@ -10,7 +10,7 @@
         <meta charset="utf-8" />
         <title>{{ env('APP_NAME') }}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta content={{ env('APP_DESCRIPTION') }}" name="description" />
+        <meta content="{{ env('APP_DESCRIPTION') }}" name="description" />
         <meta content="KoderiaNg" name="author" />
         <!-- App favicon -->
         <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}">
@@ -36,8 +36,8 @@
         <nav class="navbar navbar-expand-lg navigation fixed-top sticky">
             <div class="container">
                 <a class="navbar-logo" href="{{ url('/') }}">
-                    <img src="{{ asset('assets/images/logo-dark.png') }}" alt="" height="19" class="logo logo-dark">
-                    <img src="{{ asset('assets/images/logo-light.png') }}" alt="" height="19" class="logo logo-light">
+                    <img src="{{ asset('assets/images/logo-dark.png') }}" alt="" height="70" class="logo logo-dark">
+                    <img src="{{ asset('assets/images/logo-light.png') }}" alt="" height="70" class="logo logo-light">
                 </a>
 
                 <button type="button" class="btn btn-sm px-3 font-size-16 d-lg-none header-item waves-effect waves-light" data-bs-toggle="collapse" data-bs-target="#topnav-menu-content">
@@ -159,11 +159,11 @@
                 <div class="row">
                     <div class="col-lg-8">
                         <div class="mb-4">
-                            <img src="assets/images/logo-light.png" alt="" height="20">
+                            <img src="{{ asset('assets/images/logo-light.png') }}" alt="" height="70">
                         </div>
     
                         <p class="mb-2"><script>document.write(new Date().getFullYear())</script> © {{ env('APP_NAME') }}. Design & Develop by KoderiaNG</p>
-                        <p{{ env('APP_DESCRIPTION') }}</p>
+                        <p>{{ env('APP_DESCRIPTION') }}</p>
                     </div>
 
                 </div>

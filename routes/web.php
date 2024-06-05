@@ -102,7 +102,7 @@ Route::group(['prefix' => 'customer'], function () {
   Route::post('/login', [App\Http\Controllers\Customer\Auth\LoginController::class, 'login']);
   Route::post('/logout', [App\Http\Controllers\Customer\Auth\LoginController::class, 'logout'])->name('logout');
 
-  // Route::get('/register', [App\Http\Controllers\Customer\Auth\RegisterController::class, 'showRegistrationForm'])->name('register');
+  Route::get('/register', [App\Http\Controllers\Customer\Auth\RegisterController::class, 'showRegistrationForm'])->name('register');
   Route::post('/register', [App\Http\Controllers\Customer\Auth\RegisterController::class, 'register']);
 
   Route::post('/password/email', [App\Http\Controllers\Customer\Auth\ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.request');

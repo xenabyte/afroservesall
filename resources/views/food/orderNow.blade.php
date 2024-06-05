@@ -20,7 +20,7 @@
     $addresses = !empty($customer) ? $customer->addresses : null;
 
     $storeStatus = !empty($pageGlobalData->setting)? $pageGlobalData->setting->food_status : null;
-    $pageName = "food";
+    $pageName = "foodOrder";
 
 @endphp
 <!doctype html>
@@ -71,9 +71,9 @@
             </button>
 
             <a class="navbar-logo" href="{{ url('/') }}">
-                <img src="{{ asset('assets/images/logo-dark.png') }}" alt="" height="19"
+                <img src="{{ asset('assets/images/logo-dark.png') }}" alt="" height="70"
                     class="logo logo-dark">
-                <img src="{{ asset('assets/images/logo-light.png') }}" alt="" height="19"
+                <img src="{{ asset('assets/images/logo-light.png') }}" alt="" height="70"
                     class="logo logo-light">
             </a>
 
@@ -452,7 +452,7 @@
             <div class="row">
                 <div class="col-lg-8">
                     <div class="mb-4">
-                        <img src="assets/images/logo-light.png" alt="" height="20">
+                        <img src="{{ asset('assets/images/logo-light.png') }}" alt="" height="70">
                     </div>
 
                     <p class="mb-2">

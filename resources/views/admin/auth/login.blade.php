@@ -19,7 +19,7 @@
         <a href="{{ url('/') }}" class="auth-logo-light">
             <div class="avatar-md profile-user-wid mb-4">
                 <span class="avatar-title rounded-circle bg-light">
-                    <img src="" alt="" class="rounded avatar-sm" height="15">
+                    <img src="{{ asset('assets/images/logo-light.png') }}" alt="" class="rounded avatar-sm" height="15">
                 </span>
             </div>
         </a>

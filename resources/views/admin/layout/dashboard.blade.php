@@ -10,10 +10,10 @@
     <meta charset="utf-8" />
     <title>{{ env('APP_NAME') }} - Admin Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content={{ env('APP_DESCRIPTION') }}" name="description" />
+    <meta content="{{ env('APP_DESCRIPTION') }}" name="description" />
     <meta content="KoderiaNg(+2348162957065)" name="author" />
     <!-- App favicon -->
-    <link rel="shortcut icon" href="">
+    <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}">
 
     <!-- DataTables -->
     <link href="{{ asset('assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet"
@@ -56,19 +56,19 @@
                     <div class="navbar-brand-box">
                         <a href="{{ url('/admin/home') }}" class="logo logo-dark">
                             <span class="logo-sm">
-                                <img src="" alt="" height="40">
+                                <img src="{{ asset('assets/images/logo-light.png') }}" alt="" height="70">
                             </span>
                             <span class="logo-lg">
-                                <img src="" alt="" height="40">
+                                <img src="{{ asset('assets/images/logo-light.png') }}" alt="" height="70">
                             </span>
                         </a>
 
                         <a href="{{ url('/admin/home') }}" class="logo logo-light">
                             <span class="logo-sm">
-                                <img src="" alt="" height="40">
+                                <img src="{{ asset('assets/images/logo-light.png') }}" alt="" height="70">
                             </span>
                             <span class="logo-lg">
-                                <img src="" alt="" height="40">
+                                <img src="{{ asset('assets/images/logo-light.png') }}" alt="" height="70">
                             </span>
                         </a>
                     </div>
