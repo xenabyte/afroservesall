@@ -6,7 +6,7 @@
                                         
     <div>
         <h5 class="text-primary">Reset Password !</h5>
-        <p class="text-muted">Reset password to continue to {{ env('APP_NAME') }}.</p>
+        <p class="text-light">Reset password to continue to {{ env('APP_NAME') }}.</p>
     </div>
 
     <div class="mt-4">

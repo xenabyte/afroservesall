@@ -35,9 +35,9 @@
         @include('common.social')
         <nav class="navbar navbar-expand-lg navigation fixed-top sticky">
             <div class="container">
-                <a class="navbar-logo" href="{{ url('/') }}">
-                    <img src="{{ asset('assets/images/logo-dark.png') }}" alt="" height="70" class="logo logo-dark">
-                    <img src="{{ asset('assets/images/logo-light.png') }}" alt="" height="70" class="logo logo-light">
+                <a class="navbar-logo mt-3 mb-2" href="{{ url('/') }}">
+                    <img src="{{ asset('assets/images/logo-dark.png') }}" alt="" height="100" class="logo logo-dark">
+                    <img src="{{ asset('assets/images/logo-light.png') }}" alt="" height="100" class="logo logo-light">
                 </a>
 
                 <button type="button" class="btn btn-sm px-3 font-size-16 d-lg-none header-item waves-effect waves-light" data-bs-toggle="collapse" data-bs-target="#topnav-menu-content">
@@ -156,7 +156,7 @@
                 <div class="row">
                     <div class="col-lg-8">
                         <div class="mb-4">
-                            <img src="{{ asset('assets/images/logo-light.png') }}" alt="" height="70">
+                            <img src="{{ asset('assets/images/logo-light.png') }}" alt="" height="100">
                         </div>
     
                         <p class="mb-2"><script>document.write(new Date().getFullYear())</script> © {{ env('APP_NAME') }}. Design & Develop by KoderiaNG</p>

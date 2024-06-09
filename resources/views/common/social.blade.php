@@ -61,6 +61,11 @@
             <a href="mailto:afroservesall.gmail.com" target="_blank" class="text-white">
                 <i class="fas fa-envelope"></i>
             </a>
+            @if($pageName != 'hair' && $pageName != 'hairOrder')
+            <a href="https://www.instagram.com/Ounjexpress" target="_blank" class="text-white">
+                <i class="fab fa-instagram"></i>
+            </a>
+            @endif
             @if($pageName != 'food' && $pageName != 'foodOrder')
             <a href="https://www.instagram.com/thetravellingafrohairdresser" target="_blank" class="text-white">
                 <i class="fab fa-instagram"></i>
@@ -69,16 +74,11 @@
                 <i class="fab fa-tiktok"></i>
             </a>
             @endif
-            @if($pageName != 'hair' && $pageName != 'hairOrder')
-            <a href="https://www.instagram.com/Ounjexpress" target="_blank" class="text-white">
-                <i class="fab fa-instagram"></i>
-            </a>
-            @endif
         </div>
         <div class="auth-buttons">
             @if($pageName != 'hairOrder' && $pageName != 'foodOrder')
-            <a href="{{ url('/customer') }}" class="btn btn-outline-light waves-effect btn-label waves-light my-2 ms-lg-2"><i class="mdi mdi-login label-icon"></i> Login</a>
-            <a href="{{ url('/customer/register') }}" class="btn btn-outline-warning waves-effect btn-label waves-light my-2 ms-lg-2"><i class="mdi mdi-account-plus label-icon"></i> Register</a>
+            <a href="{{ url('/customer') }}" class="btn btn-outline-light waves-effect btn-label waves-light mx-2 my-2 ms-lg-2"><i class="mdi mdi-login label-icon"></i> Login</a>
+            <a href="{{ url('/customer/register') }}" class="btn btn-outline-warning waves-effect btn-label waves-light mx-2 my-2 ms-lg-2"><i class="mdi mdi-account-plus label-icon"></i> Register</a>
             @endif
         </div>
     </div>

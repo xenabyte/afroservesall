@@ -130,7 +130,7 @@ class RegisterController extends Controller
                 return redirect()->intended($previousUrl);
             }
 
-            return redirect()->intended('/orderNow'); 
+            return redirect()->intended('/'); 
         } else {
             alert()->error('Error', 'Failed to register. Please try again.')->persistent('Close');
             return redirect()->back()->withInput();

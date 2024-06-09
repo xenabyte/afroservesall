@@ -54,10 +54,10 @@
     @include('common.social')
     <nav class="navbar navbar-expand-lg navigation fixed-top sticky">
         <div class="container">
-            <a class="navbar-logo" href="{{ url('/') }}">
-                <img src="{{ asset('assets/images/logo-dark.png') }}" alt="" height="70"
+            <a class="navbar-logo mt-3 mb-2" href="{{ url('/') }}">
+                <img src="{{ asset('assets/images/logo-dark.png') }}" alt="" height="100"
                     class="logo logo-dark">
-                <img src="{{ asset('assets/images/logo-light.png') }}" alt="" height="70"
+                <img src="{{ asset('assets/images/logo-light.png') }}" alt="" height="100"
                     class="logo logo-light">
             </a>
 
@@ -79,7 +79,7 @@
                     </li>
                 </ul>
             </div>
-            <button type="button" class="btn header-item noti-icon waves-effect bg-white"
+            <button type="button" class="btn header-item noti-icon waves-effect"
                 id="page-header-notifications-dropdown" data-bs-toggle="dropdown" aria-haspopup="true"
                 aria-expanded="false">
                 <i class="bx bx-cart bx-tada"></i>
@@ -87,7 +87,7 @@
             </button>
             @if (!empty($name))
                 <div class="dropdown d-inline-block">
-                    <button type="button" class="btn header-item waves-effect bg-white" id="page-header-user-dropdown"
+                    <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-right: 5px;">
                         <img class="rounded-circle header-profile-user"
                             src="{{ asset('assets/images/users/avatar.png') }}" alt="Header Avatar">
@@ -674,7 +674,7 @@
             <div class="row">
                 <div class="col-lg-8">
                     <div class="mb-4">
-                        <img src="{{ asset('assets/images/logo-light.png') }}" alt="" height="70">
+                        <img src="{{ asset('assets/images/logo-light.png') }}" alt="" height="100">
                     </div>
 
                     <p class="mb-2">

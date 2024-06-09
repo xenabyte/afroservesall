@@ -5,7 +5,7 @@
                                         
     <div>
         <h5 class="text-primary">Welcome !</h5>
-        <p class="text-muted">Register your with us at {{ env('APP_NAME') }}.</p>
+        <p class="text-light">Register your with us at {{ env('APP_NAME') }}.</p>
     </div>
 
     <div class="mt-4">

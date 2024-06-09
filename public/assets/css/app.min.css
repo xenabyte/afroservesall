@@ -3790,6 +3790,9 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control:before {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
+    background-color: #09473c;
+    color: #fff;
+
 }
 @media (min-width: 1200px) {
     .auth-full-page-content {

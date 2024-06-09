@@ -5,7 +5,7 @@
                                         
     <div>
         <h5 class="text-primary">Welcome Back !</h5>
-        <p class="text-muted">Sign in to continue to {{ env('APP_NAME') }}.</p>
+        <p class="text-light">Sign in to continue to {{ env('APP_NAME') }}.</p>
     </div>
 
     <div class="mt-4">

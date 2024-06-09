@@ -13895,13 +13895,13 @@ fieldset:disabled .btn {
 }
 :root {
     --bs-header-bg: #fff;
-    --bs-header-item-color: #555b6d;
+    --bs-header-item-color: #fff;
     --bs-header-dark-bg: #2a3042;
     --bs-header-dark-item-color: #e9ecef;
     --bs-topbar-search-bg: #f3f3f9;
     --bs-footer-bg: #f2f2f5;
     --bs-footer-color: #74788d;
-    --bs-topnav-bg: #fff;
+    --bs-topnav-bg: #09473c;
     --bs-menu-item-color: #545a6d;
     --bs-menu-item-active-color: #556ee6;
     --bs-boxed-body-bg: #ebebf4;

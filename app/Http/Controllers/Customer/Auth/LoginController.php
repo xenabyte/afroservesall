@@ -80,7 +80,7 @@ class LoginController extends Controller
             return redirect()->intended($previousUrl);
         }
         
-        return redirect()->intended('/home');
+        return redirect()->intended('/');
     }
 
     protected function sendFailedLoginResponse(Request $request){
