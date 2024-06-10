@@ -55,7 +55,7 @@
 @endif
 
 <!-- Social Media Section -->
-<div class="social-media-section" id="topnav-menu">
+<div class="social-media-section" id="topnav-menu" style="border-bottom: 1px solid #fff">
     <div class="container d-flex justify-content-between align-items-center">
         <div class="social-icons">
             <a href="mailto:afroservesall.gmail.com" target="_blank" class="text-white">
